@@ -1,0 +1,136 @@
+import java.nio.file.Paths
+
+plugins {
+    id "java"
+    id "groovy"
+    id "org.springframework.boot" version "2.1.8.RELEASE"
+    id "io.spring.dependency-management" version "1.0.8.RELEASE"
+}
+
+group = 'com.cheroliv'
+version = project_version
+
+import static org.gradle.api.JavaVersion.VERSION_12
+
+sourceCompatibility = VERSION_12
+targetCompatibility = VERSION_12
+
+repositories {
+    mavenCentral()
+    gradlePluginPortal()
+    maven { url "http://repo.spring.io/plugins-release" }
+    jcenter()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+    }
+}
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    compile.exclude module: "spring-boot-starter-tomcat"
+}
+
+test {
+    useJUnitPlatform {
+        excludeEngines "junit-vintage"
+        includeEngines "junit-jupiter"
+    }
+}
+
+sourceSets {
+    main {
+        java { srcDirs = [] }
+        groovy { srcDirs = ["src/main/java", "src/main/groovy"] }
+    }
+    test {
+        java { srcDirs = [] }
+        groovy { srcDirs = ["src/test/java", "src/test/groovy"] }
+    }
+}
+
+bootJar {
+    archiveVersion = project.version
+}
+
+
+dependencies {
+    implementation "commons-io:commons-io:$commons_io_version"
+    testImplementation "com.xlson.groovycsv:groovycsv:$groovy_csv_version"
+    implementation "com.jameskleeh:excel-builder:$excel_builder_version"
+    implementation "org.apache.poi:poi:$poi_version"
+    implementation "org.apache.poi:poi-ooxml:$poi_version"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+
+    // GROOVY
+    implementation "org.codehaus.groovy:groovy"
+    implementation 'com.google.guava:guava:28.0-jre'
+
+    // DEVELOPER TOOLS
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    // SPRING STARTING POINT RESOURCES
+    implementation "org.springframework.boot:spring-boot-starter"
+
+    // DATABASE ORM
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.hibernate:hibernate-envers"
+
+    // BEAN MAPPING
+    implementation "org.mapstruct:mapstruct:${mapstruct_version}"
+
+    // DATABASE ACCESS DRIVER
+    runtimeOnly "org.postgresql:postgresql"
+    testRuntimeOnly "com.h2database:h2"
+
+
+    // STRING HELPERS
+    implementation "org.apache.commons:commons-lang3"
+
+    // TDD:JUNIT SPRING
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+
+    // TDD:JUNIT
+    testImplementation "org.junit.jupiter:junit-jupiter-api"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine"
+    testImplementation "org.junit.jupiter:junit-jupiter-params"
+    testImplementation "org.junit.platform:junit-platform-commons"
+    testImplementation "org.junit.platform:junit-platform-launcher"
+    testCompileOnly "junit:junit"
+
+    // BDD:CUCUMBER
+    testImplementation "io.cucumber:cucumber-junit:$cucumber_version"
+    testImplementation "io.cucumber:cucumber-spring:$cucumber_version"
+}
+
+task dependencyReportFile(type: DependencyReportTask) {
+    String outputFileName = 'dependencies.txt'
+    String separator = Paths.get(System.getProperty("user.home")).fileSystem.separator
+    File depFile = new File("${rootProject.projectDir}${separator}${outputFileName}".toString())
+    !(depFile.exists() && !depFile.directory) ?: depFile.delete()
+    outputFile = file(outputFileName)
+}
+
+task cucumberTest(type: Test) {
+    description = "Execute cucumber BDD tests."
+    group = "verification"
+    include "**/*CucumberIT*"
+}
+
+check.dependsOn cucumberTest
+
+task cucumberTestReport(type: TestReport) {
+    destinationDir = file("$buildDir/reports/tests")
+    reportOn cucumberTest
+}
