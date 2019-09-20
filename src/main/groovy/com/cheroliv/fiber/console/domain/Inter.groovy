@@ -2,19 +2,16 @@ package com.cheroliv.fiber.console.domain
 
 import com.cheroliv.fiber.console.domain.enumeration.ContractEnum
 import com.cheroliv.fiber.console.domain.enumeration.TypeInterEnum
-import com.cheroliv.fiber.console.domain.groups.*
+import com.cheroliv.fiber.console.domain.groups.InterChecks
 import groovy.transform.ToString
+import groovy.transform.TypeChecked
 
 import javax.persistence.*
 import javax.validation.constraints.NotNull
-import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
-import java.time.LocalDate
-import java.time.LocalTime
 import java.time.ZonedDateTime
 
-import static java.time.format.DateTimeFormatter.ofPattern
-
+@TypeChecked
 @ToString
 @Entity
 @Table(name = "`inter`", indexes = [
@@ -24,7 +21,7 @@ import static java.time.format.DateTimeFormatter.ofPattern
         @Index(name = "`idx_inter_date_time_inter`", columnList = "`date_time_inter`"),
         @Index(name = "`idx_inter_first_name_client`", columnList = "`first_name_client`"),
         @Index(name = "`idx_inter_last_name_client`", columnList = "`last_name_client`")])
-class Inter implements InterConstants, Serializable {
+class Inter implements Serializable {
 
     static final long serialVersionUID = 1L
     @Id
@@ -32,59 +29,49 @@ class Inter implements InterConstants, Serializable {
             generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     @Column(name = "`id`")
-//"id_inter"
     Long id
-    @Column(name = "`nd`")
+    @Column(name = "`nd`",
+            length = 10)
     @NotNull(message = InterConstants.ND_NOTNULL_CSTRT_TPL_MSG,
             groups = InterChecks)
     @Size(min = 10, max = 10,
             message = InterConstants.ND_SIZE_CSTRT_TPL_MSG,
             groups = InterChecks)
     String nd
-    @NotNull
-    @Pattern(regexp = "BAAP|BAOC|BAFA|BAST|PLP|SAV")
-    String type
-    @NotNull
-    @Pattern(regexp = "LM|IQ|Passage de cable")
-    String contrat
-    @NotNull
-    @Column(columnDefinition = "TIME")
-    LocalTime heure
-    @Column(columnDefinition = "DATE")
-    @NotNull
-    LocalDate date
-    @Size(max = 100)
-    String nom
-    @Size(max = 100)
-    String prenom
     @NotNull(groups = InterChecks)
     @Enumerated(EnumType.STRING)
-    @Column(name = "`type_inter`", nullable = false)
+    @Column(name = "`type_inter`",
+            nullable = false,
+            length = 4)
     TypeInterEnum typeInter
     @NotNull(groups = InterChecks)
     @Enumerated(EnumType.STRING)
-    @Column(name = "`contract`", nullable = false)
+    @Column(name = "`contract`",
+            nullable = false,
+            length = 16)
     ContractEnum contract
     @NotNull(groups = InterChecks)
     @Column(name = "`date_time_inter`")
     ZonedDateTime dateTimeInter
     @Size(max = 100, groups = InterChecks)
-    @Column(name = "`first_name_client`")
+    @Column(name = "`first_name_client`",
+            length = 100)
     String firstNameClient
     @Size(max = 100, groups = InterChecks)
-    @Column(name = "`last_name_client`")
+    @Column(name = "`last_name_client`",
+            length = 100)
     String lastNameClient
 
 
-    String[] toArrayString() {
-        String[] strings =
-                [nd, type, contrat,
-                 heure.hour < 10 ? "0${heure.hour}" : heure.hour,
-                 date.format(ofPattern("dd/MM/yyyy")),
-                 nom.toLowerCase() == "null" || nom == null ? "" : nom,
-                 prenom.toLowerCase() == "null" || prenom == null ? "" : prenom]
-        strings
-    }
+//    String[] toArrayString() {
+//        String[] strings =
+//                [nd, type, contrat,
+//                 heure.hour < 10 ? "0${heure.hour}" : heure.hour,
+//                 date.format(ofPattern("dd/MM/yyyy")),
+//                 nom.toLowerCase() == "null" || nom == null ? "" : nom,
+//                 prenom.toLowerCase() == "null" || prenom == null ? "" : prenom]
+//        strings
+//    }
 
 //    boolean equals(o) {
 //        if (this.is(o)) return true
@@ -127,7 +114,6 @@ class Inter implements InterConstants, Serializable {
 //        result = 31 * result + (prenom != null ? prenom.hashCode() : 0)
 //        return result
 //    }
-
 
 
     int hashCode() {

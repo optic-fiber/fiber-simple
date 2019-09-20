@@ -1,4 +1,4 @@
-package fiber.dao
+package fiber.repository
 
 //import com.cheroliv.fiber.console.domain.Inter
 //import groovy.transform.CompileStatic

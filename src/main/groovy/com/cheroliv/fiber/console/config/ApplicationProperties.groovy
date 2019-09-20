@@ -9,10 +9,11 @@ import org.springframework.stereotype.Component
         prefix = 'application',
         ignoreUnknownFields = false)
 class ApplicationProperties {
+
     final Classeur classeur = new Classeur()
     final Data data = new Data()
 
-    public static class Classeur {
+    static class Classeur {
         String directoryName = ApplicationDefaults
                 .Classeur
                 .name
@@ -21,7 +22,7 @@ class ApplicationProperties {
                 .pathName
     }
 
-    public static class Data {
+    static class Data {
         String directoryName = ApplicationDefaults
                 .Data
                 .directoryName
