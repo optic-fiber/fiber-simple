@@ -7,4 +7,8 @@ build
 doc
 .idea
 gradle/wrapper/gradle-wrapper.jar
-
+*.code-workspace
+bin
+.classpath
+.settings
+.project

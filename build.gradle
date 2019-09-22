@@ -62,6 +62,9 @@ bootJar {
     archiveVersion = project.version
 }
 
+bootRun {
+	sourceResources sourceSets.main
+}
 
 dependencies {
     implementation "commons-io:commons-io:$commons_io_version"
@@ -78,9 +81,21 @@ dependencies {
     // DEVELOPER TOOLS
     developmentOnly "org.springframework.boot:spring-boot-devtools"
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+
+    // WEB CSS JS
+	implementation 'org.webjars:font-awesome:5.10.1'
+	implementation 'org.webjars:jquery:3.4.0'
+	implementation 'org.webjars:bootstrap:4.3.1'
+	implementation 'org.webjars:jquery-ui:1.12.1'
+	implementation 'org.webjars:popper.js:1.15.0'
 
     // SPRING STARTING POINT RESOURCES
-    implementation "org.springframework.boot:spring-boot-starter"
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// APP-SERVER
+    implementation 'org.springframework.boot:spring-boot-starter-undertow'
 
     // DATABASE ORM
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
@@ -90,9 +105,9 @@ dependencies {
     implementation "org.mapstruct:mapstruct:${mapstruct_version}"
 
     // DATABASE ACCESS DRIVER
-    runtimeOnly "org.postgresql:postgresql"
-    testRuntimeOnly "com.h2database:h2"
-
+//    runtimeOnly "org.postgresql:postgresql"
+//    testRuntimeOnly "com.h2database:h2"
+    implementation "com.h2database:h2"
 
     // STRING HELPERS
     implementation "org.apache.commons:commons-lang3"

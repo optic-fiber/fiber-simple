@@ -1,7 +1,7 @@
 package com.cheroliv.fiber.console.service
 
-//import com.cheroliv.fiber.calc.ClasseurRecap
-//import com.cheroliv.fiber.calc.Recap
+//import com.cheroliv.com.cheroliv.fiber.calc.ClasseurRecap
+//import com.cheroliv.com.cheroliv.fiber.calc.Recap
 //import com.cheroliv.fiber.console.dao.AbstractInterTestCase
 //import com.cheroliv.fiber.domain.Inter
 //import com.cheroliv.fiber.domain.InterUtils

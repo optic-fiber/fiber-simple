@@ -2,7 +2,7 @@ package com.cheroliv.fiber.console.cucumber.stepdefs
 
 //import com.cheroliv.fiber.console.dao.AbstractInterTestCase
 //import com.cheroliv.fiber.domain.Inter
-//import com.cheroliv.fiber.service.RecapService
+//import com.cheroliv.com.cheroliv.fiber.service.RecapService
 //import io.cucumber.java.en.And
 //import io.cucumber.java.en.Then
 //import io.cucumber.java.en.When

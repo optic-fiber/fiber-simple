@@ -1,0 +1,55 @@
+.inter-container {
+    flex-wrap: wrap;
+    display: grid;
+    grid-gap: 5px;
+    flex-direction: column;
+}
+
+.id-inter {
+    order: 0;
+}
+
+.nd {
+    order: 2;
+}
+
+.type-inter {
+    order: 5;
+}
+
+.contract {
+    order: 6;
+}
+
+.datetime-inter {
+    order: 1;
+}
+
+.first-name-client {
+    order: 3;
+}
+
+.last-name-client {
+    order: 4;
+}
+
+.inter-navigation-btn-container {
+    order: 7;
+    display: flex;
+}
+
+.first-inter-btn {
+
+}
+
+.previous-inter-btn {
+}
+
+.save-inter-btn {
+}
+
+.next-inter-btn {
+}
+
+.last-inter-btn {
+}
