@@ -1,5 +1,7 @@
 package com.cheroliv.fiber.inter.service
 
+import com.cheroliv.fiber.inter.domain.Inter
+
 //import com.cheroliv.fiber.dao.InterRepository
 //import com.cheroliv.fiber.inter.domain.Inter
 //import com.cheroliv.fiber.inter.domain.InterUtils
@@ -11,7 +13,7 @@ package com.cheroliv.fiber.inter.service
 //import org.apache.commons.io.FilenameUtils
 //import org.springframework.beans.factory.annotation.Autowired
 //import org.springframework.beans.factory.annotation.Value
-//import org.springframework.stereotype.Service
+import org.springframework.stereotype.Service
 //import org.springframework.transaction.annotation.Transactional
 //
 //import java.nio.charset.StandardCharsets
@@ -23,11 +25,52 @@ package com.cheroliv.fiber.inter.service
 //import java.time.format.DateTimeFormatter
 //
 //@Slf4j
-//@Service
+@Service
 //@CompileStatic
-class InterServiceImpl //implements InterService
- {
+class InterServiceImpl implements InterService{
 
+ @Override
+ Inter find(String nd, String type) {
+  return null
+ }
+
+ @Override
+ Integer countMois() {
+  return null
+ }
+
+ @Override
+ List<Map<String, Integer>> findAllMoisFormatFrParAnnee() {
+  return null
+ }
+
+ @Override
+ String getFiberJsonFilePath(String baseFolderPath) {
+  return null
+ }
+
+ @Override
+ void setUp() {
+
+ }
+
+ @Override
+ void importJsonFromFile(String path) throws IOException {
+
+ }
+
+ @Override
+ String buildJsonInter(Inter inter) {
+  return null
+ }
+
+ @Override
+ void saveToJsonFile(String path) throws IOException {
+
+ }
+}
+
+//{
 //    final InterRepository interRepository
 //    final String fiberUserDataFolderName
 //    final String jsonBackUpFileName
@@ -160,4 +203,4 @@ class InterServiceImpl //implements InterService
 //        jsonBackUpFile.createNewFile()
 //        jsonBackUpFile.setText(jsonList.toListString(), StandardCharsets.UTF_8.toString())
 //    }
-}
+//}

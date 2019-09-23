@@ -1,4 +1,4 @@
-package com.cheroliv.fiber.console.cucumber
+package com.cheroliv.fiber.cucumber
 
 //import com.cheroliv.fiber.Application
 //import io.cucumber.java.Before

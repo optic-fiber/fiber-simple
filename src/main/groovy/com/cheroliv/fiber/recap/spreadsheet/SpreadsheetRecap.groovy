@@ -10,7 +10,7 @@ package com.cheroliv.fiber.recap.spreadsheet
 //@Slf4j
 //@ToString
 //@CompileStatic
-class ClasseurRecap implements Serializable {
+class SpreadsheetRecap implements Serializable {
 //    XSSFWorkbook classeur
 //    String classeurPathName
 //    Integer nbFeuille

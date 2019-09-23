@@ -1,4 +1,4 @@
-package com.cheroliv.fiber.console.cucumber
+package com.cheroliv.fiber.cucumber
 
 //import io.cucumber.junit.Cucumber
 //import io.cucumber.junit.CucumberOptions

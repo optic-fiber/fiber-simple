@@ -1,8 +1,8 @@
-package com.cheroliv.fiber.console.service
+package com.cheroliv.fiber.recap.service
 
-//import com.cheroliv.com.cheroliv.fiber.recap.spreadsheet.ClasseurRecap
+//import com.cheroliv.com.cheroliv.fiber.recap.spreadsheet.SpreadsheetRecap
 //import com.cheroliv.com.cheroliv.fiber.recap.model.Recap
-//import com.cheroliv.fiber.console.dao.AbstractInterTestCase
+//import com.cheroliv.fiber.repository.AbstractInterTestCase
 //import com.cheroliv.fiber.inter.domain.Inter
 //import com.cheroliv.fiber.inter.domain.InterUtils
 //import com.google.common.collect.Maps
@@ -63,12 +63,12 @@ class RecapServiceImplTest
 //        recapService.path = rootPathData
 //        Integer nbMois = interService.countMois()
 //        String fullClasseurPath = classeurResource.URI.path
-//        ClasseurRecap expectedClasseur = new ClasseurRecap(
+//        SpreadsheetRecap expectedClasseur = new SpreadsheetRecap(
 //                classeurPathName: fullClasseurPath,
 //                nbFeuille: nbMois,
 //                nomFeuilles: recapService.nomFeuilles(),
 //                moisParAnnee: interService.findAllMoisFormatFrParAnnee())
-//        ClasseurRecap resultRecap = recapService.init()
+//        SpreadsheetRecap resultRecap = recapService.init()
 //        assert expectedClasseur.classeurPathName ==
 //                resultRecap.classeurPathName
 //        assert expectedClasseur.nbFeuille ==
@@ -140,7 +140,7 @@ class RecapServiceImplTest
 //
 //        Integer monthIdx = 2
 //        recapService.path = rootPathData
-//        ClasseurRecap classeurResult = recapService.init()
+//        SpreadsheetRecap classeurResult = recapService.init()
 //        Recap resultRecap = recapService.processRecap(
 //                classeurResult.nomFeuilles.get(monthIdx),
 //                moisInt, anneeIntValue)
@@ -170,7 +170,7 @@ class RecapServiceImplTest
 //    @Order(4)
 //    void testProcessFeuille() {
 //        Integer nbMois = interService.countMois()
-//        ClasseurRecap expectedClasseur = new ClasseurRecap(
+//        SpreadsheetRecap expectedClasseur = new SpreadsheetRecap(
 //                classeurPathName: classeurResource.URI.path,
 //                nbFeuille: nbMois,
 //                nomFeuilles: recapService.nomFeuilles(),
@@ -240,7 +240,7 @@ class RecapServiceImplTest
 //        }
 //
 //        recapService.path = rootPathData
-//        ClasseurRecap resultClasseur = recapService.processFeuilles()
+//        SpreadsheetRecap resultClasseur = recapService.processFeuilles()
 //
 //        expectedClasseur.nomFeuilles.eachWithIndex { String entry, int i ->
 //            assert entry == resultClasseur.nomFeuilles.get(i)

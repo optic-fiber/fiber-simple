@@ -1,22 +1,18 @@
 package com.cheroliv.fiber.recap.service
 
-import com.cheroliv.fiber.recap.spreadsheet.ClasseurRecap
-import com.cheroliv.fiber.recap.model.Recap
-
-
 interface RecapService {
-    void setPath(String path)
+/*    void setPath(String path)
 
-    ClasseurRecap init()
+    SpreadsheetRecap init()
 
     Recap processRecap(
             String nomFeuilles,
             Integer moisInt,
             Integer anneeInt)
 
-    ClasseurRecap processFeuilles()
+    SpreadsheetRecap processFeuilles()
 
-    ClasseurRecap processClasseurFeuilles(String classeurPath)
+    SpreadsheetRecap processClasseurFeuilles(String classeurPath)
 
-    List<String> nomFeuilles()
+    List<String> nomFeuilles()*/
 }

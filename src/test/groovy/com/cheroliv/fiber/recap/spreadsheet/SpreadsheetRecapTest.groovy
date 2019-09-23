@@ -1,6 +1,6 @@
-package com.cheroliv.fiber.console.calc
+package com.cheroliv.fiber.recap.spreadsheet
 
-//import com.cheroliv.fiber.console.dao.AbstractInterTestCase
+//import com.cheroliv.fiber.repository.AbstractInterTestCase
 //import com.cheroliv.com.cheroliv.fiber.inter.service.InterService
 //import com.cheroliv.com.cheroliv.fiber.recap.service.RecapService
 //import groovy.transform.CompileStatic
@@ -25,7 +25,7 @@ package com.cheroliv.fiber.console.calc
 //@SpringBootTest
 //@ActiveProfiles("test")
 //@TestMethodOrder(MethodOrderer.OrderAnnotation)
-class ClasseurRecapTest
+class SpreadsheetRecapTest
 //        extends AbstractInterTestCase
 {
 

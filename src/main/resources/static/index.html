@@ -3,24 +3,35 @@
 
 <head>
     <meta charset="UTF-8"/>
-    <link href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" media="screen" rel="stylesheet"/>
-<!--    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/fontawesome.min.css" media="screen" rel="stylesheet"/>-->
-    <link href="/webjars/font-awesome/5.10.1/css/fontawesome.min.css" media="screen" rel="stylesheet"/>
-    <link href="/webjars/jquery-ui/1.12.1/css/jquery-ui.min.css" media="screen" rel="stylesheet"/>
-    <link href="/webjars/popper.js/1.15.0/ss/jquery-ui.min.css" media="screen" rel="stylesheet"/>
-    <link href="assets/css/jquery.datetimepicker.min.css" media="screen" rel="stylesheet"/>
-    <link href="assets/css/style.css" media="screen" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/fontawesome.min.css"
+          media="screen"
+          rel="stylesheet"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          media="screen"
+          rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+          media="screen"
+          rel="stylesheet"/>
+    <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css"
+          media="screen"
+          rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+          media="screen"
+          rel="stylesheet"/>
+    <link href="assets/css/style.css"
+          media="screen"
+          rel="stylesheet"/>
     <title>Saisie des Interventions FTTH</title>
 </head>
 
-<body>
+
 <form action="">
     <div class="recap-container">
         <fieldset>
             <legend>Génération Recap:</legend>
             <div class="build-recap-button">
                 <button class="btn btn-primary btn-lg" type="button">
-                    <i class="fas fa-fast-forward"></i>
+                    <i class="fab fa-fast-forward"></i>
                 </button>
             </div>
             <div class="start-date-recap">
@@ -75,7 +86,7 @@
                 </select>
             </div>
             <div class="datetime-inter">
-                <label for="ndInput">heure date inter : </label>
+                <label for="datetimepicker">heure date inter : </label>
                 <input id="datetimepicker"
                        type="text">
 
@@ -98,7 +109,7 @@
         <div class="inter-navigation-btn-container">
             <div class="first-inter-btn">
                 <button class="btn btn-primary btn-lg" type="button">
-                    <i class="fas fa-fast-backward"></i>
+                    <i class="fab fa-fast-backward"></i>
                 </button>
             </div>
             <div class="previous-inter-btn">
@@ -108,29 +119,28 @@
             </div>
             <div class="save-inter-btn">
                 <button class="btn btn-primary btn-lg" type="button">
-                    <i class="fas fa-save"></i>
+                    <i class="fab fa-save"></i>
                 </button>
             </div>
             <div class="next-inter-btn">
                 <button class="btn btn-primary btn-lg" type="button">
-                    <i class="fas fa-step-forward"></i>
+                    <i class="fab fa-step-forward"></i>
                 </button>
             </div>
             <div class="last-inter-btn">
                 <button class="btn btn-primary btn-lg" type="button">
-                    <i class="fas fa-fast-forward"></i>
+                    <i class="fab fa-fast-forward"></i>
                 </button>
             </div>
         </div>
     </div>
 </form>
-<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<!--<script src="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/js/fontawesome.min.js"></script>-->
-<script src="/webjars/font-awesome/5.10.1/js/fontawesome.min.js"></script>
-<script src="/webjars/jquery/3.4.0/jquery.min.js"></script>
-<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"></script>
-<script src="/webjars/popper.js/1.15.0/popper.min.js"></script>
-<script src="assets/js/jquery.datetimepicker.full.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/js/fontawesome.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/esm/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 <script>
     $('#startDateRecapInput').datetimepicker();
     $('#endDateRecapInput').datetimepicker();

@@ -25,7 +25,7 @@ class RecapServiceImpl
 //    final String classeurDirectoryName
 //    final InterService interService
 //    final InterRepository interRepository
-//    ClasseurRecap classeur
+//    SpreadsheetRecap classeur
 //    @NotNull
 //    @NotEmpty
 //    String path
@@ -69,7 +69,7 @@ class RecapServiceImpl
 //
 //    @Override
 //    @Transactional(readOnly = true)
-//    ClasseurRecap init() {
+//    SpreadsheetRecap init() {
 //        String strRecapPath = path +//arg
 //                separator +
 //                fiberUserDataFolderName +//.fiber
@@ -94,7 +94,7 @@ class RecapServiceImpl
 //        f.exists() ?: f.createNewFile()//recapClasseur.xlsx
 //
 //
-//        this.classeur = new ClasseurRecap(
+//        this.classeur = new SpreadsheetRecap(
 //                classeurPathName: strRecapPath,
 //                nbFeuille: interService.countMois(),
 //                nomFeuilles: this.nomFeuilles(),
@@ -157,7 +157,7 @@ class RecapServiceImpl
 //
 //    @Override
 //    @Transactional(readOnly = true)
-//    ClasseurRecap processFeuilles() {
+//    SpreadsheetRecap processFeuilles() {
 //        init()
 //        List<List<Integer>> listIntMoisAnnee =
 //                interRepository.distinctMoisParAnnee()
@@ -186,7 +186,7 @@ class RecapServiceImpl
 //    }
 //
 //    @Override
-//    ClasseurRecap processClasseurFeuilles(String classeurPath) {
+//    SpreadsheetRecap processClasseurFeuilles(String classeurPath) {
 //        this.path = classeurPath
 //        this.processFeuilles()
 //        this.classeur.createExcelWorkBook()

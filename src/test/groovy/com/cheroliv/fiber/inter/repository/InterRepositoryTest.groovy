@@ -1,4 +1,4 @@
-package com.cheroliv.fiber.console.dao
+package com.cheroliv.fiber.inter.repository
 
 //import com.cheroliv.fiber.inter.domain.Inter
 //import com.cheroliv.fiber.inter.domain.InterUtils

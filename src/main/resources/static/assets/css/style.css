@@ -1,4 +1,18 @@
+
+/*creer ici un style */
+/*pour :*/
+/*-brands*/
+/*-solid*/
+/*-regular*/
+
+
+
+@font-face{
+
+}
+
 .recap-container {
+    display: flex;
 }
 
 .build-recap-button {

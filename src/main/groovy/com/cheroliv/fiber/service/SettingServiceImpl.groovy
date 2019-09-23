@@ -8,20 +8,21 @@ import org.springframework.stereotype.Service
 class SettingServiceImpl implements SettingService {
     @Override
     void settingUpApp() {
-        log.info "SettingServiceImpl.settingUpApp()"
-        this.isAppDataHomeDirExists() ?
-                log.info("AppDataHomeDirExists : ${Boolean.TRUE}") :
-                this.createAppDataHomeDir()
+        log.info "${this.class.simpleName}.settingUpApp()"
+        this.isAppDataHomeDirectoryExists() ?
+                log.info("appDataHomeDirectoryExists : ${Boolean.TRUE}") :
+                this.createAppDataHomeDirectory()
     }
 
     @Override
-    Boolean isAppDataHomeDirExists() {
+    Boolean isAppDataHomeDirectoryExists() {
+        log.info("${this.class.simpleName}.isAppDataHomeDirectoryExists()")
         false
     }
 
     @Override
-    void createAppDataHomeDir() {
-        log.info("createAppDataHomeDir()")
+    void createAppDataHomeDirectory() {
+        log.info("${this.class.simpleName}.createAppDataHomeDirectory()")
 
     }
 }

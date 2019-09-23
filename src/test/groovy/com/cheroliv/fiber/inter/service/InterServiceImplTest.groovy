@@ -1,6 +1,6 @@
-package com.cheroliv.fiber.console.service
+package com.cheroliv.fiber.inter.service
 
-//import com.cheroliv.fiber.console.dao.AbstractInterTestCase
+//import com.cheroliv.fiber.repository.AbstractInterTestCase
 //import com.cheroliv.fiber.inter.domain.Inter
 //import com.cheroliv.fiber.inter.domain.InterUtils
 //import com.google.common.collect.Maps
