@@ -1,8 +1,8 @@
-package com.cheroliv.fiber.domain
+package com.cheroliv.fiber.inter.domain
 
-import com.cheroliv.fiber.domain.enumeration.InterContractEnum
-import com.cheroliv.fiber.domain.enumeration.InterTypeEnum
-import com.cheroliv.fiber.domain.groups.InterChecks
+import com.cheroliv.fiber.inter.domain.enumeration.InterContractEnum
+import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
+import com.cheroliv.fiber.inter.domain.groups.InterChecks
 import groovy.transform.ToString
 import groovy.transform.TypeChecked
 

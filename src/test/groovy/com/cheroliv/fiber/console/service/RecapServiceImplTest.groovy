@@ -1,10 +1,10 @@
 package com.cheroliv.fiber.console.service
 
-//import com.cheroliv.com.cheroliv.fiber.calc.ClasseurRecap
-//import com.cheroliv.com.cheroliv.fiber.calc.Recap
+//import com.cheroliv.com.cheroliv.fiber.recap.spreadsheet.ClasseurRecap
+//import com.cheroliv.com.cheroliv.fiber.recap.model.Recap
 //import com.cheroliv.fiber.console.dao.AbstractInterTestCase
-//import com.cheroliv.fiber.domain.Inter
-//import com.cheroliv.fiber.domain.InterUtils
+//import com.cheroliv.fiber.inter.domain.Inter
+//import com.cheroliv.fiber.inter.domain.InterUtils
 //import com.google.common.collect.Maps
 //import groovy.transform.CompileStatic
 //import groovy.util.logging.Slf4j

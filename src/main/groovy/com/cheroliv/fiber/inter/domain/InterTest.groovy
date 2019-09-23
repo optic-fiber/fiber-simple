@@ -1,4 +1,4 @@
-package com.cheroliv.fiber.domain
+package com.cheroliv.fiber.inter.domain
 
 //import groovy.json.JsonSlurper
 //import groovy.transform.CompileStatic
@@ -19,7 +19,7 @@ package com.cheroliv.fiber.domain
 //import java.time.LocalDate
 //import java.time.LocalTime
 //
-//import static com.cheroliv.fiber.domain.InterUtils.*
+//import static com.cheroliv.fiber.inter.domain.InterUtils.*
 //import static com.xlson.groovycsv.CsvParser.parseCsv
 //import static java.lang.Long.parseLong
 //

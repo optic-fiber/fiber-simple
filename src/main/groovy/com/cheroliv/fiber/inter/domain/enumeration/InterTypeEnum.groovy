@@ -1,4 +1,4 @@
-package com.cheroliv.fiber.domain.enumeration
+package com.cheroliv.fiber.inter.domain.enumeration
 
 import groovy.transform.CompileStatic
 

@@ -1,8 +1,8 @@
-package com.cheroliv.fiber.service
+package com.cheroliv.fiber.inter.service
 
 //import com.cheroliv.fiber.dao.InterRepository
-//import com.cheroliv.fiber.domain.Inter
-//import com.cheroliv.fiber.domain.InterUtils
+//import com.cheroliv.fiber.inter.domain.Inter
+//import com.cheroliv.fiber.inter.domain.InterUtils
 //import groovy.json.JsonBuilder
 //import groovy.json.JsonSlurper
 //import groovy.transform.CompileStatic

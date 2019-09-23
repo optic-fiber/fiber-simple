@@ -1,8 +1,8 @@
 package com.cheroliv.fiber.console.service
 
 //import com.cheroliv.fiber.console.dao.AbstractInterTestCase
-//import com.cheroliv.fiber.domain.Inter
-//import com.cheroliv.fiber.domain.InterUtils
+//import com.cheroliv.fiber.inter.domain.Inter
+//import com.cheroliv.fiber.inter.domain.InterUtils
 //import com.google.common.collect.Maps
 //import groovy.json.JsonSlurper
 //import groovy.transform.CompileStatic

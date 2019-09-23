@@ -1,4 +1,4 @@
-package com.cheroliv.fiber.controller
+package com.cheroliv.fiber.inter.controller
 
 import org.springframework.web.bind.annotation.RestController
 

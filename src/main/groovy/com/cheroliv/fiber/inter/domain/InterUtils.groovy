@@ -1,4 +1,4 @@
-package com.cheroliv.fiber.domain
+package com.cheroliv.fiber.inter.domain
 
 import groovy.transform.CompileStatic
 

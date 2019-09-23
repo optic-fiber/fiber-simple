@@ -1,6 +1,6 @@
-package com.cheroliv.fiber.repository
+package com.cheroliv.fiber.inter.repository
 
-//import com.cheroliv.fiber.domain.Inter
+//import com.cheroliv.fiber.inter.domain.Inter
 //import groovy.transform.CompileStatic
 //import org.springframework.data.jpa.repository.JpaRepository
 //import org.springframework.data.jpa.repository.Query

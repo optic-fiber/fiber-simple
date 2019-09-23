@@ -1,7 +1,7 @@
 package com.cheroliv.fiber.console.dao
 
-//import com.cheroliv.fiber.domain.Inter
-//import com.cheroliv.fiber.domain.InterUtils
+//import com.cheroliv.fiber.inter.domain.Inter
+//import com.cheroliv.fiber.inter.domain.InterUtils
 //import groovy.transform.CompileStatic
 //import groovy.util.logging.Slf4j
 //import org.junit.jupiter.api.*

@@ -1,7 +1,7 @@
-package com.cheroliv.fiber.service
+package com.cheroliv.fiber.recap.service
 
-import com.cheroliv.fiber.calc.ClasseurRecap
-import com.cheroliv.fiber.calc.Recap
+import com.cheroliv.fiber.recap.spreadsheet.ClasseurRecap
+import com.cheroliv.fiber.recap.model.Recap
 
 
 interface RecapService {

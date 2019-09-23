@@ -1,6 +1,6 @@
-package com.cheroliv.fiber.service
+package com.cheroliv.fiber.inter.service
 
-import com.cheroliv.fiber.domain.Inter
+import com.cheroliv.fiber.inter.domain.Inter
 
 
 interface InterService {

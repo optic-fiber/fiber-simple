@@ -7,7 +7,7 @@ interface ApplicationDefaults {
     }
 
     interface Data {
-        String directoryName = ".fiber"
-        String jsonBackupFileName = "inter.json"
+        String directoryName = "fiber-simple"
+        String jsonBackupFileName = "inters.json"
     }
 }
