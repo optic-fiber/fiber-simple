@@ -3,11 +3,11 @@ package com.cheroliv.fiber.domain.enumeration
 import groovy.transform.CompileStatic
 
 @CompileStatic
-enum TypeInterEnum {
+enum InterTypeEnum {
     BAAP, BAOC, BAFA, BAST, PLP, SAV
 
-    static TypeInterEnum valueOfName(String name) {
-        values().find { TypeInterEnum it ->
+    static InterTypeEnum valueOfName(String name) {
+        values().find { InterTypeEnum it ->
             it.name() == name
         }
     }

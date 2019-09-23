@@ -12,3 +12,5 @@ bin
 .classpath
 .settings
 .project
+
+lib/datetimepicker

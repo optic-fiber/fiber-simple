@@ -149,3 +149,5 @@ task cucumberTestReport(type: TestReport) {
     destinationDir = file("$buildDir/reports/tests")
     reportOn cucumberTest
 }
+
+String dateTimePickerArchiveUrl='https://github.com/xdan/datetimepicker/archive/%25npm_package_version%25.tar.gz'

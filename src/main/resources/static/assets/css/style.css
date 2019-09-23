@@ -1,3 +1,18 @@
+.recap-container {
+}
+
+.build-recap-button {
+    order: 0;
+}
+
+.start-date-recap {
+    order: 1;
+}
+
+.end-date-recap {
+    order: 2;
+}
+
 .inter-container {
     flex-wrap: wrap;
     display: grid;
@@ -39,17 +54,21 @@
 }
 
 .first-inter-btn {
-
+    order: 0;
 }
 
 .previous-inter-btn {
+    order: 1;
 }
 
 .save-inter-btn {
+    order: 2;
 }
 
 .next-inter-btn {
+    order: 3;
 }
 
 .last-inter-btn {
+    order: 4;
 }
