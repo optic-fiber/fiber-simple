@@ -9,8 +9,8 @@ import org.springframework.context.ApplicationContextAware
 
 @Slf4j
 @SpringBootTest
-@DisplayName('FiberConsoleApplicationTest')
-class FiberConsoleApplicationTest implements ApplicationContextAware {
+@DisplayName('FiberSimpleApplicationTest')
+class FiberSimpleApplicationTest implements ApplicationContextAware {
 
     ApplicationContext applicationContext
 

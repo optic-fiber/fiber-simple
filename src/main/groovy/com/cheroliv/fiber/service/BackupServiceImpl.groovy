@@ -1,6 +1,7 @@
 package com.cheroliv.fiber.service
 
 import com.cheroliv.fiber.inter.service.InterService
+import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -10,6 +11,7 @@ import javax.annotation.PostConstruct
 
 @Slf4j
 @Service
+@TypeChecked
 class BackupServiceImpl implements BackupService {
 
     final SettingService settingService
@@ -40,23 +42,27 @@ class BackupServiceImpl implements BackupService {
         log.info("${this.class.simpleName}.createDataBackupFile()")
     }
 
+    private String getJsonBackupFilePath() {
+        System.getProperty('user.home') +
+                this.homeDirectoryName +
+                System.getProperty("path.separator") +
+                this.jsonBackupFileName
+    }
+
     @Override
     @PostConstruct
     void loadBackupInDatabase() {
-        log.info("${this.class.simpleName}.loadBackupInDatabase()")
+        log.info("${this.class.simpleName}" +
+                ".loadBackupInDatabase()")
         this.settingService.settingUpApp()
         this.isDataBackupFileExists() ?:
                 this.createDataBackupFile()
         try {
-            this.interService.importJsonFromFile(
-                    System.getProperty('user.home') +
-                            this.homeDirectoryName +
-                            System.getProperty("path.separator") +
-                            this.jsonBackupFileName
-            )
+            this.interService
+                    .importJsonFromFile(
+                            this.getJsonBackupFilePath())
         } catch (IOException ioe) {
-            log.info(ioe.stackTrace.toArrayString())
+            log.debug(ioe.stackTrace.toArrayString())
         }
-
     }
 }

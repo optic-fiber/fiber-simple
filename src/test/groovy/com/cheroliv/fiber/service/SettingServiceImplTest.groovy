@@ -15,18 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest
 @TestMethodOrder(OrderAnnotation)
 @DisplayName("SettingServiceImplTest")
 class SettingServiceImplTest {
-/*
-        log.info(
-                """///////////////////////////\n
-expectedDataHomeDirectoryFile.exists() : ${expectedDataHomeDirectoryFile.exists()}
-expectedDataHomeDirectoryFile.directory : ${expectedDataHomeDirectoryFile.directory}
-expectedDataHomeDirectoryFile.file : ${expectedDataHomeDirectoryFile.file}
-
-
-expectedDataHomeDirectoryPath : ${expectedDataHomeDirectoryPath}
-\n////////////////////""")
- */
-
 
     @Autowired
     SettingService settingService
@@ -49,17 +37,34 @@ expectedDataHomeDirectoryPath : ${expectedDataHomeDirectoryPath}
 
     private void createTestHomeDirectory() {
         log.info("${this.class.simpleName}.createTestHomeDirectory()")
-        File expectedDataHomeDirectoryFile = new File(this.getExpectedDataHomeDirectoryPath())
-        expectedDataHomeDirectoryFile.exists() ?
-                (expectedDataHomeDirectoryFile.directory &&
-                        !expectedDataHomeDirectoryFile.file ?:
-                        this.deleteFileCreateDirectory()) :
-                expectedDataHomeDirectoryFile.mkdir()
-        assert expectedDataHomeDirectoryFile.exists() &&
-                expectedDataHomeDirectoryFile.directory &&
-                !expectedDataHomeDirectoryFile.file
-    }
 
+        File file = new File(this.getExpectedDataHomeDirectoryPath())
+
+        if (file.exists() &&
+                !(file.isDirectory() && !file.isFile()))
+            this.deleteFileCreateDirectory()
+        else file.mkdir()
+
+        // Can be simplified
+        // if (file.exists()) {
+        //     if (!(file.isDirectory() &&
+        //             !file.isFile())) {
+        //         this.deleteFileCreateDirectory()
+        //     }
+        // } else {
+        //     file.mkdir()
+        // }
+        /* KISS : Keep It Simple Stoopid
+         file.exists() ?
+                (file.directory &&
+                        !file.file ?:
+                        this.deleteFileCreateDirectory()) :
+                file.mkdir()
+         */
+        assert file.exists()
+        assert file.isDirectory()
+        assert !file.isFile()
+    }
 
     @Test
     @Order(1)
@@ -77,18 +82,18 @@ expectedDataHomeDirectoryPath : ${expectedDataHomeDirectoryPath}
     private void deleteTestHomeDirectory() {
         log.info("${this.class.simpleName}.deleteTestHomeDirectory()")
         File file = new File(this.getExpectedDataHomeDirectoryPath())
-        if (file.exists()) {
+        if (file.exists())
             if (file.directory) file.deleteDir()
-        }
+
         assert !(file.directory && file.exists())
     }
 
     private void deleteTestHomeDirectoryAsFile() {
         log.info("${this.class.simpleName}.deleteTestHomeDirectoryAsFile()")
         File file = new File(this.getExpectedDataHomeDirectoryPath())
-        if (file.exists()) {
+        if (file.exists())
             if (file.file) file.delete()
-        }
+
         assert !file.exists()
     }
 
@@ -108,15 +113,8 @@ expectedDataHomeDirectoryPath : ${expectedDataHomeDirectoryPath}
         def file = new File(this.getExpectedDataHomeDirectoryPath())
         assert !(file.exists() && file.directory)
         assert !this.settingService.isAppDataHomeDirectoryExists()
-        log.info("${this.class.simpleName}.testIsAppDataHomeDirExists_directory_not_exists() FIN")
     }
 
-    private void createTestHomeDirectoryAsFile() {
-        log.info("${this.class.simpleName}.createTestHomeDirectoryAsFile()")
-        assert new File(this.getExpectedDataHomeDirectoryPath()).createNewFile()
-        //TODO: s'assurer que le fichier .fiber-simple-test est créé
-        log.info("${this.class.simpleName}.createTestHomeDirectoryAsFile() FIN")
-    }
 
     @Test
     @Order(3)
@@ -124,23 +122,86 @@ expectedDataHomeDirectoryPath : ${expectedDataHomeDirectoryPath}
     void testIsAppDataHomeDirExists_is_file() {
         this.deleteTestHomeDirectoryAndFiles()
         this.createTestHomeDirectoryAsFile()
-//        File file = new File(this.getExpectedDataHomeDirectoryPath())
-//        assert file.exists()
-//        assert file.file
-//        assert !file.directory
-//        assert !this.settingService.isAppDataHomeDirectoryExists()
+        File file = new File(this.getExpectedDataHomeDirectoryPath())
+        assert file.exists()
+        assert file.isFile()
+        assert !file.isDirectory()
+        assert !this.settingService.isAppDataHomeDirectoryExists()
+        // clean up after test
+        this.deleteTestHomeDirectoryAsFile()
+        assert !file.exists()
     }
 
 
-//    @Test
-//    @Order(4)
-//    @DisplayName("createAppDataHomeDirectory")
-//    void createAppDataHomeDir() {
-//    }
+    @Test
+    @Order(4)
+    @DisplayName("testCreateAppDataHomeDir")
+    void testCreateAppDataHomeDir() {
+        this.deleteTestHomeDirectoryAndFiles()
+        File file = new File(this.getExpectedDataHomeDirectoryPath())
+        assert !file.exists()
+        this.settingService.createAppDataHomeDirectory()
+        assert file.exists()
+        assert file.isDirectory()
+        assert !file.isFile()
+    }
 
-//    @Test
-//    @Order(5)
-//    @DisplayName("settingUpApp")
-//    void settingUpApp() {
-//    }
+    private void createTestHomeDirectoryAsFile() {
+        log.info("${this.class.simpleName}.createTestHomeDirectoryAsFile()")
+        File file = new File(this.getExpectedDataHomeDirectoryPath())
+        if (file.exists())
+            if (file.isDirectory()) {
+                assert file.deleteDir()
+                assert file.createNewFile()
+            } else assert file.isFile()
+        else assert file.createNewFile()
+
+        assert !file.exists() ?: file.isFile() && !file.isDirectory()
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("testSettingUpApp_homeDataDirectory_isFile")
+    void testSettingUpApp_homeDataDirectory_isFile() {
+        this.createTestHomeDirectoryAsFile()
+        File file = new File(this.getExpectedDataHomeDirectoryPath())
+        assert file.exists()
+        assert file.isFile()
+        assert !file.isDirectory()
+        this.settingService.settingUpApp()
+        assert file.exists()
+        assert !file.isFile()
+        assert file.isDirectory()
+    }
+
+
+    @Test
+    @Order(6)
+    @DisplayName("testSettingUpApp_dir_exists")
+    void testSettingUpApp_dir_exists() {
+        this.deleteTestHomeDirectoryAndFiles()
+        this.createTestHomeDirectory()
+        File file = new File(this.getExpectedDataHomeDirectoryPath())
+        assert file.exists()
+        assert file.isDirectory()
+        assert !file.isFile()
+        this.settingService.settingUpApp()
+        assert file.exists()
+        assert file.isDirectory()
+        assert !file.isFile()
+    }
+
+
+    @Test
+    @Order(7)
+    @DisplayName("testSettingUpApp_dir_not_exists")
+    void testSettingUpApp_dir_not_exists() {
+        this.deleteTestHomeDirectoryAndFiles()
+        File file = new File(this.getExpectedDataHomeDirectoryPath())
+        assert !file.exists()
+        this.settingService.settingUpApp()
+        assert file.exists()
+        assert file.isDirectory()
+        assert !file.isFile()
+    }
 }
