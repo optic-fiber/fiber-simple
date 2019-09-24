@@ -15,6 +15,19 @@ import org.springframework.boot.test.context.SpringBootTest
 @TestMethodOrder(OrderAnnotation)
 @DisplayName("SettingServiceImplTest")
 class SettingServiceImplTest {
+/*
+        log.info(
+                """///////////////////////////\n
+expectedDataHomeDirectoryFile.exists() : ${expectedDataHomeDirectoryFile.exists()}
+expectedDataHomeDirectoryFile.directory : ${expectedDataHomeDirectoryFile.directory}
+expectedDataHomeDirectoryFile.file : ${expectedDataHomeDirectoryFile.file}
+
+
+expectedDataHomeDirectoryPath : ${expectedDataHomeDirectoryPath}
+\n////////////////////""")
+ */
+
+
 
     @Autowired
     SettingService settingService
@@ -37,35 +50,35 @@ class SettingServiceImplTest {
 
     private void createTestHomeDirectory() {
         log.info("${this.class.simpleName}.createTestHomeDirectory()")
-
         File expectedDataHomeDirectoryFile = new File(this.getExpectedDataHomeDirectoryPath())
-
         expectedDataHomeDirectoryFile.exists() ?
                 (expectedDataHomeDirectoryFile.directory &&
                         !expectedDataHomeDirectoryFile.file ?:
                         this.deleteFileCreateDirectory()) :
                 expectedDataHomeDirectoryFile.mkdir()
-
         assert expectedDataHomeDirectoryFile.exists() &&
                 expectedDataHomeDirectoryFile.directory &&
                 !expectedDataHomeDirectoryFile.file
     }
 
+
+
+
+
     @Test
     @Order(1)
     @DisplayName("testIsAppDataHomeDirExists_dir_exists_isDirectory")
     void testIsAppDataHomeDirExists_dir_exists_isDirectory() {
-        log.info(
-                """///////////////////////////\n
-expectedDataHomeDirectoryPath : ${expectedDataHomeDirectoryPath}
-\n////////////////////""")
         this.createTestHomeDirectory()
-        File expectedDataHomeDirectoryFile = new File(expectedDataHomeDirectoryPath)
-        if (expectedDataHomeDirectoryFile.exists() &&
-                expectedDataHomeDirectoryFile.directory) {
-            assert !this.settingService.isAppDataHomeDirectoryExists()
-        }
+        File expectedDataHomeDirectoryFile =
+                new File(this.getExpectedDataHomeDirectoryPath())
+        assert expectedDataHomeDirectoryFile.exists()
+        assert expectedDataHomeDirectoryFile.directory
+        assert !expectedDataHomeDirectoryFile.file
+        assert this.settingService.isAppDataHomeDirectoryExists()
     }
+
+
 
 
     private void deleteTestHomeDirectory() {
@@ -73,11 +86,6 @@ expectedDataHomeDirectoryPath : ${expectedDataHomeDirectoryPath}
         File homeDirTest = new File(System.getProperty('user.home')
                 + this.homeDirectoryName)
     }
-
-    private void createTestHomeDirectoryAsFile() {
-        log.info("${this.class.simpleName}.createTestHomeDirectoryAsFile()")
-    }
-
     @Test
     @Order(2)
     @DisplayName("testIsAppDataHomeDirExists_dir_not_exists")
@@ -95,6 +103,10 @@ expectedDataHomeDirectoryPath : ${expectedDataHomeDirectoryPath}
 //                !expectedDataHomeDirectoryPath) {
 //        }
 ////        log.info "DATA_HOME_DIRECTORY_PATH : " + expectedDataHomeDirectoryPath + "\t" + System.getProperty('file.separator')
+    }
+
+    private void createTestHomeDirectoryAsFile() {
+        log.info("${this.class.simpleName}.createTestHomeDirectoryAsFile()")
     }
 
     @Test

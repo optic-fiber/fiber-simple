@@ -2,6 +2,6 @@ package com.cheroliv.fiber.service
 
 interface SettingService {
     void settingUpApp()
-    Boolean isAppDataHomeDirectoryExists()
+    boolean isAppDataHomeDirectoryExists()
     void createAppDataHomeDirectory()
 }
