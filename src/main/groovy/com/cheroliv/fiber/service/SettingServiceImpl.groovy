@@ -35,6 +35,7 @@ class SettingServiceImpl implements SettingService {
     void createAppDataHomeDirectory() {
         log.info("${this.class.simpleName}.createAppDataHomeDirectory()")
         File dir = new File(this.getDataHomeDirectoryPath())
+        assert !dir.exists()
         dir.mkdir()
         this.dataHomeDirectoryAssertions()
     }

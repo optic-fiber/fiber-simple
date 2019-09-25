@@ -32,22 +32,35 @@ class BackupServiceImpl implements BackupService {
         this.jsonBackupFileName = jsonBackupFileName
     }
 
+    private String getJsonBackupFilePath() {
+        System.getProperty('user.home') +
+                System.getProperty("file.separator") +
+                this.homeDirectoryName +
+                System.getProperty("file.separator") +
+                this.jsonBackupFileName
+    }
+
     @Override
     Boolean isDataBackupFileExists() {
         log.info("${this.class.simpleName}.isDataBackupFileExists()")
-        false
+        File file = new File(this.getJsonBackupFilePath())
+        file.exists() && file.isFile() && !file.isDirectory()
     }
 
     void createDataBackupFile() {
         log.info("${this.class.simpleName}.createDataBackupFile()")
+        File file = new File(this.getJsonBackupFilePath())
+        if (file.exists()) {
+            if (file.isDirectory()) {
+                file.deleteDir()
+                file.createNewFile()
+            }
+        } else file.createNewFile()
+        assert file.exists()
+        assert file.isFile()
+        assert !file.isDirectory()
     }
 
-    private String getJsonBackupFilePath() {
-        System.getProperty('user.home') +
-                this.homeDirectoryName +
-                System.getProperty("path.separator") +
-                this.jsonBackupFileName
-    }
 
     @Override
     @PostConstruct
@@ -57,12 +70,7 @@ class BackupServiceImpl implements BackupService {
         this.settingService.settingUpApp()
         this.isDataBackupFileExists() ?:
                 this.createDataBackupFile()
-        try {
-            this.interService
-                    .importJsonFromFile(
-                            this.getJsonBackupFilePath())
-        } catch (IOException ioe) {
-            log.debug(ioe.stackTrace.toArrayString())
-        }
+        this.interService.importJsonFromFile(
+                this.getJsonBackupFilePath())
     }
 }
