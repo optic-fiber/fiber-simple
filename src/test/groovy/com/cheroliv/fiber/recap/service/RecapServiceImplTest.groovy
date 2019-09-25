@@ -31,7 +31,7 @@ class RecapServiceImplTest
 //    @Autowired
 //    RecapService recapService
 //    @Autowired
-//    InterService interService
+//    InterDataService interService
 //
 //
 //    @BeforeEach

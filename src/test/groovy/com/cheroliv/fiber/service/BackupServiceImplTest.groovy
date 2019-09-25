@@ -38,7 +38,6 @@ class BackupServiceImplTest {
                 this.jsonBackupFileName
     }
 
-
     private void deleteJsonfile() {
         File file = new File(this.getJsonBackupFilePath())
         if (file.exists() && file.isFile()) file.delete()

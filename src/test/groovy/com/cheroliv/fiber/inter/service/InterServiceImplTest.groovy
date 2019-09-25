@@ -34,7 +34,7 @@ class InterServiceImplTest
 {
 
 //    @Autowired
-//    InterService interService
+//    InterDataService interService
 //
 //    @BeforeEach
 //    void setUp() {

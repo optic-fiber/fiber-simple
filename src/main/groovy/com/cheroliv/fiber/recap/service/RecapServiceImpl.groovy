@@ -23,7 +23,7 @@ class RecapServiceImpl
 //    final String classeurPathName
 //    final String fiberUserDataFolderName
 //    final String classeurDirectoryName
-//    final InterService interService
+//    final InterDataService interService
 //    final InterRepository interRepository
 //    SpreadsheetRecap classeur
 //    @NotNull
@@ -43,7 +43,7 @@ class RecapServiceImpl
 //                    fiberUserDataFolderName,
 //            @Value('${classeurDirectoryName}')
 //                    classeurDirectoryName,
-//            InterService interService,
+//            InterDataService interService,
 //            InterRepository interRepository) {
 //        this.interRepository = interRepository
 //        this.interService = interService

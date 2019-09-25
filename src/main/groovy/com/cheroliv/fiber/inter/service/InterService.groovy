@@ -1,22 +1,17 @@
 package com.cheroliv.fiber.inter.service
 
-import com.cheroliv.fiber.inter.domain.Inter
-
+import com.cheroliv.fiber.inter.model.InterDto
 
 interface InterService {
-    Inter find(String nd, String type)
+    InterDto getFirst()
 
-    Integer countMois()
+    InterDto getPrevious(Long id)
 
-    List<Map<String, Integer>> findAllMoisFormatFrParAnnee()
+    void create(InterDto interDto)
 
-    String getFiberJsonFilePath(String baseFolderPath)
+    void getNextInter(Long id)
 
-    void setUp()
+    InterDto getNext(Long id)
 
-    void importJsonFromFile(String path) throws IOException
-
-    String buildJsonInter(Inter inter)
-
-    void saveToJsonFile(String path) throws IOException
+    InterDto getLast()
 }

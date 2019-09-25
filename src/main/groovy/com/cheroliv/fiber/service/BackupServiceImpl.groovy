@@ -1,13 +1,12 @@
 package com.cheroliv.fiber.service
 
-import com.cheroliv.fiber.inter.service.InterService
+
+import com.cheroliv.fiber.inter.service.InterDataService
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-
-import javax.annotation.PostConstruct
 
 @Slf4j
 @Service
@@ -15,13 +14,13 @@ import javax.annotation.PostConstruct
 class BackupServiceImpl implements BackupService {
 
     final SettingService settingService
-    final InterService interService
+    final InterDataService interService
     final String homeDirectoryName
     final String jsonBackupFileName
 
     @Autowired
     BackupServiceImpl(SettingService settingService,
-                      InterService interService,
+                      InterDataService interService,
                       @Value('${application.data.home-directory-name}')
                               String homeDirectoryName,
                       @Value('${application.data.json-backup-file-name}')
@@ -63,7 +62,6 @@ class BackupServiceImpl implements BackupService {
 
 
     @Override
-    @PostConstruct
     void loadBackupInDatabase() {
         log.info("${this.class.simpleName}" +
                 ".loadBackupInDatabase()")

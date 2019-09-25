@@ -1,7 +1,7 @@
 package com.cheroliv.fiber.recap.spreadsheet
 
 //import com.cheroliv.fiber.repository.AbstractInterTestCase
-//import com.cheroliv.com.cheroliv.fiber.inter.service.InterService
+//import com.cheroliv.com.cheroliv.fiber.inter.service.InterDataService
 //import com.cheroliv.com.cheroliv.fiber.recap.service.RecapService
 //import groovy.transform.CompileStatic
 //import groovy.util.logging.Slf4j
@@ -32,7 +32,7 @@ class SpreadsheetRecapTest
 //    @Autowired
 //    RecapService recapService
 //    @Autowired
-//    InterService interService
+//    InterDataService interService
 //
 //   @BeforeEach
 //    void setUp() {

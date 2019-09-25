@@ -10,9 +10,6 @@ import java.text.MessageFormat
 @Service
 class MessageServiceImpl extends AbstractMessageSource implements MessageService {
 
-
-
-
     @Override
     MessageFormat resolveCode(final String code, final Locale locale) {
         null
