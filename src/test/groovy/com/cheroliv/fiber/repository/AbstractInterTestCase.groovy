@@ -16,6 +16,7 @@ import org.springframework.core.io.Resource
 import org.springframework.transaction.annotation.Transactional
 
 import javax.validation.Validator
+import java.nio.charset.StandardCharsets
 import java.time.*
 import java.time.format.DateTimeFormatter
 
@@ -63,11 +64,17 @@ abstract class AbstractInterTestCase {
     void setUp() {
         populateDB()
     }
-
+    String getJsonBackupFilePath() {
+        System.getProperty('user.home') +
+                System.getProperty('file.separator') +
+                this.homeDirectoryName +
+                System.getProperty('file.separator') +
+                this.jsonBackupFileName
+    }
 
     List<Map<String, String>> getJsonData() {
         new JsonSlurper()?.parseText(resourceFile
-                .file.getText('utf-8')
+                .file.getText( StandardCharsets.UTF_8.name())
         ) as List<Map<String, String>>
     }
 
@@ -114,6 +121,19 @@ abstract class AbstractInterTestCase {
         list
     }
 
+    List<Map<String, Integer>> getMoisFormatFrParAnnee() {
+        List<List<Integer>> anneesMoisData = getAnneesMoisDistinct()
+        List<Map<String, Integer>> finalResult =
+                new ArrayList<Map<String, Integer>>(anneesMoisData.size())
+        anneesMoisData.eachWithIndex { item, idx ->
+            Integer intMois = item.get 0
+            Integer annee = item.get 1
+            Map<String, Integer> map = new HashMap<String, Integer>(1)
+            map[InterUtils.convertNombreEnMois(intMois)] = annee
+            finalResult.add idx, map
+        }
+        finalResult
+    }
 
     @Transactional
     void populateDB() {

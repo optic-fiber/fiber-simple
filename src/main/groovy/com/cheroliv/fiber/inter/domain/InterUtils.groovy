@@ -65,7 +65,7 @@ class InterUtils {
     }
 
 
-    static Inter mapToInstance(Map<String, String> map) {
+    static Inter mapToInter(Map<String, String> map) {
         new Inter(
                 id: Long.parseLong(map[InterConstants.ID_INTER_JSON_FIELD_NAME]),
                 nd: map[InterConstants.ND_INTER_JSON_FIELD_NAME],
@@ -165,7 +165,7 @@ class InterUtils {
                 zoneId)
     }
 
-//    static Inter mapToInstance(Map<String,String> map){
+//    static Inter mapToInter(Map<String,String> map){
 //        new Inter(
 //                id: Long.parseLong(map["id"]),
 //                nd: map["nd"],
