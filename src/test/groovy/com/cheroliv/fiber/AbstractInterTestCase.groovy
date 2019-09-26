@@ -1,4 +1,4 @@
-package com.cheroliv.fiber.repository
+package com.cheroliv.fiber
 
 import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.InterConstants

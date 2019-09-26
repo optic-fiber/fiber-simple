@@ -1,6 +1,6 @@
 package com.cheroliv.fiber.recap.cucumber.stepdefs
 
-//import com.cheroliv.fiber.repository.AbstractInterTestCase
+//import com.cheroliv.fiber.AbstractInterTestCase
 //import com.cheroliv.fiber.inter.domain.Inter
 //import com.cheroliv.com.cheroliv.fiber.recap.service.RecapService
 //import io.cucumber.java.en.And

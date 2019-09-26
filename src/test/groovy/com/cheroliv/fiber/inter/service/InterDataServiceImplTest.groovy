@@ -2,7 +2,7 @@ package com.cheroliv.fiber.inter.service
 
 import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.InterUtils
-import com.cheroliv.fiber.repository.AbstractInterTestCase
+import com.cheroliv.fiber.AbstractInterTestCase
 import com.google.common.collect.Maps
 import groovy.json.JsonSlurper
 import groovy.transform.TypeChecked
@@ -103,7 +103,7 @@ class InterDataServiceImplTest extends AbstractInterTestCase {
 //        String path = jsonDatasetPath
         assert resourceFile.exists()
         Object jsonInters = new JsonSlurper().parse resourceFile.getFile()
-        interDataService.importJsonFromFile("supprimer cette argument")
+        interDataService.importJsonFromFile()
         assert interRepository.count() == (jsonInters as List<Map<String, String>>).size()
         //test toutes les données sont conformes
         List<Map<String, String>> expectedData = this.getJsonData()

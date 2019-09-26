@@ -11,7 +11,7 @@ interface InterDataService {
 
     String getJsonBackupFilePath()
 
-    void importJsonFromFile(String path) throws IOException
+    void importJsonFromFile() throws IOException
 
     String buildJsonInter(Inter inter)
 

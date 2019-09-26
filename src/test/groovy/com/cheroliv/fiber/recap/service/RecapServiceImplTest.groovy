@@ -2,7 +2,7 @@ package com.cheroliv.fiber.recap.service
 
 //import com.cheroliv.com.cheroliv.fiber.recap.spreadsheet.SpreadsheetRecap
 //import com.cheroliv.com.cheroliv.fiber.recap.model.Recap
-//import com.cheroliv.fiber.repository.AbstractInterTestCase
+//import com.cheroliv.fiber.AbstractInterTestCase
 //import com.cheroliv.fiber.inter.domain.Inter
 //import com.cheroliv.fiber.inter.domain.InterUtils
 //import com.google.common.collect.Maps

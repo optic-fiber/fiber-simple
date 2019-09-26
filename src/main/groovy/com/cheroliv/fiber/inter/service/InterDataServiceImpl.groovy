@@ -106,7 +106,7 @@ class InterDataServiceImpl implements InterDataService {
     }
 
     @Transactional
-    void importJsonFromFile(String path) throws IOException {
+    void importJsonFromFile() throws IOException {
         Object jsonInters = new JsonSlurper().parse(resourceFile.getFile())
         (jsonInters as List<Map<String, String>>).each { Map<String, String> it ->
             if (!it.isEmpty()) {
@@ -125,7 +125,10 @@ class InterDataServiceImpl implements InterDataService {
                                         lastNameClient: it[InterConstants.LASTNAME_INTER_JSON_FIELD_NAME],
                                         firstNameClient: it[InterConstants.FIRSTNAME_INTER_JSON_FIELD_NAME],
                                         dateTimeInter: zonedDateTime,
-                                        contract: InterContractEnum.valueOfName(it[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME]),
+                                        contract: InterContractEnum.valueOfName(
+                                                it[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME] == 'Passage de cable' ?
+                                                        InterContractEnum.CABLE_ROUTING.name() :
+                                                        it[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME]),
                                         typeInter: InterTypeEnum.valueOfName(it[InterConstants.TYPE_INTER_JSON_FIELD_NAME])))
             }
         }
@@ -176,8 +179,3 @@ class InterDataServiceImpl implements InterDataService {
 }
 
 
-class InterNotFoundException extends RuntimeException {
-    InterNotFoundException(String message) {
-        super(message)
-    }
-}

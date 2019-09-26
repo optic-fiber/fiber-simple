@@ -1,61 +1,96 @@
 package com.cheroliv.fiber.inter.domain
 
-//import groovy.json.JsonSlurper
-//import groovy.transform.CompileStatic
-//import groovy.util.logging.Slf4j
+import groovy.json.JsonSlurper
+import groovy.transform.CompileStatic
+
+//import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
 //import org.junit.jupiter.api.MethodOrderer
-//import org.junit.jupiter.api.Order
-//import org.junit.jupiter.api.Test
-//import org.junit.jupiter.api.TestMethodOrder
 //import org.junit.jupiter.api.extension.ExtendWith
-//import org.springframework.beans.factory.annotation.Autowired
-//import org.springframework.boot.test.context.SpringBootTest
-//import org.springframework.context.ApplicationContext
 //import org.springframework.test.context.ActiveProfiles
 //import org.springframework.test.context.junit.jupiter.SpringExtension
-//
-//import javax.validation.ConstraintViolation
-//import javax.validation.Validator
 //import java.time.LocalDate
 //import java.time.LocalTime
-//
-//import static com.cheroliv.fiber.inter.domain.InterUtils.*
-//import static com.xlson.groovycsv.CsvParser.parseCsv
 //import static java.lang.Long.parseLong
-//
-//@Slf4j
-//@CompileStatic
-//@SpringBootTest
-//@ActiveProfiles("test")
-//@ExtendWith(SpringExtension.class)
-//@TestMethodOrder(MethodOrderer.OrderAnnotation)
+
+import groovy.util.logging.Slf4j
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
+import org.junit.jupiter.api.Order
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestMethodOrder
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.ApplicationContext
+import org.springframework.core.io.Resource
+
+import javax.validation.ConstraintViolation
+import javax.validation.Validator
+import java.nio.charset.StandardCharsets
+
+import static com.cheroliv.fiber.inter.domain.InterUtils.getNOT_NULL_CSTRT_TEMPLATE_MSG
+import static com.xlson.groovycsv.CsvParser.parseCsv
+
+@Slf4j
+@CompileStatic
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@TestMethodOrder(OrderAnnotation)
 class InterTest {
 
-//    static Integer interFieldMapSize = 7
-//
-//
-//    @Autowired
-//    ApplicationContext applicationContext
-//    @Autowired
-//    Validator validator
-//
-//    //Recupere les données du fichier CSV dans un iterator
-//    Iterator getCsvData() {
-//        parseCsv applicationContext
-//                .getResource("classpath:inter.csv")
-//                .file
-//                .getText('utf-8'),
-//                separator: ',',
-//                readFirstLine: false
-//    }
-//
-//    List<Map<String, String>> getJsonData() {
-//        new JsonSlurper().parseText(applicationContext
-//                .getResource("classpath:inter.json")
-//                .file
-//                .getText('utf-8')) as List<Map<String, String>>
-//    }
-//
+    static Integer interFieldMapSize = 7
+
+
+    @Autowired
+    ApplicationContext applicationContext
+    @Autowired
+    Validator validator
+    @Value('${application.data.home-directory-name}')
+    String homeDirectoryName
+    @Value('${application.data.json-backup-file-name}')
+    String jsonBackupFileName
+    @Value("classpath:inters.json")
+    Resource resourceFile
+
+    //Recupere les données du fichier CSV dans un iterator
+    Iterator getCsvData() {
+        parseCsv(resourceFile
+                .file
+                .getText(StandardCharsets.UTF_8.name()),
+                separator: ',',
+                readFirstLine: false)
+    }
+
+    List<Map<String, String>> getJsonData() {
+        new JsonSlurper().parseText(resourceFile
+                .file
+                .getText('utf-8')
+        ) as List<Map<String, String>>
+    }
+
+
+    @Test
+    @Order(3)
+    @Disabled
+    @DisplayName('testNdNotNullConstraint')
+    void testNdNotNullConstraint() {
+        Inter inter = new Inter()
+        Set<ConstraintViolation<Inter>> constraintViolations =
+                validator.validateProperty inter, "nd"
+        assert constraintViolations
+                .iterator()
+                .next()
+                .messageTemplate ==
+                NOT_NULL_CSTRT_TEMPLATE_MSG
+
+        inter.nd = "0101010101"
+        constraintViolations =
+                validator.validateProperty inter, "nd"
+        assert constraintViolations.size() == 0
+    }
+
+
+
 //    @Test
 //    @Order(1)
 //    void testTimeStringToInteger() {
@@ -92,27 +127,11 @@ class InterTest {
 //            assert interFieldMapSize == interCsv.toArrayString().size()
 //        }
 //    }
-//
-//
-//    @Test
-//    @Order(3)
-//    void testNdNotNullConstraint() {
-//        Inter inter = new Inter()
-//        Set<ConstraintViolation<Inter>> constraintViolations =
-//                validator.validateProperty inter, "nd"
-//        assert constraintViolations
-//                .iterator()
-//                .next()
-//                .messageTemplate ==
-//                NOT_NULL_CSTRT_TEMPLATE_MSG
-//
-//        inter.nd = "0101010101"
-//        constraintViolations =
-//                validator.validateProperty inter, "nd"
-//        assert constraintViolations.size() == 0
-//    }
-//
-//
+
+
+
+
+
 //    @Test
 //    @Order(4)
 //    void testNdSizeConstraint() {
@@ -146,7 +165,7 @@ class InterTest {
 //                .messageTemplate ==
 //                NOT_NULL_CSTRT_TEMPLATE_MSG
 //
-//        inter.type = "BAAP"
+//        inter.typeInter = InterTypeEnum.valueOfName("BAAP")
 //        constraintViolations =
 //                validator.validateProperty inter, "type"
 //        assert constraintViolations.size() == 0
@@ -164,25 +183,25 @@ class InterTest {
 //                .messageTemplate ==
 //                PATTERN_CSTRT_TEMPLATE_MSG
 //
-//        inter.type = "BAAP"
+//        inter.typeInter = InterTypeEnum.valueOfName("BAAP")
 //        constraintViolations =
-//                validator.validateProperty inter, "type"
+//                validator.validateProperty inter, "typeInter"
 //        assert constraintViolations.size() == 0
-//        inter.type = "BAOC"
+//        inter.typeInter = InterTypeEnum.valueOfName("BAOC")
 //        constraintViolations =
-//                validator.validateProperty inter, "type"
+//                validator.validateProperty inter, "typeInter"
 //        assert constraintViolations.size() == 0
-//        inter.type = "BAFA"
+//        inter.typeInter = InterTypeEnum.valueOfName("BAFA")
 //        constraintViolations =
-//                validator.validateProperty inter, "type"
+//                validator.validateProperty inter, "typeInter"
 //        assert constraintViolations.size() == 0
-//        inter.type = "BAST"
+//        inter.typeInter = InterTypeEnum.valueOfName("BAST")
 //        constraintViolations =
-//                validator.validateProperty inter, "type"
+//                validator.validateProperty inter, "typeInter"
 //        assert constraintViolations.size() == 0
-//        inter.type = "PLP"
+//        inter.typeInter = InterTypeEnum.valueOfName("PLP")
 //        constraintViolations =
-//                validator.validateProperty inter, "type"
+//                validator.validateProperty inter, "typeInter"
 //        assert constraintViolations.size() == 0
 //    }
 //
@@ -198,7 +217,7 @@ class InterTest {
 //                .messageTemplate,
 //                NOT_NULL_CSTRT_TEMPLATE_MSG
 //
-//        inter.contrat = "LM"
+//        inter.contract = "LM"
 //        constraintViolations =
 //                validator.validateProperty inter, "contrat"
 //        assert constraintViolations.size() == 0

@@ -1,6 +1,6 @@
 package com.cheroliv.fiber.recap.spreadsheet
 
-//import com.cheroliv.fiber.repository.AbstractInterTestCase
+//import com.cheroliv.fiber.AbstractInterTestCase
 //import com.cheroliv.com.cheroliv.fiber.inter.service.InterDataService
 //import com.cheroliv.com.cheroliv.fiber.recap.service.RecapService
 //import groovy.transform.CompileStatic

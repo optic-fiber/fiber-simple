@@ -5,7 +5,7 @@ import com.cheroliv.fiber.inter.domain.InterConstants
 import com.cheroliv.fiber.inter.domain.InterUtils
 import com.cheroliv.fiber.inter.domain.enumeration.InterContractEnum
 import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
-import com.cheroliv.fiber.repository.AbstractInterTestCase
+import com.cheroliv.fiber.AbstractInterTestCase
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
 import org.junit.jupiter.api.*

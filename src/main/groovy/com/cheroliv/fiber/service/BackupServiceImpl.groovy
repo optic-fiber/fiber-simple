@@ -66,6 +66,6 @@ class BackupServiceImpl implements BackupService {
         this.isDataBackupFileExists() ?:
                 this.createDataBackupFile()
         this.interService.importJsonFromFile(
-                this.getJsonBackupFilePath())
+        )
     }
 }
