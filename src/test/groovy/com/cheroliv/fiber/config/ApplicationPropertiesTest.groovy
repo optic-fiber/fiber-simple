@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationContextAware
 import org.springframework.core.io.Resource
 
 @Slf4j
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @DisplayName('ApplicationPropertiesTest')
 class ApplicationPropertiesTest implements ApplicationContextAware {
 

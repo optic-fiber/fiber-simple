@@ -11,9 +11,10 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 import java.time.ZonedDateTime
 
-@TypeChecked
-@ToString
+
 @Entity
+@ToString
+@TypeChecked
 @Table(name = "`inter`", indexes = [
         @Index(name = "`uniq_idx_inter_nd_type`", columnList = "`nd`,`type_inter`", unique = true),
         @Index(name = "`idx_inter_type`", columnList = "`type_inter`"),
@@ -73,21 +74,6 @@ class Inter implements Serializable {
 //        strings
 //    }
 
-//    boolean equals(o) {
-//        if (this.is(o)) return true
-//        if (!(o instanceof Inter)) return false
-//
-//        Inter inter = (Inter) o
-//
-//        if (contrat != inter.contrat) return false
-//        if (date != inter.date) return false
-//        if (heure != inter.heure) return false
-//        if (nd != inter.nd) return false
-//        if (nom != inter.nom) return false
-//        if (prenom != inter.prenom) return false
-//        if (type != inter.type) return false
-//        return true
-//    }
     boolean equals(o) {
         if (this.is(o)) return true
         if (this.class != o.class) return false
@@ -103,18 +89,6 @@ class Inter implements Serializable {
 
         return true
     }
-//    int hashCode() {
-//        int result
-//        result = (nd != null ? nd.hashCode() : 0)
-//        result = 31 * result + (type != null ? type.hashCode() : 0)
-//        result = 31 * result + (contrat != null ? contrat.hashCode() : 0)
-//        result = 31 * result + (heure != null ? heure.hashCode() : 0)
-//        result = 31 * result + (date != null ? date.hashCode() : 0)
-//        result = 31 * result + (nom != null ? nom.hashCode() : 0)
-//        result = 31 * result + (prenom != null ? prenom.hashCode() : 0)
-//        return result
-//    }
-
 
     int hashCode() {
         int result
@@ -127,20 +101,3 @@ class Inter implements Serializable {
         return result
     }
 }
-/*
-
-
-    @NotNull
-    @Valid
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false, name = "`planning_id`")
-    Planning planning
-
-
-
-
-
-
-}
-
- */

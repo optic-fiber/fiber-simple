@@ -1,18 +1,20 @@
 package com.cheroliv.fiber.inter.service
 
-//import com.cheroliv.fiber.repository.AbstractInterTestCase
-//import com.cheroliv.fiber.inter.domain.Inter
-//import com.cheroliv.fiber.inter.domain.InterUtils
+import com.cheroliv.fiber.inter.domain.Inter
+import com.cheroliv.fiber.inter.domain.InterUtils
+import com.cheroliv.fiber.repository.AbstractInterTestCase
+import groovy.transform.TypeChecked
+import groovy.util.logging.Slf4j
+import org.junit.jupiter.api.*
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+
 //import com.google.common.collect.Maps
 //import groovy.json.JsonSlurper
-//import groovy.transform.CompileStatic
-//import groovy.util.logging.Slf4j
 //import org.apache.commons.io.FilenameUtils
-//import org.junit.jupiter.api.*
 //import org.junit.jupiter.api.extension.ExtendWith
 //import org.skyscreamer.jsonassert.JSONAssert
-//import org.springframework.beans.factory.annotation.Autowired
-//import org.springframework.boot.test.context.SpringBootTest
 //import org.springframework.data.domain.Sort
 //import org.springframework.test.annotation.Rollback
 //import org.springframework.test.context.ActiveProfiles
@@ -22,47 +24,47 @@ package com.cheroliv.fiber.inter.service
 //import java.nio.file.Path
 //import java.nio.file.Paths
 //import java.text.SimpleDateFormat
-//
-//@Slf4j
-//@CompileStatic
-//@SpringBootTest
-//@ActiveProfiles("test")
-//@ExtendWith(SpringExtension.class)
-//@TestMethodOrder(MethodOrderer.OrderAnnotation)
-class InterServiceImplTest
-//        extends AbstractInterTestCase
-{
 
-//    @Autowired
-//    InterDataService interService
-//
-//    @BeforeEach
-//    void setUp() {
-//        super.setUp()
-//    }
-//
-//    @Test
-//    @Order(1)
-//    void testFind_withNdAndType() {
-//        Map<String, String> expectedMap = jsonData.first()
-//        Inter expectedInter = InterUtils.mapToInstance(expectedMap)
-//        assert expectedInter.equals(
-//                interService.find(expectedInter.nd,
-//                        expectedInter.type))
-//    }
-//
-//    @Test
-//    @Order(2)
-//    void testCountMois() {
-//        assert anneesMois.size() == interService.countMois()
-//    }
+@Slf4j
+@TypeChecked
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@TestMethodOrder(OrderAnnotation)
+class InterDataServiceImplTest extends AbstractInterTestCase {
+
+
+    @Autowired
+    InterDataService interDataService
+
+    @BeforeEach
+    void setUp() {
+        super.setUp()
+    }
+
+    @Test
+    @Order(1)
+    @DisplayName('testFind_withNdAndType')
+    void testFind_withNdAndType() {
+        Map<String, String> expectedMap = this.getJsonData().first()
+        Inter expectedInter = InterUtils.mapToInstance(expectedMap)
+        assert expectedInter.equals(
+                interDataService.find(expectedInter.nd,
+                        expectedInter.typeInter.name()))
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName('testCountMois')
+    void testCountMois() {
+        assert this.getAnneesMoisDistinct()
+                .size() == interDataService.countMois()
+    }
 //
 //
 //    @Test
 //    @Order(3)
 //    void testFindAllMoisFormatFrParAnnee() {
 //        List<Map<String, Integer>> expectedResult = moisFormatFrParAnnee
-//        interService.findAllMoisFormatFrParAnnee()
+//        interDataService.findAllMoisFormatFrParAnnee()
 //                .eachWithIndex { Map<String, Integer> entry, int i ->
 //                    assert Maps.difference(
 //                            expectedResult.get(i), entry)
@@ -81,7 +83,7 @@ class InterServiceImplTest
 //                "$jsonBackUpFileName").toString()
 //
 //        assert expectedPath ==
-//                interService.getFiberJsonFilePath(baseFolderPath)
+//                interDataService.getJsonBackupFilePath(baseFolderPath)
 //    }
 //
 //    @Test
@@ -89,7 +91,7 @@ class InterServiceImplTest
 //    void testSetUp() {
 //        Path path = Paths.get "${System.getProperty("user.home")}$separator" +
 //                "$fiberUserDataFolderName"
-//        interService.setUp()
+//        interDataService.setUp()
 //        assert path.toFile().exists()
 //        assert path.toFile().directory
 //    }
@@ -104,7 +106,7 @@ class InterServiceImplTest
 //        String path = jsonDatasetPath
 //        assert new File(path).exists()
 //        Object jsonInters = new JsonSlurper().parse new File(path)
-//        interService.importJsonFromFile(path)
+//        interDataService.importJsonFromFile(path)
 //        assert interRepository.count() == (jsonInters as List<Map<String, String>>).size()
 //        //test toutes les données sont conformes
 //        List<Map<String, String>> expectedData = jsonData
@@ -123,7 +125,7 @@ class InterServiceImplTest
 //    @Order(6)
 //    void testBuildJsonInter_withInter() {
 //        String expectedJson = "{\"id_inter\":\"1\", \"ND\":\"0144639035\", \"nom\":\"Lalande\", \"prenom\":\"Julien\", \"heure\":\"10:00:00\", \"date\":\"2018-10-29\", \"contrat\":\"IQ\", \"type\":\"BAOC\"}"
-//        String resultJson = interService.buildJsonInter(interRepository.findById(1L).get())
+//        String resultJson = interDataService.buildJsonInter(interRepository.findById(1L).get())
 //        JSONAssert.assertEquals(expectedJson, resultJson, Boolean.TRUE)
 //    }
 //
@@ -136,7 +138,7 @@ class InterServiceImplTest
 //        assert jsonDataFile.exists()
 //        assert !jsonDataFile.directory
 //
-//        interService.saveToJsonFile(jsonDatasetPath)
+//        interDataService.saveToJsonFile(jsonDatasetPath)
 //
 //        String ajout = new SimpleDateFormat("yyyyMMddHHmmss").format new Date()
 //        String jsonBackUpFilename = "${FilenameUtils.removeExtension path}${ajout}.json"

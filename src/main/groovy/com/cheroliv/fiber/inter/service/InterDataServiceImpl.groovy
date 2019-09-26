@@ -1,103 +1,101 @@
 package com.cheroliv.fiber.inter.service
 
 import com.cheroliv.fiber.inter.domain.Inter
+import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
+import com.cheroliv.fiber.inter.repository.InterRepository
 import groovy.transform.TypeChecked
-
-//import com.cheroliv.fiber.dao.InterRepository
-//import com.cheroliv.fiber.inter.domain.Inter
-//import com.cheroliv.fiber.inter.domain.InterUtils
-//import groovy.json.JsonBuilder
-//import groovy.json.JsonSlurper
-//import groovy.transform.TypeCheckingMode
 import groovy.util.logging.Slf4j
-//import org.apache.commons.io.FilenameUtils
-//import org.springframework.beans.factory.annotation.Autowired
-//import org.springframework.beans.factory.annotation.Value
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-//import org.springframework.transaction.annotation.Transactional
-//
+//import com.cheroliv.fiber.inter.domain.InterConstants
+//import com.cheroliv.fiber.inter.domain.InterUtils
+//import com.cheroliv.fiber.inter.domain.enumeration.InterContractEnum
+//import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
+//import groovy.json.JsonBuilder
+//import groovy.json.JsonSlurper
+//import groovy.transform.TypeCheckingMode
+//import org.apache.commons.io.FilenameUtils
 //import java.nio.charset.StandardCharsets
-//import java.nio.file.Files
-//import java.nio.file.LinkOption
-//import java.nio.file.Path
-//import java.nio.file.Paths
 //import java.text.SimpleDateFormat
+//import java.time.LocalDateTime
+//import java.time.ZoneId
+//import java.time.ZonedDateTime
 //import java.time.format.DateTimeFormatter
-//
+
 @Slf4j
 @Service
 @TypeChecked
-@Transactional
-class InterDataServiceImpl implements InterDataService{
+@Transactional(readOnly = true)
+class InterDataServiceImpl implements InterDataService {
 
- @Override
- Inter find(String nd, String type) {
-  return null
- }
 
- @Override
- Integer countMois() {
-  return null
- }
+    final InterRepository interRepository
+    final String homeDirectoryName
+    final String jsonBackupFileName
+    final Resource resourceFile
 
- @Override
- List<Map<String, Integer>> findAllMoisFormatFrParAnnee() {
-  return null
- }
+    InterDataServiceImpl(
+            @Value('${application.data.home-directory-name}')
+                    String homeDirectoryName,
+            @Value('${application.data.json-backup-file-name}')
+                    String jsonBackupFileName,
+            @Value("classpath:inters.json")
+                    Resource resourceFile,
+            InterRepository interRepository) {
+        this.interRepository = interRepository
+        this.homeDirectoryName = homeDirectoryName
+        this.jsonBackupFileName = jsonBackupFileName
+        this.resourceFile = resourceFile
+    }
 
- @Override
- String getFiberJsonFilePath(String baseFolderPath) {
-  return null
- }
+    @Override
+    String getJsonBackupFilePath() {
+        System.getProperty('user.home') +
+                System.getProperty('file.separator') +
+                this.homeDirectoryName +
+                System.getProperty('file.separator') +
+                this.jsonBackupFileName
+    }
 
- @Override
- void importJsonFromFile(String path) throws IOException {
 
- }
+    @Override
+    Inter find(String nd, String type) {
+        Optional<Inter> result = this.interRepository.find(
+                nd, InterTypeEnum.valueOfName(type))
+        if (result.present)
+            result.get()
+        else throw new InterNotFoundException("nd : $nd, type:$type")
+    }
 
- @Override
- String buildJsonInter(Inter inter) {
-  return null
- }
 
- @Override
- void saveToJsonFile(String path) throws IOException {
+    @Override
+    Integer countMois() {
+        interRepository.distinctMoisParAnnee()?.size() ?: 0
+    }
 
- }
-}
+    List<Map<String, Integer>> findAllMoisFormatFrParAnnee() {
+        return null
+    }
 
-//{
-//    final InterRepository interRepository
-//    final String fiberUserDataFolderName
-//    final String jsonBackUpFileName
+    void importJsonFromFile(String path) throws IOException {
+
+    }
+
+    String buildJsonInter(Inter inter) {
+        return null
+    }
+
+    void saveToJsonFile(String path) throws IOException {
+
+    }
+
 //
-//    @Autowired
-//    InterDataServiceImpl(@Value('${fiberUserDataFolderName}')
-//                             String fiberUserDataFolderName,
-//                     @Value('${jsonBackUpFileName}')
-//                             String jsonBackUpFileName,
-//                     InterRepository interRepository) {
-//        this.interRepository = interRepository
-//        this.fiberUserDataFolderName = fiberUserDataFolderName
-//        this.jsonBackUpFileName = jsonBackUpFileName
-//    }
 //
-//    @Transactional(readOnly = true)
-//    @Override
-//    Inter find(String nd, String type) {
-//        Optional<Inter> result = interRepository.find nd, type
-//        if (result.present) result.get()
-//        else throw new NoSuchElementException("No value present for find($nd, $type)")
-//    }
-//
-//
-//    @Transactional(readOnly = true)
-//    @Override
-//    Integer countMois() {
-//        interRepository.distinctMoisParAnnee()?.size() ?: 0
-//    }
+
+
 //
 //    @Transactional(readOnly = true)
 //    @Override
@@ -116,56 +114,52 @@ class InterDataServiceImpl implements InterDataService{
 //        finalResult
 //    }
 //
-//    String getFiberJsonFilePath(String baseFolderPath) {
-//        String separator =
-//                Paths.get(System.getProperty("user.home"))
-//                        .fileSystem
-//                        .separator
-//        Paths.get("${baseFolderPath}" +
-//                "$separator$fiberUserDataFolderName" +
-//                "$separator" +
-//                "$jsonBackUpFileName").toString()
-//    }
-//
-//    @Transactional
 //    @Override
+//    @Transactional
 //    void importJsonFromFile(String path) throws IOException {
 //        Object jsonInters = new JsonSlurper().parse(new File(path))
 //        (jsonInters as List<Map<String, String>>).each { Map<String, String> it ->
 //            if (!it.isEmpty()) {
+//                LocalDateTime localDateTime = LocalDateTime.of(
+//                        InterUtils.parseStringDateToLocalDate(it[InterConstants.DATE_INTER_JSON_FIELD_NAME]),
+//                        InterUtils.parseStringHeureToLocalTime(it[InterConstants.HOUR_INTER_JSON_FIELD_NAME]))
+//                ZoneId zone = ZoneId.systemDefault()
+//                ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, zone)
 //                interRepository.find(
-//                        it["ND"], it["type"]) ?: interRepository
-//                        .save(new Inter(nd: it["ND"],
-//                                nom: it["nom"],
-//                                prenom: it["prenom"],
-//                                heure: InterUtils.parseStringHeureToLocalTime(it["heure"]),
-//                                date: InterUtils.parseStringDateToLocalDate(it["date"]),
-//                                contrat: it["contrat"],
-//                                type: it["type"]))
+//                        it[InterConstants.ND_INTER_JSON_FIELD_NAME],
+//                        InterTypeEnum.valueOfName(
+//                                it[InterConstants.TYPE_INTER_JSON_FIELD_NAME])) ?:
+//                        interRepository
+//                                .save(new Inter(
+//                                        nd: it[InterConstants.ND_INTER_JSON_FIELD_NAME],
+//                                        lastNameClient: it[InterConstants.LASTNAME_INTER_JSON_FIELD_NAME],
+//                                        firstNameClient: it[InterConstants.FIRSTNAME_INTER_JSON_FIELD_NAME],
+//                                        dateTimeInter: zonedDateTime,
+//                                        contract: InterContractEnum.valueOfName(it[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME]),
+//                                        typeInter: InterTypeEnum.valueOfName(it[InterConstants.TYPE_INTER_JSON_FIELD_NAME])))
 //            }
 //        }
 //    }
 //
-//    @CompileStatic(TypeCheckingMode.SKIP)
 //    @Override
+//    @TypeChecked(TypeCheckingMode.SKIP)
 //    String buildJsonInter(Inter inter) {
 //        JsonBuilder builder = new JsonBuilder()
 //        String result =
 //                builder {
 //                    '"id_inter"' "\"${inter.id}\""
 //                    '"ND"' "\"${inter.nd}\""
-//                    '"nom"' "\"${inter.nom}\""
-//                    '"prenom"' "\"${inter.prenom}\""
-//                    '"heure"' inter.heure.hour > 9 ? "\"${inter.heure.hour}:00:00\"" : "\"0${inter.heure.hour}:00:00\""
-//                    '"date"' "\"${inter.date.format DateTimeFormatter.ofPattern("yyyy-MM-dd")}\""
-//                    '"contrat"' "\"${inter.contrat}\""
-//                    '"type"' "\"${inter.type}\""
+//                    '"nom"' "\"${inter.lastNameClient}\""
+//                    '"prenom"' "\"${inter.firstNameClient}\""
+//                    '"heure"' inter.dateTimeInter.getHour() > 9 ? "\"${inter.dateTimeInter.getHour()}:00:00\"" : "\"0${inter.heure.hour}:00:00\""
+//                    '"date"' "\"${inter.dateTimeInter.format DateTimeFormatter.ofPattern("yyyy-MM-dd")}\""
+//                    '"contrat"' "\"${inter.contract.name()}\""
+//                    '"type"' "\"${inter.typeInter.name()}\""
 //                }.toString()
 //        "{${result.substring(1, result.size() - 1)}}".toString()
 //    }
 //
 //
-//    @CompileStatic
 //    @Transactional(readOnly = true)
 //    @Override
 //    void saveToJsonFile(String path) throws IOException {
@@ -187,4 +181,11 @@ class InterDataServiceImpl implements InterDataService{
 //        jsonBackUpFile.createNewFile()
 //        jsonBackUpFile.setText(jsonList.toListString(), StandardCharsets.UTF_8.toString())
 //    }
-//}
+}
+
+
+class InterNotFoundException extends RuntimeException {
+    InterNotFoundException(String message) {
+        super(message)
+    }
+}

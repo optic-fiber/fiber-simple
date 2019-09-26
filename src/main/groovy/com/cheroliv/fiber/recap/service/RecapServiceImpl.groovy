@@ -3,7 +3,6 @@ package com.cheroliv.fiber.recap.service
 
 //import groovy.transform.CompileStatic
 //import groovy.util.logging.Slf4j
-//import org.springframework.beans.factory.annotation.Autowired
 //import org.springframework.beans.factory.annotation.Value
 //import org.springframework.stereotype.Service
 //import org.springframework.transaction.annotation.Transactional
@@ -35,7 +34,6 @@ class RecapServiceImpl
 //        this.path = path
 //    }
 //
-//    @Autowired
 //    RecapServiceImpl(
 //            @Value('${classeurPathName}')
 //                    String classeurPathName,

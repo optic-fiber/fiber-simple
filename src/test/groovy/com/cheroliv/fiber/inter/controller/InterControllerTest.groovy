@@ -1,19 +1,19 @@
 package com.cheroliv.fiber.inter.controller
 
-//import com.cheroliv.fiber.inter.service.InterService
-//import com.cheroliv.fiber.inter.service.InterDataService
-//import groovy.util.logging.Slf4j
-//import org.junit.jupiter.api.*
-//import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
-//import org.springframework.beans.factory.annotation.Autowired
-//import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-//import org.springframework.boot.test.mock.mockito.MockBean
-//import org.springframework.test.web.servlet.MockMvc
+import com.cheroliv.fiber.inter.service.InterService
+import com.cheroliv.fiber.inter.service.InterDataService
+import groovy.util.logging.Slf4j
+import org.junit.jupiter.api.*
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.web.servlet.MockMvc
 
-//@Slf4j
-//@WebMvcTest(InterController)
-//@TestMethodOrder(OrderAnnotation)
-//@DisplayName("BackupServiceImplTest")
+@Slf4j
+@WebMvcTest(InterController)
+@TestMethodOrder(OrderAnnotation)
+@DisplayName("BackupServiceImplTest")
 class InterControllerTest {
 
 //    @MockBean

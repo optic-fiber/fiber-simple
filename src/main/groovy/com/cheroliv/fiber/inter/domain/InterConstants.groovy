@@ -28,10 +28,19 @@ interface InterConstants {
     static String INTER_TYPE_COLUMN_NAME = 'type'
 
 
+    static final String ID_INTER_JSON_FIELD_NAME="id_inter"
+    static final String ND_INTER_JSON_FIELD_NAME="ND"
+    static final String LASTNAME_INTER_JSON_FIELD_NAME="nom"
+    static final String FIRSTNAME_INTER_JSON_FIELD_NAME="prenom"
+    static final String CONTRACT_INTER_JSON_FIELD_NAME="contrat"
+    static final String HOUR_INTER_JSON_FIELD_NAME="heure"
+    static final String DATE_INTER_JSON_FIELD_NAME="date"
+    static final String TYPE_INTER_JSON_FIELD_NAME="type"
+
+    static final String PASSAGE_DE_CABLE = "Passage de cable"
 
     static final String ND_SIZE_CSTRT_TPL_MSG='{com.cheroliv.fiber.domain.nd.size}'
     static final String ND_NOTNULL_CSTRT_TPL_MSG='{com.cheroliv.fiber.domain.nd.notnull}'
-
 
 
 //    static final String NOT_NULL_CSTRT_TEMPLATE_MSG = "{javax.validation.constraints.NotNull.message}"

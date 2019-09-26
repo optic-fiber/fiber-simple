@@ -2951,7 +2951,7 @@
   },
   {
     "id_inter": "296",
-    "ND": "null",
+    "ND": "0101010101",
     "nom": "Ars Symphonia",
     "prenom": "null",
     "heure": "08:00:00",
@@ -2998,15 +2998,5 @@
     "date": "2019-05-13",
     "contrat": "LM",
     "type": "BAAP"
-  },
-  {
-    "id_inter": "302",
-    "ND": "null",
-    "nom": "Ars Symphonia",
-    "prenom": "null",
-    "heure": "08:00:00",
-    "date": "2019-05-16",
-    "contrat": "LM",
-    "type": "PLP"
   }
 ]

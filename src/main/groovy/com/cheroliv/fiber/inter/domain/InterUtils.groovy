@@ -1,6 +1,12 @@
 package com.cheroliv.fiber.inter.domain
 
+import com.cheroliv.fiber.inter.domain.enumeration.InterContractEnum
+import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
 import groovy.transform.CompileStatic
+
+import java.time.*
+import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
 
 @CompileStatic
 class InterUtils {
@@ -27,15 +33,51 @@ class InterUtils {
     static String INTER_TYPE_COLUMN_NAME = 'type'
 
 
-//    static LocalTime parseStringHeureToLocalTime(String strHeure) {
-//        LocalTime.of(parseInt("${strHeure.charAt(0)}${strHeure.charAt(1)}"), 0)
-//    }
-//
-//    static LocalDate parseStringDateToLocalDate(String strDate) {
-//        LocalDate.parse(strDate,
-//                DateTimeFormatter
-//                        .ofPattern("yyyy-MM-dd"))
-//    }
+    static LocalTime parseStringHeureToLocalTime(String strHeure) {
+        LocalTime.of(Integer.parseInt("${strHeure.charAt(0)}${strHeure.charAt(1)}"), 0)
+    }
+
+
+    static String convertNombreEnMois(Integer mois) throws NumberFormatException {
+//        assert mois > 0 && mois < 13: "mois doit etre entre 1 et 12"
+        switch (mois) {
+            case 1: return Month.JANUARY.getDisplayName(TextStyle.FULL, Locale.FRANCE)
+            case 2: return Month.FEBRUARY.getDisplayName(TextStyle.FULL, Locale.FRANCE)
+            case 3: return Month.MARCH.getDisplayName(TextStyle.FULL, Locale.FRANCE)
+            case 4: return Month.APRIL.getDisplayName(TextStyle.FULL, Locale.FRANCE)
+            case 5: return Month.MAY.getDisplayName(TextStyle.FULL, Locale.FRANCE)
+            case 6: return Month.JUNE.getDisplayName(TextStyle.FULL, Locale.FRANCE)
+            case 7: return Month.JULY.getDisplayName(TextStyle.FULL, Locale.FRANCE)
+            case 8: return Month.AUGUST.getDisplayName(TextStyle.FULL, Locale.FRANCE)
+            case 9: return Month.SEPTEMBER.getDisplayName(TextStyle.FULL, Locale.FRANCE)
+            case 10: return Month.OCTOBER.getDisplayName(TextStyle.FULL, Locale.FRANCE)
+            case 11: return Month.NOVEMBER.getDisplayName(TextStyle.FULL, Locale.FRANCE)
+            case 12: return Month.DECEMBER.getDisplayName(TextStyle.FULL, Locale.FRANCE)
+            default: throw new IllegalArgumentException("mauvais mois dans la base")
+        }
+    }
+
+
+    static LocalDate parseStringDateToLocalDate(String strDate) {
+        LocalDate.parse(strDate,
+                DateTimeFormatter
+                        .ofPattern("yyyy-MM-dd"))
+    }
+
+
+    static Inter mapToInstance(Map<String, String> map) {
+        new Inter(
+                id: Long.parseLong(map[InterConstants.ID_INTER_JSON_FIELD_NAME]),
+                nd: map[InterConstants.ND_INTER_JSON_FIELD_NAME],
+                lastNameClient: map[InterConstants.LASTNAME_INTER_JSON_FIELD_NAME],
+                firstNameClient: map[InterConstants.FIRSTNAME_INTER_JSON_FIELD_NAME],
+                contract: InterContractEnum.valueOfName(map[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME]),
+                typeInter: InterTypeEnum.valueOfName(map[InterConstants.TYPE_INTER_JSON_FIELD_NAME]),
+                dateTimeInter: ZonedDateTime.of(
+                        parseStringDateToLocalDate(map[InterConstants.DATE_INTER_JSON_FIELD_NAME]),
+                        parseStringHeureToLocalTime(map[InterConstants.INTER_HEURE_COLUMN_NAME]),
+                        ZoneId.systemDefault()))
+    }
 //
 //    synchronized static ZonedDateTime getDateTime(LocalDate date, LocalTime time, ZoneId zoneId) {
 //        ZonedDateTime.of(
@@ -48,17 +90,7 @@ class InterUtils {
 //        parseInt "${strHeure.charAt(0)}${strHeure.charAt(1)}"
 //    }
 //
-//    static Inter mapToInstance(Map<String, String> map) {
-//        new Inter(
-//                id: Long.parseLong(map["id_inter"]),
-//                nd: map["ND"],
-//                nom: map["nom"],
-//                prenom: map["prenom"],
-//                contrat: map["contrat"],
-//                type: map["type"],
-//                date: parseStringDateToLocalDate(map["date"]),
-//                heure: parseStringHeureToLocalTime(map["heure"]))
-//    }
+
 //
 //    static String convertNombreEnMois(Integer mois) throws NumberFormatException {
 ////        assert mois > 0 && mois < 13: "mois doit etre entre 1 et 12"
@@ -85,9 +117,7 @@ package com.cheroliv.fiber.console.domain.enumeration.domain
 
 import groovy.transform.CompileStatic
 
-import java.time.*
-import java.time.format.DateTimeFormatter
-import java.time.format.TextStyle
+
 
 @CompileStatic
 class InterUtils {
@@ -149,24 +179,7 @@ class InterUtils {
 //        )
 //    }
 
-    static String convertNombreEnMois(Integer mois) throws NumberFormatException {
-//        assert mois > 0 && mois < 13: "mois doit etre entre 1 et 12"
-        switch (mois) {
-            case 1: return Month.JANUARY.getDisplayName(TextStyle.FULL, Locale.FRANCE)
-            case 2: return Month.FEBRUARY.getDisplayName(TextStyle.FULL, Locale.FRANCE)
-            case 3: return Month.MARCH.getDisplayName(TextStyle.FULL, Locale.FRANCE)
-            case 4: return Month.APRIL.getDisplayName(TextStyle.FULL, Locale.FRANCE)
-            case 5: return Month.MAY.getDisplayName(TextStyle.FULL, Locale.FRANCE)
-            case 6: return Month.JUNE.getDisplayName(TextStyle.FULL, Locale.FRANCE)
-            case 7: return Month.JULY.getDisplayName(TextStyle.FULL, Locale.FRANCE)
-            case 8: return Month.AUGUST.getDisplayName(TextStyle.FULL, Locale.FRANCE)
-            case 9: return Month.SEPTEMBER.getDisplayName(TextStyle.FULL, Locale.FRANCE)
-            case 10: return Month.OCTOBER.getDisplayName(TextStyle.FULL, Locale.FRANCE)
-            case 11: return Month.NOVEMBER.getDisplayName(TextStyle.FULL, Locale.FRANCE)
-            case 12: return Month.DECEMBER.getDisplayName(TextStyle.FULL, Locale.FRANCE)
-            default: throw new IllegalArgumentException("mauvais mois dans la base")
-        }
-    }
+
 
 //    static String[] toArrayString(Inter inter) {
 //        String[]obj=

@@ -1,10 +1,8 @@
 package com.cheroliv.fiber.service
 
-
 import com.cheroliv.fiber.inter.service.InterDataService
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
@@ -18,7 +16,6 @@ class BackupServiceImpl implements BackupService {
     final String homeDirectoryName
     final String jsonBackupFileName
 
-    @Autowired
     BackupServiceImpl(SettingService settingService,
                       InterDataService interService,
                       @Value('${application.data.home-directory-name}')

@@ -11,7 +11,6 @@ class InterController {
 
     final InterService interResource
 
-    @Autowired
     InterController(InterService interResource) {
         this.interResource = interResource
     }

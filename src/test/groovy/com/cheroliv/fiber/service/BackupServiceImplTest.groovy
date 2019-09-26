@@ -12,13 +12,15 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.core.io.Resource
 import org.springframework.jdbc.core.JdbcTemplate
+//import org.springframework.test.jdbc.JdbcTestUtils
 
 @Slf4j
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @TestMethodOrder(OrderAnnotation)
 @DisplayName("BackupServiceImplTest")
 class BackupServiceImplTest {
     final String COUNT_QUERY = 'select count(*) from "inter"'
+
     @Autowired
     JdbcTemplate jdbcTemplate
     @Autowired

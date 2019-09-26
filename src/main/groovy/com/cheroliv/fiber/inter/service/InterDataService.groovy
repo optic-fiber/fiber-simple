@@ -11,7 +11,7 @@ interface InterDataService {
 
     List<Map<String, Integer>> findAllMoisFormatFrParAnnee()
 
-    String getFiberJsonFilePath(String baseFolderPath)
+    String getJsonBackupFilePath()
 
     void importJsonFromFile(String path) throws IOException
 

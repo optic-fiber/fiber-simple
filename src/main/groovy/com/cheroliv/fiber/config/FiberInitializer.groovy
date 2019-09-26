@@ -5,7 +5,6 @@ import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.BeanFactoryAware
 import org.springframework.beans.factory.InitializingBean
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Slf4j
@@ -15,7 +14,6 @@ class FiberInitializer implements InitializingBean {
 
     final BackupService backupService
 
-    @Autowired
     FiberInitializer(BackupService backupService) {
         this.backupService = backupService
     }

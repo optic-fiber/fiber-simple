@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @Slf4j
 @TypeChecked
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @TestMethodOrder(OrderAnnotation)
 @DisplayName("FiberInitializerTest")
 class FiberInitializerTest {
