@@ -1,7 +1,6 @@
 package com.cheroliv.fiber.inter.service
 
 import com.cheroliv.fiber.inter.domain.Inter
-import com.cheroliv.fiber.inter.domain.InterConstants
 import com.cheroliv.fiber.inter.domain.InterUtils
 import com.cheroliv.fiber.inter.domain.enumeration.InterContractEnum
 import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
@@ -24,20 +23,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
-//import com.cheroliv.fiber.inter.domain.InterConstants
-//import com.cheroliv.fiber.inter.domain.InterUtils
-//import com.cheroliv.fiber.inter.domain.enumeration.InterContractEnum
-//import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
-//import groovy.json.JsonBuilder
-//import groovy.json.JsonSlurper
-//import groovy.transform.TypeCheckingMode
-//import org.apache.commons.io.FilenameUtils
-//import java.nio.charset.StandardCharsets
-//import java.text.SimpleDateFormat
-//import java.time.LocalDateTime
-//import java.time.ZoneId
-//import java.time.ZonedDateTime
-//import java.time.format.DateTimeFormatter
+import static com.cheroliv.fiber.inter.domain.InterConstants.*
 
 @Slf4j
 @Service
@@ -105,34 +91,52 @@ class InterDataServiceImpl implements InterDataService {
         finalResult
     }
 
-    @Transactional
-    void importJsonFromFile() throws IOException {
-        Object jsonInters = new JsonSlurper().parse(resourceFile.getFile())
-        (jsonInters as List<Map<String, String>>).each { Map<String, String> it ->
-            if (!it.isEmpty()) {
-                LocalDateTime localDateTime = LocalDateTime.of(
-                        InterUtils.parseStringDateToLocalDate(it[InterConstants.DATE_INTER_JSON_FIELD_NAME]),
-                        InterUtils.parseStringHeureToLocalTime(it[InterConstants.HOUR_INTER_JSON_FIELD_NAME]))
-                ZoneId zone = ZoneId.systemDefault()
-                ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, zone)
-                interRepository.find(
-                        it[InterConstants.ND_INTER_JSON_FIELD_NAME],
-                        InterTypeEnum.valueOfName(
-                                it[InterConstants.TYPE_INTER_JSON_FIELD_NAME])) ?:
-                        interRepository
-                                .save(new Inter(
-                                        nd: it[InterConstants.ND_INTER_JSON_FIELD_NAME],
-                                        lastNameClient: it[InterConstants.LASTNAME_INTER_JSON_FIELD_NAME],
-                                        firstNameClient: it[InterConstants.FIRSTNAME_INTER_JSON_FIELD_NAME],
-                                        dateTimeInter: zonedDateTime,
-                                        contract: InterContractEnum.valueOfName(
-                                                it[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME] == 'Passage de cable' ?
-                                                        InterContractEnum.CABLE_ROUTING.name() :
-                                                        it[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME]),
-                                        typeInter: InterTypeEnum.valueOfName(it[InterConstants.TYPE_INTER_JSON_FIELD_NAME])))
-            }
-        }
 
+    private static ZonedDateTime buildDateTime(String strDate, String strHour) {
+        LocalDateTime localDateTime = LocalDateTime.of(
+                InterUtils.parseStringDateToLocalDate(strDate),
+                InterUtils.parseStringHeureToLocalTime(strHour))
+        ZonedDateTime.of(localDateTime, ZoneId.systemDefault())
+    }
+
+
+    private static InterContractEnum parseI18nInterContractEnum(String i18nContactValue) {
+        InterContractEnum.valueOfName(
+                i18nContactValue ==
+                        'Passage de cable' ?
+                        InterContractEnum.CABLE_ROUTING.name() :
+                        i18nContactValue)
+    }
+
+    private void importJson(Map<String, String> it) {
+        interRepository.find(
+                it[ND_INTER_JSON_FIELD_NAME],
+                InterTypeEnum.valueOfName(
+                        it[TYPE_INTER_JSON_FIELD_NAME])) ?:
+                interRepository.save(new Inter(
+                        nd: it[ND_INTER_JSON_FIELD_NAME],
+                        lastNameClient: it[LASTNAME_INTER_JSON_FIELD_NAME],
+                        firstNameClient: it[FIRSTNAME_INTER_JSON_FIELD_NAME],
+                        dateTimeInter: buildDateTime(
+                                it[DATE_INTER_JSON_FIELD_NAME],
+                                it[HOUR_INTER_JSON_FIELD_NAME]),
+                        contract: parseI18nInterContractEnum(
+                                it[CONTRACT_INTER_JSON_FIELD_NAME]),
+                        typeInter: InterTypeEnum.valueOfName(it[TYPE_INTER_JSON_FIELD_NAME])))
+
+    }
+
+
+    @Transactional
+    void importJsonFromFile() {
+        Object jsonInters = new JsonSlurper()
+                .parseText(resourceFile
+                        .getFile()
+                        .getText(StandardCharsets.UTF_8.name()))
+        (jsonInters as List<Map<String, String>>)
+                .each { Map<String, String> it ->
+                    if (!it.isEmpty()) this.importJson(it)
+                }
     }
 
     @Override
@@ -157,7 +161,7 @@ class InterDataServiceImpl implements InterDataService {
 
 
     @Override
-    void saveToJsonFile() throws IOException {
+    void saveToJsonFile() {
         List<String> jsonList = new ArrayList<String>()
 
         //building json
