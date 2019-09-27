@@ -86,9 +86,9 @@ class InterUtils {
 //                zoneId)
 //    }
 //
-//    static Integer timeStringToInteger(String strHeure) {
-//        parseInt "${strHeure.charAt(0)}${strHeure.charAt(1)}"
-//    }
+    static Integer timeStringToInteger(String strHeure) {
+        Integer.parseInt "${strHeure.charAt(0)}${strHeure.charAt(1)}"
+    }
 //
 
 //

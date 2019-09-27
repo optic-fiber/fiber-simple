@@ -44,23 +44,6 @@ class SettingServiceImplTest {
                 !(file.isDirectory() && !file.isFile()))
             this.deleteFileCreateDirectory()
         else file.mkdir()
-
-        // Can be simplified
-        // if (file.exists()) {
-        //     if (!(file.isDirectory() &&
-        //             !file.isFile())) {
-        //         this.deleteFileCreateDirectory()
-        //     }
-        // } else {
-        //     file.mkdir()
-        // }
-        /* KISS : Keep It Simple Stoopid
-         file.exists() ?
-                (file.directory &&
-                        !file.file ?:
-                        this.deleteFileCreateDirectory()) :
-                file.mkdir()
-         */
         assert file.exists()
         assert file.isDirectory()
         assert !file.isFile()

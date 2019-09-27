@@ -29,8 +29,6 @@ class BackupServiceImplTest {
     String homeDirectoryName
     @Value('${application.data.json-backup-file-name}')
     String jsonBackupFileName
-    @Value("classpath:inters.json")
-    Resource resourceFile
 
     private String getJsonBackupFilePath() {
         System.getProperty('user.home') +

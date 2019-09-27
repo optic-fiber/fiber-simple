@@ -4,7 +4,6 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 interface InterConstants {
-
     static String NOT_NULL_CSTRT_TEMPLATE_MSG = "{javax.validation.constraints.NotNull.message}"
     static String SIZE_CSTRT_TEMPLATE_MSG = "{javax.validation.constraints.Size.message}"
     static String MIN_CSTRT_TEMPLATE_MSG = "{javax.validation.constraints.Min.message}"
@@ -39,8 +38,8 @@ interface InterConstants {
 
     static final String PASSAGE_DE_CABLE = "Passage de cable"
 
-    static final String ND_SIZE_CSTRT_TPL_MSG='{com.cheroliv.fiber.domain.nd.size}'
-    static final String ND_NOTNULL_CSTRT_TPL_MSG='{com.cheroliv.fiber.domain.nd.notnull}'
+    static final String ND_SIZE_CSTRT_TPL_MSG='{com.cheroliv.fiber.inter.domain.nd.size.message}'
+    static final String ND_NOTNULL_CSTRT_TPL_MSG='{com.cheroliv.fiber.inter.domain.nd.notnull.message}'
 
 
 //    static final String NOT_NULL_CSTRT_TEMPLATE_MSG = "{javax.validation.constraints.NotNull.message}"

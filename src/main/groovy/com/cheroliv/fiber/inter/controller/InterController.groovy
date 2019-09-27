@@ -3,10 +3,11 @@ package com.cheroliv.fiber.inter.controller
 
 import com.cheroliv.fiber.inter.service.InterService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-//@RequestMapping("/inters")
+@RequestMapping("/inters")
 class InterController {
 
     final InterService interResource

@@ -98,9 +98,6 @@ dependencies {
     // SPRING STARTING POINT RESOURCES
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    // UI TEMPLATE ENGINE
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-
     // APP-SERVER
     implementation 'org.springframework.boot:spring-boot-starter-undertow'
 

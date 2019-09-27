@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional
 @Slf4j
 @Service
 @TypeChecked
-@Transactional
+@Transactional(readOnly = true)
 class InterServiceImpl implements InterService {
 
     @Override
@@ -23,7 +23,14 @@ class InterServiceImpl implements InterService {
     }
 
     @Override
+    @Transactional
     void create(InterDto interDto) {
+
+    }
+
+    @Override
+    @Transactional
+    void update(InterDto interDto) {
 
     }
 

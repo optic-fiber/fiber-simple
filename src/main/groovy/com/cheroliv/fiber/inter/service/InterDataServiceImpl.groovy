@@ -12,7 +12,6 @@ import groovy.transform.TypeCheckingMode
 import groovy.util.logging.Slf4j
 import org.apache.commons.io.FilenameUtils
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -35,24 +34,49 @@ class InterDataServiceImpl implements InterDataService {
     final InterRepository interRepository
     final String homeDirectoryName
     final String jsonBackupFileName
-    final Resource resourceFile
 
     InterDataServiceImpl(
             @Value('${application.data.home-directory-name}')
                     String homeDirectoryName,
             @Value('${application.data.json-backup-file-name}')
                     String jsonBackupFileName,
-            @Value("classpath:inters.json")
-                    Resource resourceFile,
             InterRepository interRepository) {
         this.interRepository = interRepository
         this.homeDirectoryName = homeDirectoryName
         this.jsonBackupFileName = jsonBackupFileName
-        this.resourceFile = resourceFile
+    }
+
+    private void createHomeDataDirectory() {
+        File file = new File(System.getProperty('user.home') +
+                System.getProperty('file.separator') +
+                homeDirectoryName)
+        if (file.exists()) {
+            if (file.isFile()) {
+                file.delete()
+                file.mkdir()
+            }
+        } else file.mkdir()
+    }
+
+    private void createJsonFile() {
+        createHomeDataDirectory()
+        File file = new File(System.getProperty('user.home') +
+                System.getProperty('file.separator') +
+                homeDirectoryName +
+                System.getProperty('file.separator') +
+                this.jsonBackupFileName
+        )
+        if (!(file.exists() && file.isFile()))
+            if (file.exists() && file.isDirectory()) {
+                file.deleteDir()
+                file.createNewFile()
+            } else file.createNewFile()
     }
 
     @Override
     String getJsonBackupFilePath() {
+        createHomeDataDirectory()
+        createJsonFile()
         System.getProperty('user.home') +
                 System.getProperty('file.separator') +
                 this.homeDirectoryName +
@@ -63,11 +87,14 @@ class InterDataServiceImpl implements InterDataService {
 
     @Override
     Inter find(String nd, String type) {
+        if (!InterTypeEnum.values().collect {
+            it.name()
+        }.contains(type)) throw new InterTypeEnumException(type)
         Optional<Inter> result = this.interRepository.find(
                 nd, InterTypeEnum.valueOfName(type))
         if (result.present)
             result.get()
-        else throw new InterNotFoundException("nd : $nd, type:$type")
+        else throw new InterNotFoundException(nd, type)
     }
 
 
@@ -129,14 +156,19 @@ class InterDataServiceImpl implements InterDataService {
 
     @Transactional
     void importJsonFromFile() {
-        Object jsonInters = new JsonSlurper()
-                .parseText(resourceFile
-                        .getFile()
-                        .getText(StandardCharsets.UTF_8.name()))
-        (jsonInters as List<Map<String, String>>)
-                .each { Map<String, String> it ->
-                    if (!it.isEmpty()) this.importJson(it)
-                }
+        assert new File(getJsonBackupFilePath()).exists()
+        if (!(new File(getJsonBackupFilePath()).text == null
+                || new File(getJsonBackupFilePath()).text == ""
+                || new File(getJsonBackupFilePath()).text.empty)) {
+            Object jsonInters = new JsonSlurper()
+                    .parseText(new File(getJsonBackupFilePath())
+                            .getText(StandardCharsets.UTF_8.name()))
+            (jsonInters as Collection).empty ?:
+                    (jsonInters as List<Map<String, String>>)
+                            .each { Map<String, String> it ->
+                                if (!it.isEmpty()) this.importJson(it)
+                            }
+        }
     }
 
     @Override

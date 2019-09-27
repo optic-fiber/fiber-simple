@@ -24,7 +24,7 @@ class CheckDataValues {
         String jsonInters = file.getText(StandardCharsets.UTF_8.name())
         Object datas = new JsonSlurper().parseText(jsonInters)
         (datas as List<Map<String,String>>).each {
-            println it["contrat"]
+//            println it["contrat"]
         }
     }
 }

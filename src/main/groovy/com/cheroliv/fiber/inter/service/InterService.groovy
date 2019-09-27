@@ -9,6 +9,8 @@ interface InterService {
 
     void create(InterDto interDto)
 
+    void update(InterDto interDto)
+
     void getNextInter(Long id)
 
     InterDto getNext(Long id)

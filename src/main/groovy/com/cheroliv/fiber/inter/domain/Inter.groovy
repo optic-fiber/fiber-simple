@@ -2,7 +2,6 @@ package com.cheroliv.fiber.inter.domain
 
 import com.cheroliv.fiber.inter.domain.enumeration.InterContractEnum
 import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
-import com.cheroliv.fiber.inter.domain.groups.InterChecks
 import groovy.transform.ToString
 import groovy.transform.TypeChecked
 
@@ -10,7 +9,6 @@ import javax.persistence.*
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 import java.time.ZonedDateTime
-
 
 @Entity
 @ToString
@@ -33,32 +31,30 @@ class Inter implements Serializable {
     Long id
     @Column(name = "`nd`",
             length = 10)
-    @NotNull(message = InterConstants.ND_NOTNULL_CSTRT_TPL_MSG,
-            groups = InterChecks)
+    @NotNull(message = InterConstants.ND_NOTNULL_CSTRT_TPL_MSG)
     @Size(min = 10, max = 10,
-            message = InterConstants.ND_SIZE_CSTRT_TPL_MSG,
-            groups = InterChecks)
+            message = InterConstants.ND_SIZE_CSTRT_TPL_MSG)
     String nd
-    @NotNull(groups = InterChecks)
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "`type_inter`",
             nullable = false,
             length = 4)
     InterTypeEnum typeInter
-    @NotNull(groups = InterChecks)
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "`contract`",
             nullable = false,
             length = 16)
     InterContractEnum contract
-    @NotNull(groups = InterChecks)
+    @NotNull
     @Column(name = "`date_time_inter`")
     ZonedDateTime dateTimeInter
-    @Size(max = 100, groups = InterChecks)
+    @Size(max = 100)
     @Column(name = "`first_name_client`",
             length = 100)
     String firstNameClient
-    @Size(max = 100, groups = InterChecks)
+    @Size(max = 100)
     @Column(name = "`last_name_client`",
             length = 100)
     String lastNameClient
