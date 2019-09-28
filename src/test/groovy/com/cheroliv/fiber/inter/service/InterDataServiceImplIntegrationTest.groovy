@@ -87,22 +87,16 @@ class InterDataServiceImplIntegrationTest {
 
 
     static Inter jsonDataToInter(Map<String, String> strJsonData) {
-        ZoneId zone = ZoneId.systemDefault()
-        ZoneOffset zoneOffSet = zone
-                .getRules()
-                .getOffset(LocalDateTime.now())
-
         LocalDateTime localDateTime = LocalDateTime.of(
                 InterUtils.parseStringDateToLocalDate(strJsonData[InterConstants.DATE_INTER_JSON_FIELD_NAME]),
                 InterUtils.parseStringHeureToLocalTime(strJsonData[InterConstants.HOUR_INTER_JSON_FIELD_NAME]))
-        ZonedDateTime dateTime = ZonedDateTime.ofLocal(localDateTime, zone, zoneOffSet)
 
         new Inter(
                 id: Long.parseLong(strJsonData[InterConstants.ID_INTER_JSON_FIELD_NAME]),
                 nd: strJsonData[InterConstants.ND_INTER_JSON_FIELD_NAME],
                 lastNameClient: strJsonData[InterConstants.LASTNAME_INTER_JSON_FIELD_NAME],
                 firstNameClient: strJsonData[InterConstants.FIRSTNAME_INTER_JSON_FIELD_NAME],
-                dateTimeInter: dateTime,
+                dateTimeInter: localDateTime,
                 contract: InterContractEnum.valueOfName(
                         strJsonData[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME] == InterConstants.PASSAGE_DE_CABLE ?
                                 InterContractEnum.CABLE_ROUTING.name() : strJsonData[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME]),

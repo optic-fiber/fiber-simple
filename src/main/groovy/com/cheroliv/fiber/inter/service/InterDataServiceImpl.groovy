@@ -120,13 +120,12 @@ class InterDataServiceImpl implements InterDataService {
     }
 
 
-    private static ZonedDateTime buildDateTime(String strDate, String strHour) {
-        LocalDateTime localDateTime = LocalDateTime.of(
+
+    private static LocalDateTime buildDateTime(String strDate, String strHour) {
+        LocalDateTime.of(
                 InterUtils.parseStringDateToLocalDate(strDate),
                 InterUtils.parseStringHeureToLocalTime(strHour))
-        ZonedDateTime.of(localDateTime, ZoneId.systemDefault())
     }
-
 
     private static InterContractEnum parseI18nInterContractEnum(String i18nContactValue) {
         InterContractEnum.valueOfName(

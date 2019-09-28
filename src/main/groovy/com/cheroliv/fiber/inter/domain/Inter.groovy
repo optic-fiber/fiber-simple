@@ -8,6 +8,7 @@ import groovy.transform.TypeChecked
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
+import java.time.LocalDateTime
 import java.time.ZonedDateTime
 
 @Entity
@@ -49,7 +50,7 @@ class Inter implements Serializable {
     InterContractEnum contract
     @NotNull
     @Column(name = "`date_time_inter`")
-    ZonedDateTime dateTimeInter
+    LocalDateTime dateTimeInter
     @Size(max = 100)
     @Column(name = "`first_name_client`",
             length = 100)

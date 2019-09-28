@@ -73,10 +73,9 @@ class InterUtils {
                 firstNameClient: map[InterConstants.FIRSTNAME_INTER_JSON_FIELD_NAME],
                 contract: InterContractEnum.valueOfName(map[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME]),
                 typeInter: InterTypeEnum.valueOfName(map[InterConstants.TYPE_INTER_JSON_FIELD_NAME]),
-                dateTimeInter: ZonedDateTime.of(
+                dateTimeInter: LocalDateTime.of(
                         parseStringDateToLocalDate(map[InterConstants.DATE_INTER_JSON_FIELD_NAME]),
-                        parseStringHeureToLocalTime(map[InterConstants.INTER_HEURE_COLUMN_NAME]),
-                        ZoneId.systemDefault()))
+                        parseStringHeureToLocalTime(map[InterConstants.INTER_HEURE_COLUMN_NAME])))
     }
 //
 //    synchronized static ZonedDateTime getDateTime(LocalDate date, LocalTime time, ZoneId zoneId) {
