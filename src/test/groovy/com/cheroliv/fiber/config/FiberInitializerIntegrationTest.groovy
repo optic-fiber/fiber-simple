@@ -15,8 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest
 @TypeChecked
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @TestMethodOrder(OrderAnnotation)
-@DisplayName("FiberInitializerTest")
-class FiberInitializerTest {
+@DisplayName("FiberInitializerIntegrationTest")
+class FiberInitializerIntegrationTest {
 
     @Autowired
     FiberInitializer fiberInitializer

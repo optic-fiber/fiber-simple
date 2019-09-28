@@ -11,8 +11,8 @@ import org.springframework.core.io.Resource
 
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-@DisplayName('ApplicationPropertiesTest')
-class ApplicationPropertiesTest implements ApplicationContextAware {
+@DisplayName('ApplicationPropertiesIntegrationTest')
+class ApplicationPropertiesIntegrationTest implements ApplicationContextAware {
 
     ApplicationContext applicationContext
     @Value('${application.data.spreadsheet-file-name}')
@@ -45,10 +45,10 @@ class ApplicationPropertiesTest implements ApplicationContextAware {
     @Test
     @DisplayName('applicationPropertiesLoads()')
     void applicationPropertiesLoads() {
-        log.info("""
-            jsonBackupFileName : $jsonBackupFileName
-            spreadsheetFileName : $spreadsheetFileName
-            homeDirectoryName : $homeDirectoryName""")
+//        log.info("""
+//            jsonBackupFileName : $jsonBackupFileName
+//            spreadsheetFileName : $spreadsheetFileName
+//            homeDirectoryName : $homeDirectoryName""")
 
         Properties propertiesFromFile = this.getApplicationProperties()
         assert verifyProperty(

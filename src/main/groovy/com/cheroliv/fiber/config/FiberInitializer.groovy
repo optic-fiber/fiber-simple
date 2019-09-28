@@ -19,11 +19,16 @@ class FiberInitializer implements InitializingBean {
 
     @Override
     void afterPropertiesSet() throws Exception {
+        def trace1 = "${this.class.simpleName.toUpperCase()}."
+        def trace2 = "afterPropertiesSet()".toUpperCase()
+        log.info(trace1+trace2+" : INSIDE")
         try {
             this.backupService.loadBackupInDatabase()
         } catch (Throwable e) {
             throw new FiberInitializerException(cause: e)
         }
+        log.info(trace1+trace2+" : OUTSIDE")
+
     }
 
 }

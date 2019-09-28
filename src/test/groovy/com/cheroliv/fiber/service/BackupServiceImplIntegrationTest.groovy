@@ -17,8 +17,8 @@ import org.springframework.jdbc.core.JdbcTemplate
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @TestMethodOrder(OrderAnnotation)
-@DisplayName("BackupServiceImplTest")
-class BackupServiceImplTest {
+@DisplayName("BackupServiceImplIntegrationTest")
+class BackupServiceImplIntegrationTest {
     final String COUNT_QUERY = 'select count(*) from "inter"'
 
     @Autowired

@@ -13,8 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @TestMethodOrder(OrderAnnotation)
-@DisplayName("SettingServiceImplTest")
-class SettingServiceImplTest {
+@DisplayName("SettingServiceImplIntegrationTest")
+class SettingServiceImplIntegrationTest {
 
     @Autowired
     SettingService settingService

@@ -1,13 +1,16 @@
 package com.cheroliv.fiber.inter.controller
 
-
+import com.cheroliv.fiber.inter.model.InterDto
 import com.cheroliv.fiber.inter.service.InterService
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.RequestMapping
+import groovy.transform.TypeChecked
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
+@TypeChecked
 @RestController
-@RequestMapping("/inters")
 class InterController {
 
     final InterService interResource
@@ -16,11 +19,37 @@ class InterController {
         this.interResource = interResource
     }
 
-//    @GetMapping
-//    InterDto firstInter() {
-//        this.interResource.getFirst()
-//    }
-//
+    @GetMapping('/inters/first')
+    InterDto getFirstInter() {
+        InterDto result = this.interResource.getFirst()
+        if (result) result
+        else throw new FirstInterNotFoundException()
+    }
+
+
+    @GetMapping('/inters/last')
+    InterDto getLastInter() {
+        InterDto result = this.interResource.getLast()
+        if (result) result
+        else throw new LastInterNotFoundException()
+    }
+
+
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    void FirstInterNotFoundHandler(FirstInterNotFoundException e) {
+
+    }
+
+
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    void LastInterNotFoundHandler(LastInterNotFoundException e) {
+
+    }
+
 //    InterDto previousInter(Long id) {
 //        this.interResource.getPrevious(id)
 //    }
@@ -38,7 +67,7 @@ class InterController {
 //    }
 //
 //    @GetMapping
-//    InterDto lastInter() {
+//    InterDto getLastInter() {
 //        this.interResource.getLast()
 //    }
 

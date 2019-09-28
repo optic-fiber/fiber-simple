@@ -27,9 +27,9 @@ import java.time.format.DateTimeFormatter
 @Slf4j
 @TypeChecked
 @TestMethodOrder(OrderAnnotation)
-@DisplayName('InterRepositoryTest')
+@DisplayName('InterRepositoryIntegrationTest')
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class InterRepositoryTest  {
+class InterRepositoryIntegrationTest {
     @Autowired
     ApplicationContext applicationContext
     @Autowired

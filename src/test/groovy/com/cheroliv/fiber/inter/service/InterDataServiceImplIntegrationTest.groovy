@@ -33,7 +33,7 @@ import java.time.format.DateTimeFormatter
 @TypeChecked
 @TestMethodOrder(OrderAnnotation)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class InterDataServiceImplTest {
+class InterDataServiceImplIntegrationTest {
     @Autowired
     InterDataService interDataService
     @Value('${application.data.home-directory-name}')

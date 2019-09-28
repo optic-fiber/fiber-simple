@@ -30,7 +30,7 @@ import static com.xlson.groovycsv.CsvParser.parseCsv
 @Slf4j
 @TypeChecked
 @TestMethodOrder(OrderAnnotation)
-class InterTest {
+class InterUnitTest {
 
     static Integer interFieldMapSize = 7
     static Validator validator

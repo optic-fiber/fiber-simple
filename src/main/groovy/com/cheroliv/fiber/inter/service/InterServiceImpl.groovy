@@ -14,12 +14,13 @@ class InterServiceImpl implements InterService {
 
     @Override
     InterDto getFirst() {
-        return null
+        null
     }
+
 
     @Override
     InterDto getPrevious(Long id) {
-        return null
+         null
     }
 
     @Override
@@ -41,11 +42,11 @@ class InterServiceImpl implements InterService {
 
     @Override
     InterDto getNext(Long id) {
-        return null
+         null
     }
 
     @Override
     InterDto getLast() {
-        return null
+         null
     }
 }

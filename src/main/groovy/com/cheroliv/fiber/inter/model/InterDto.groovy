@@ -12,7 +12,7 @@ class InterDto implements Serializable {
     String nd
     String firstName
     String lastName
-    String contractEnum
-    String interTypeEnum
+    String contract
+    String typeInter
     ZonedDateTime dateTime
 }
