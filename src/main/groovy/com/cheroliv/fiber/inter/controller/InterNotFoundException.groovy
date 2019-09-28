@@ -6,5 +6,5 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import static org.springframework.http.HttpStatus.NOT_FOUND
 
 @ResponseStatus(NOT_FOUND)
-class FirstInterNotFoundException extends RuntimeException {
+class InterNotFoundException extends RuntimeException {
 }

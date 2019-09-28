@@ -3,72 +3,74 @@ package com.cheroliv.fiber.inter.controller
 import com.cheroliv.fiber.inter.model.InterDto
 import com.cheroliv.fiber.inter.service.InterService
 import groovy.transform.TypeChecked
-import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.*
 
 @TypeChecked
 @RestController
+@RequestMapping(value = '/inters',
+        produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
 class InterController {
 
-    final InterService interResource
+    final InterService interService
 
-    InterController(InterService interResource) {
-        this.interResource = interResource
+    InterController(InterService interService) {
+        this.interService = interService
     }
 
-    @GetMapping('/inters/first')
-    InterDto getFirstInter() {
-        InterDto result = this.interResource.getFirst()
+//TODO : chaining exception from service to controller
+    @GetMapping(value = '/{id}')
+    InterDto get(@PathVariable Long id) {
+        InterDto result = this.interService.get(id)
+        if (result) result
+        else throw new InterNotFoundException()
+    }
+
+    @GetMapping(value = '/first')
+    InterDto getFirst() {
+        InterDto result = this.interService.getFirst()
         if (result) result
         else throw new FirstInterNotFoundException()
     }
 
 
-    @GetMapping('/inters/last')
-    InterDto getLastInter() {
-        InterDto result = this.interResource.getLast()
+    @GetMapping(value = '/last')
+    InterDto getLast() {
+        InterDto result = this.interService.getLast()
         if (result) result
         else throw new LastInterNotFoundException()
     }
 
-
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    void FirstInterNotFoundHandler(FirstInterNotFoundException e) {
-
+    @GetMapping(value = '/{id}/prev')
+    InterDto getPrevious(@PathVariable Long id) {
+        InterDto result = this.interService.getPrevious(id)
+        if (result) result
+        else throw new PreviousInterNotFoundException()
     }
 
 
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    void LastInterNotFoundHandler(LastInterNotFoundException e) {
-
+    @GetMapping(value = '/{id}/next')
+    InterDto getNext(@PathVariable Long id) {
+        InterDto result = this.interService.getNext(id)
+        if (result) result
+        else throw new NextInterNotFoundException()
     }
 
-//    InterDto previousInter(Long id) {
-//        this.interResource.getPrevious(id)
-//    }
-//
-//    void createInter(InterDto interDto) {
-//        this.interResource.create(interDto)
-//    }
-//
-//    void updateInter(InterDto interDto) {
-//        this.interResource.getNextInter(id)
-//    }
-//
-//    InterDto nextInter(Long id) {
-//        this.interResource.getNext(id)
-//    }
-//
-//    @GetMapping
-//    InterDto getLastInter() {
-//        this.interResource.getLast()
-//    }
+
+    @PostMapping
+    void create(InterDto interDto) {
+        this.interService.create(interDto)
+    }
+
+    @PutMapping
+    void update(InterDto interDto) {
+        this.interService.update(interDto)
+    }
+
+    @PatchMapping
+    void patch(InterDto interDto) {
+        this.interService.update(interDto)
+    }
+
 
 }

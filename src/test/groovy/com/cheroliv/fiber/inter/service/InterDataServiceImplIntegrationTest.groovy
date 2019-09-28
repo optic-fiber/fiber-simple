@@ -211,7 +211,7 @@ class InterDataServiceImplIntegrationTest {
     @Order(4)
     void testFind_withNdAndType_not_found_inter() {
         Assertions.assertThrows(
-                InterNotFoundException as Class<Throwable>,
+                InterEntityNotFoundException as Class<Throwable>,
                 { ->
                     interDataService.find(
                             "0101010101",

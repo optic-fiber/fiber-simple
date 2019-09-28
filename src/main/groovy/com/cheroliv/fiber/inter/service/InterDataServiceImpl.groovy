@@ -1,5 +1,6 @@
 package com.cheroliv.fiber.inter.service
 
+
 import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.InterUtils
 import com.cheroliv.fiber.inter.domain.enumeration.InterContractEnum
@@ -22,6 +23,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
+import static com.cheroliv.fiber.config.ApplicationConstants.*
 import static com.cheroliv.fiber.inter.domain.InterConstants.*
 
 @Slf4j
@@ -30,15 +32,13 @@ import static com.cheroliv.fiber.inter.domain.InterConstants.*
 @Transactional(readOnly = true)
 class InterDataServiceImpl implements InterDataService {
 
-
     final InterRepository interRepository
     final String homeDirectoryName
     final String jsonBackupFileName
-
     InterDataServiceImpl(
-            @Value('${application.data.home-directory-name}')
+            @Value(KEY_DATA_HOME_DIRECTORY)
                     String homeDirectoryName,
-            @Value('${application.data.json-backup-file-name}')
+            @Value(KEY_DATA_JSON_BACKUP_FILE_NAME)
                     String jsonBackupFileName,
             InterRepository interRepository) {
         this.interRepository = interRepository
@@ -47,8 +47,8 @@ class InterDataServiceImpl implements InterDataService {
     }
 
     private void createHomeDataDirectory() {
-        File file = new File(System.getProperty('user.home') +
-                System.getProperty('file.separator') +
+        File file = new File(System.getProperty(KEY_SYSTEM_PROPERTY_USER_HOME) +
+                System.getProperty(KEY_SYSTEM_PROPERTY_FILE_SEPARATOR) +
                 homeDirectoryName)
         if (file.exists()) {
             if (file.isFile()) {
@@ -60,10 +60,10 @@ class InterDataServiceImpl implements InterDataService {
 
     private void createJsonFile() {
         createHomeDataDirectory()
-        File file = new File(System.getProperty('user.home') +
-                System.getProperty('file.separator') +
+        File file = new File(System.getProperty(KEY_SYSTEM_PROPERTY_USER_HOME) +
+                System.getProperty(KEY_SYSTEM_PROPERTY_FILE_SEPARATOR) +
                 homeDirectoryName +
-                System.getProperty('file.separator') +
+                System.getProperty(KEY_SYSTEM_PROPERTY_FILE_SEPARATOR) +
                 this.jsonBackupFileName
         )
         if (!(file.exists() && file.isFile()))
@@ -77,10 +77,10 @@ class InterDataServiceImpl implements InterDataService {
     String getJsonBackupFilePath() {
         createHomeDataDirectory()
         createJsonFile()
-        System.getProperty('user.home') +
-                System.getProperty('file.separator') +
+        System.getProperty(KEY_SYSTEM_PROPERTY_USER_HOME) +
+                System.getProperty(KEY_SYSTEM_PROPERTY_FILE_SEPARATOR) +
                 this.homeDirectoryName +
-                System.getProperty('file.separator') +
+                System.getProperty(KEY_SYSTEM_PROPERTY_FILE_SEPARATOR) +
                 this.jsonBackupFileName
     }
 
@@ -94,7 +94,7 @@ class InterDataServiceImpl implements InterDataService {
                 nd, InterTypeEnum.valueOfName(type))
         if (result.present)
             result.get()
-        else throw new InterNotFoundException(nd, type)
+        else throw new InterEntityNotFoundException(nd, type)
     }
 
 
@@ -105,7 +105,8 @@ class InterDataServiceImpl implements InterDataService {
 
     @Override
     List<Map<String, Integer>> findAllMoisFormatFrParAnnee() {
-        List<List<Integer>> result = interRepository.distinctMoisParAnnee()
+        List<List<Integer>> result = interRepository
+                .distinctMoisParAnnee()
         List<Map<String, Integer>> finalResult =
                 new ArrayList<Map<String, Integer>>(result.size())
         result.eachWithIndex { List<Integer> item, int idx ->
@@ -130,6 +131,7 @@ class InterDataServiceImpl implements InterDataService {
     private static InterContractEnum parseI18nInterContractEnum(String i18nContactValue) {
         InterContractEnum.valueOfName(
                 i18nContactValue ==
+                        //TODO:change with a message bean handling i18n
                         'Passage de cable' ?
                         InterContractEnum.CABLE_ROUTING.name() :
                         i18nContactValue)
