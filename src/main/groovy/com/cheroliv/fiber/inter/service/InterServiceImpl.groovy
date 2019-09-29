@@ -28,44 +28,44 @@ class InterServiceImpl implements InterService {
     final InterDto firstInterDto = new InterDto(
             id: 1, nd: "0144639035",
             lastName: "Lalande", firstName: "Julien",
-            dateTime: stringToLocalDateTime(
-                    "2018-10-29",
-                    "10:00:00"),
+//            dateTime: stringToLocalDateTime(
+//                    "2018-10-29",
+//                    "10:00:00"),
             contract: "IQ", typeInter: "BAOC")
     final InterDto lastInterDto = new InterDto(
             id: 109, nd: "0143485957",
             lastName: "Bouvier", firstName: "Steven",
-            dateTime: stringToLocalDateTime(
-                    "2019-01-04",
-                    "12:00:00"),
+//            dateTime: stringToLocalDateTime(
+//                    "2019-01-04",
+//                    "12:00:00"),
             contract: "IQ", typeInter: "BAAP")
     final InterDto interDto = new InterDto(
             id: 104, nd: "0144820811",
             lastName: "Gustin", firstName: "Jean-Pierre",
-            dateTime: stringToLocalDateTime(
-                    "2019-01-02",
-                    "13:00:00"),
+//            dateTime: stringToLocalDateTime(
+//                    "2019-01-02",
+//                    "13:00:00"),
             contract: "IQ", typeInter: "BAOC")
     final InterDto prevInterDto = new InterDto(
             id: 103, nd: "0142069836",
             lastName: "Maugee", firstName: "Eric",
-            dateTime: stringToLocalDateTime(
-                    "2018-12-31",
-                    "12:00:00"),
+//            dateTime: stringToLocalDateTime(
+//                    "2018-12-31",
+//                    "12:00:00"),
             contract: "IQ", typeInter: "BAAP")
     final InterDto nextInterDto = new InterDto(
             id: 105, nd: "0143486423",
             lastName: "QUANTUM",
-            dateTime: stringToLocalDateTime(
-                    "2019-01-02",
-                    "10:00:00"),
+//            dateTime: stringToLocalDateTime(
+//                    "2019-01-02",
+//                    "10:00:00"),
             contract: "LM", typeInter: "BAAP")
 
     static final InterDto newInterDto = new InterDto(
             nd: "0102030405",
             lastName: 'Doe',
             firstName: 'John',
-            dateTime: LocalDateTime.now(),
+//            dateTime: LocalDateTime.now(),
             contract: InterContractEnum.LM.name(),
             typeInter: InterTypeEnum.BAFA.name()
     )
@@ -105,14 +105,14 @@ class InterServiceImpl implements InterService {
         if (cv.isEmpty()) {
             Inter result = this.interRepository.save(
                     new Inter(nd: interDto.nd,
-                            dateTimeInter: interDto.dateTime,
+//                            dateTimeInter: interDto.dateTime,
                             firstNameClient: interDto.firstName,
                             lastNameClient: interDto.lastName,
                             typeInter: InterTypeEnum.valueOfName(interDto.typeInter),
                             contract: InterContractEnum.valueOfName(interDto.contract)))
             new InterDto(id: result.id,
                     nd: result.nd,
-                    dateTime: result.dateTimeInter,
+//                    dateTime: result.dateTimeInter,
                     firstName: result.firstNameClient,
                     lastName: result.lastNameClient,
                     typeInter: result.typeInter.name(),
@@ -127,7 +127,7 @@ class InterServiceImpl implements InterService {
                 nd: newInterDto.nd,
                 firstName: newInterDto.firstName,
                 lastName: newInterDto.lastName,
-                dateTime: newInterDto.dateTime,
+//                dateTime: newInterDto.dateTime,
                 contract: newInterDto.contract,
                 typeInter: newInterDto.typeInter)
     }

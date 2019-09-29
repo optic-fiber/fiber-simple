@@ -7,26 +7,26 @@ import com.cheroliv.fiber.inter.service.InterService
 import com.fasterxml.jackson.databind.ObjectMapper
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
-import org.mockito.MockitoAnnotations
+import org.junit.jupiter.api.Order
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestMethodOrder
+import org.mockito.InjectMocks
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.test.mock.mockito.MockBeans
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.test.web.servlet.MvcResult
 
 import static com.cheroliv.fiber.inter.controller.InterController.INTER_BASE_URL_REST_API
 import static org.mockito.BDDMockito.given
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 @Slf4j
 @TypeChecked
@@ -37,62 +37,75 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 class InterControllerUnitTest {
 
     @Autowired
-    ObjectMapper mapper
-    @Autowired
     MockMvc mockMvc
     @MockBean
     InterService interService
+    @InjectMocks
+    InterController interController
+
+
     TestData data = TestData.getInstance()
 
-    static String toJson(InterDto interDto) {
-        new ObjectMapper().writeValueAsString(InterDto)
+    static String jsonFromBean(Object object) {
+        new ObjectMapper().writeValueAsString(object)
     }
 
-    @BeforeEach
-    void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this)
-        InterController controller = new InterController(interService)
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build()
-    }
+//    @BeforeEach
+//    void setUp() throws Exception {
+//        MockitoAnnotations.initMocks(this)
+//        InterController controller = new InterController(interService)
+//        mockMvc = MockMvcBuilders.standaloneSetup(controller).build()
+//    }
 
     @Test
     @Order(11)
     @DisplayName("testPostCreate")
     void testPostCreate() {
 
-//        log.info mapper.writeValueAsString(data.newInterDto)
         InterDto expectedInterDtoMockResult = new InterDto(
                 id: data.newInterDtoId,
                 nd: data.newInterDto.nd,
-                dateTime: data.newInterDto.dateTime,
+//                dateTime: data.newInterDto.dateTime,
                 firstName: data.newInterDto.firstName,
                 lastName: data.newInterDto.lastName,
                 typeInter: data.newInterDto.typeInter,
                 contract: data.newInterDto.contract)
+        //insure generated json is out of fault
+        String jsonInter = jsonFromBean(expectedInterDtoMockResult)
+        assert jsonInter.contains(data.newInterDtoId.toString())
+        assert jsonInter.contains(data.newInterDto.firstName)
+        assert jsonInter.contains(data.newInterDto.lastName)
+        assert jsonInter.contains(data.newInterDto.typeInter)
+        assert jsonInter.contains(data.newInterDto.contract)
 
         given(interService.create(data.newInterDto))
                 .willReturn(expectedInterDtoMockResult)
-
-        /*def res =*/
-        mockMvc.perform(post(
-                INTER_BASE_URL_REST_API)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(data.newInterDto))
-                .accept(MediaType.APPLICATION_JSON)
-        )
+        MvcResult result = mockMvc.perform(
+                post(INTER_BASE_URL_REST_API)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(jsonFromBean(data.newInterDto)))
                 .andExpect(status().isCreated())
-//                .andExpect(content()
-//                        .contentType(MediaType
-//                                .APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(content()
+                        .contentType(MediaType
+                                .APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
-//                .andExpect(jsonPath("id")
-//                        .value(data.newInterDtoId))
-//                .andExpect(jsonPath("nd")
-//                        .value(data.newInterDto.nd))
-//                .andExpect(jsonPath("typeInter")
-//                        .value(data.newInterDto.typeInter))
+                .andExpect(jsonPath("id")
+                        .value(data.newInterDtoId))
+                .andExpect(jsonPath("nd")
+                        .value(data.newInterDto.nd))
+                .andExpect(jsonPath("typeInter")
+                        .value(data.newInterDto.typeInter))
+                .andExpect(jsonPath("firstName")
+                        .value(data.newInterDto.firstName))
+                .andExpect(jsonPath("lastName")
+                        .value(data.newInterDto.lastName))
+                .andReturn()
 
-//        log.info res.andReturn().response.toString()
+
+//        log.info "result.getResponse().getContentAsString() : ${result.getResponse().getContentAsString()}"
+//        assert result.getResponse().getContentAsString()
+//        assert result.getResponse().getContentAsString() == jsonFromBean(expectedInterDtoMockResult)
     }
 
     @Test

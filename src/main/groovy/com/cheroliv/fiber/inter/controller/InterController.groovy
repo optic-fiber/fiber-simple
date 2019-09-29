@@ -5,6 +5,7 @@ import com.cheroliv.fiber.inter.model.InterDto
 import com.cheroliv.fiber.inter.service.InterService
 import groovy.transform.TypeChecked
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE

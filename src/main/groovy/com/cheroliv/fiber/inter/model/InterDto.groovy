@@ -11,7 +11,8 @@ import java.time.LocalDateTime
 
 @ToString
 class InterDto implements Serializable {
-
+    InterDto() {
+    }
     Long id
     @NotNull(message = InterConstants.ND_NOTNULL_CSTRT_TPL_MSG)
     @Size(min = 10, max = 10,
@@ -27,6 +28,6 @@ class InterDto implements Serializable {
     @NotNull
     @Pattern(regexp = "BAAP|BAOC|BAFA|BAST|PLP|SAV")
     String typeInter
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    LocalDateTime dateTime
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    LocalDateTime dateTime
 }
