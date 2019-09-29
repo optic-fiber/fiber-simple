@@ -1,27 +1,32 @@
 package com.cheroliv.fiber.inter.controller
 
 import com.cheroliv.fiber.TestData
+import com.cheroliv.fiber.inter.controller.exceptions.*
+import com.cheroliv.fiber.inter.model.InterDto
 import com.cheroliv.fiber.inter.service.InterService
+import com.fasterxml.jackson.databind.ObjectMapper
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
+import org.mockito.MockitoAnnotations
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.test.mock.mockito.MockBeans
+import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+
+import static com.cheroliv.fiber.inter.controller.InterController.INTER_BASE_URL_REST_API
 import static org.mockito.BDDMockito.given
-
-
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-//import static org.hamcrest.CoreMatchers.containsString
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 
 @Slf4j
 @TypeChecked
@@ -32,11 +37,63 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class InterControllerUnitTest {
 
     @Autowired
+    ObjectMapper mapper
+    @Autowired
     MockMvc mockMvc
     @MockBean
     InterService interService
     TestData data = TestData.getInstance()
 
+    static String toJson(InterDto interDto) {
+        new ObjectMapper().writeValueAsString(InterDto)
+    }
+
+    @BeforeEach
+    void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this)
+        InterController controller = new InterController(interService)
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build()
+    }
+
+    @Test
+    @Order(11)
+    @DisplayName("testPostCreate")
+    void testPostCreate() {
+
+//        log.info mapper.writeValueAsString(data.newInterDto)
+        InterDto expectedInterDtoMockResult = new InterDto(
+                id: data.newInterDtoId,
+                nd: data.newInterDto.nd,
+                dateTime: data.newInterDto.dateTime,
+                firstName: data.newInterDto.firstName,
+                lastName: data.newInterDto.lastName,
+                typeInter: data.newInterDto.typeInter,
+                contract: data.newInterDto.contract)
+
+        given(interService.create(data.newInterDto))
+                .willReturn(expectedInterDtoMockResult)
+
+        /*def res =*/
+        mockMvc.perform(post(
+                INTER_BASE_URL_REST_API)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(data.newInterDto))
+                .accept(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isCreated())
+//                .andExpect(content()
+//                        .contentType(MediaType
+//                                .APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+//                .andExpect(jsonPath("id")
+//                        .value(data.newInterDtoId))
+//                .andExpect(jsonPath("nd")
+//                        .value(data.newInterDto.nd))
+//                .andExpect(jsonPath("typeInter")
+//                        .value(data.newInterDto.typeInter))
+
+//        log.info res.andReturn().response.toString()
+    }
 
     @Test
     @Order(1)
@@ -51,7 +108,7 @@ class InterControllerUnitTest {
         //---------------------------//
         //2)=========ACT========(start)
         //---------------------------//
-        mockMvc.perform(get("/inters/first"))
+        mockMvc.perform(get("${INTER_BASE_URL_REST_API}/first"))
         //---------------------------//
         //3)========ASSERT=======(then)
         //---------------------------//
@@ -74,7 +131,7 @@ class InterControllerUnitTest {
         given(interService.getFirst())
                 .willThrow(FirstInterNotFoundException)
         //ACT
-        mockMvc.perform(get('/inters/first'))
+        mockMvc.perform(get("${INTER_BASE_URL_REST_API}/first"))
         //ASSERT
                 .andExpect(status().isNotFound())
     }
@@ -86,7 +143,7 @@ class InterControllerUnitTest {
     void testGetLast() {
         given(interService.getLast()).willReturn(
                 data.lastInterDto)
-        mockMvc.perform(get("/inters/last"))
+        mockMvc.perform(get("${INTER_BASE_URL_REST_API}/last"))
                 .andExpect(jsonPath("id")
                         .value(data.lastInterDto.id))
                 .andExpect(jsonPath("nd")
@@ -104,7 +161,7 @@ class InterControllerUnitTest {
             throws LastInterNotFoundException {
         given(interService.getLast())
                 .willThrow(LastInterNotFoundException)
-        mockMvc.perform(get('/inters/last'))
+        mockMvc.perform(get("${INTER_BASE_URL_REST_API}/last"))
                 .andExpect(status().isNotFound())
     }
 
@@ -116,7 +173,7 @@ class InterControllerUnitTest {
         given(interService.get(data.interDto.id))
                 .willReturn(data.interDto)
         mockMvc.perform(get(
-                "/inters/${data.interDto.id}"))
+                "${INTER_BASE_URL_REST_API}/${data.interDto.id}"))
                 .andExpect(jsonPath("id")
                         .value(data.interDto.id))
                 .andExpect(jsonPath("nd")
@@ -133,8 +190,8 @@ class InterControllerUnitTest {
     void testGetInter_with_param_id_not_found()
             throws InterNotFoundException {
         given(interService.get(data.interDto.id))
-                .willThrow(InterNotFoundException )
-        mockMvc.perform(get("/inters/${data.interDto.id}"))
+                .willThrow(InterNotFoundException)
+        mockMvc.perform(get("${INTER_BASE_URL_REST_API}/${data.interDto.id}"))
                 .andExpect(status().isNotFound())
     }
 
@@ -143,9 +200,9 @@ class InterControllerUnitTest {
     @DisplayName("testGetPrevious_with_param_id")
     void testGetPrevious_with_param_id() {
         given(interService.getPrevious(data.interDto.id))
-        .willReturn(data.prevInterDto)
+                .willReturn(data.prevInterDto)
         mockMvc.perform(get(
-                "/inters/${data.interDto.id}/prev"))
+                "${INTER_BASE_URL_REST_API}/${data.interDto.id}/prev"))
                 .andExpect(jsonPath("id")
                         .value(data.prevInterDto.id))
                 .andExpect(jsonPath("nd")
@@ -161,9 +218,9 @@ class InterControllerUnitTest {
     void testGetPrevious_with_param_id_not_found()
             throws PreviousInterNotFoundException {
         given(interService.getPrevious(data.interDto.id))
-                .willThrow(PreviousInterNotFoundException )
+                .willThrow(PreviousInterNotFoundException)
         mockMvc.perform(get(
-                "/inters/${data.interDto.id}/prev"))
+                "${INTER_BASE_URL_REST_API}/${data.interDto.id}/prev"))
                 .andExpect(status().isNotFound())
     }
 
@@ -174,7 +231,7 @@ class InterControllerUnitTest {
         given(interService.getNext(data.interDto.id))
                 .willReturn(data.nextInterDto)
         mockMvc.perform(get(
-                "/inters/${data.interDto.id}/next"))
+                "${INTER_BASE_URL_REST_API}/${data.interDto.id}/next"))
                 .andExpect(jsonPath("id")
                         .value(data.nextInterDto.id))
                 .andExpect(jsonPath("nd")
@@ -190,25 +247,18 @@ class InterControllerUnitTest {
     void testGetNext_with_param_id_not_found()
             throws NextInterNotFoundException {
         given(interService.getNext(data.interDto.id))
-                .willThrow(NextInterNotFoundException )
+                .willThrow(NextInterNotFoundException)
         mockMvc.perform(get(
-                "/inters/${data.interDto.id}/next"))
+                "${INTER_BASE_URL_REST_API}/${data.interDto.id}/next"))
                 .andExpect(status().isNotFound())
     }
 
 
-    @Test
-    @Disabled
-    @DisplayName("testPostCreate")
-    void testPostCreate() {
-    }
-
-
-    @Test
-    @Disabled
-    @DisplayName("testUpdateInter")
-    void testUpdate() {
-    }
+//    @Test
+//    @Disabled
+//    @DisplayName("testUpdateInter")
+//    void testUpdate() {
+//    }
 
 
 }

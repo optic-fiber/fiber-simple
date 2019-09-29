@@ -7,9 +7,9 @@ interface InterService {
 
     InterDto getPrevious(Long id)
 
-    void create(InterDto interDto)
+    InterDto create(InterDto interDto)
 
-    void update(InterDto interDto)
+    InterDto update(InterDto interDto)
 
     InterDto getNext(Long id)
 

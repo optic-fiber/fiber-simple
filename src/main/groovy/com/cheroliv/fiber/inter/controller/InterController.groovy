@@ -1,17 +1,20 @@
 package com.cheroliv.fiber.inter.controller
 
+import com.cheroliv.fiber.inter.controller.exceptions.*
 import com.cheroliv.fiber.inter.model.InterDto
 import com.cheroliv.fiber.inter.service.InterService
 import groovy.transform.TypeChecked
-import org.springframework.http.MediaType
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE
 
 @TypeChecked
 @RestController
-@RequestMapping(value = '/inters',
-        produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+@RequestMapping(value = INTER_BASE_URL_REST_API,
+        produces = [APPLICATION_JSON_UTF8_VALUE])
 class InterController {
-
+    public static final String INTER_BASE_URL_REST_API ='/api/inters'
     final InterService interService
 
     InterController(InterService interService) {
@@ -57,18 +60,19 @@ class InterController {
     }
 
 
-    @PostMapping
-    void create(InterDto interDto) {
+    @PostMapping(consumes = APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    InterDto create(@RequestBody InterDto interDto) {
         this.interService.create(interDto)
     }
 
-    @PutMapping
-    void update(InterDto interDto) {
+    @PutMapping(consumes = APPLICATION_JSON_UTF8_VALUE)
+    InterDto update(@RequestBody InterDto interDto) {
         this.interService.update(interDto)
     }
 
-    @PatchMapping
-    void patch(InterDto interDto) {
+    @PatchMapping(consumes = [APPLICATION_JSON_UTF8_VALUE])
+    InterDto patch(InterDto interDto) {
         this.interService.update(interDto)
     }
 

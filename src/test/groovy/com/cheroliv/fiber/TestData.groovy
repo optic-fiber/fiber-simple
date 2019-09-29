@@ -1,12 +1,13 @@
 package com.cheroliv.fiber
 
+import com.cheroliv.fiber.inter.domain.enumeration.InterContractEnum
+import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
 import com.cheroliv.fiber.inter.model.InterDto
 import groovy.transform.CompileStatic
 
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 @Singleton
@@ -49,13 +50,22 @@ class TestData {
                     "2019-01-02",
                     "10:00:00"),
             contract: "LM", typeInter: "BAAP")
+    static final Integer newInterDtoId = 106
+    static final InterDto newInterDto = new InterDto(
+            nd: "0102030405",
+            lastName: 'Doe',
+            firstName: 'John',
+            dateTime: LocalDateTime.now(),
+            contract: InterContractEnum.LM.name(),
+            typeInter: InterTypeEnum.BAFA.name()
+    )
+
 
     static final List<InterDto> inters = [firstInterDto, prevInterDto, interDto, nextInterDto, lastInterDto]
 
-    static ZonedDateTime stringToZonedDateTimeSystemDefault(String date, String time) {
-        ZonedDateTime.of(
+    static LocalDateTime stringToZonedDateTimeSystemDefault(String date, String time) {
+        LocalDateTime.of(
                 LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-                LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss")),
-                ZoneId.systemDefault())
+                LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss")))
     }
 }
