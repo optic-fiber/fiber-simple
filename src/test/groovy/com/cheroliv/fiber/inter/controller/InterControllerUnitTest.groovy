@@ -40,9 +40,6 @@ class InterControllerUnitTest {
 
     TestData data = TestData.getInstance()
 
-    static String jsonFromBean(Object object) {
-        new ObjectMapper().writeValueAsString(object)
-    }
 
     @Test
     @Order(1)
@@ -201,13 +198,14 @@ class InterControllerUnitTest {
     @Order(11)
     @DisplayName("testPostSave")
     void testPostSave() {
+
         given(interService.save(data.newInterDto))
                 .willReturn(data.expectedPersistedInterDto)
 
         mockMvc.perform(post(INTER_BASE_URL_REST_API)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(jsonFromBean(data.newInterDto)))
+                .content(data.jsonNewtInterDto))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType
                         .APPLICATION_JSON_UTF8_VALUE))
@@ -230,13 +228,13 @@ class InterControllerUnitTest {
     void testPostSave_id_already_exists_before_save()
             throws InterIdAlreadyExistsBeforeSaveException {
 
-        given(interService.save(data.expectedPersistedInterDto))
+        given(interService.save(data.firstInterDto))
                 .willThrow(InterIdAlreadyExistsBeforeSaveException)
 
         mockMvc.perform(post(INTER_BASE_URL_REST_API)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(jsonFromBean(data.expectedPersistedInterDto)))
+                .content(data.jsonFirstInterDto))
                 .andExpect(status().isUnprocessableEntity())
                 .andReturn()
     }
@@ -251,7 +249,7 @@ class InterControllerUnitTest {
         mockMvc.perform(post(INTER_BASE_URL_REST_API)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(jsonFromBean(data.newInterDto)))
+                .content(data.jsonFirstInterDtoWithoutId))
                 .andExpect(status().isConflict())
                 .andReturn()
     }

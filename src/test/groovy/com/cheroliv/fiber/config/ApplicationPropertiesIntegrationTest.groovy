@@ -45,11 +45,6 @@ class ApplicationPropertiesIntegrationTest implements ApplicationContextAware {
     @Test
     @DisplayName('applicationPropertiesLoads()')
     void applicationPropertiesLoads() {
-//        log.info("""
-//            jsonBackupFileName : $jsonBackupFileName
-//            spreadsheetFileName : $spreadsheetFileName
-//            homeDirectoryName : $homeDirectoryName""")
-
         Properties propertiesFromFile = this.getApplicationProperties()
         assert verifyProperty(
                 propertiesFromFile,

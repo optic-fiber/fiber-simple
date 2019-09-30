@@ -1,11 +1,13 @@
 package com.cheroliv.fiber.inter.model
 
 import com.cheroliv.fiber.inter.domain.InterConstants
+import com.fasterxml.jackson.annotation.JsonFormat
 import groovy.transform.ToString
 
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
+import java.time.LocalDateTime
 
 @ToString
 class InterDto implements Serializable {
@@ -26,6 +28,6 @@ class InterDto implements Serializable {
     @NotNull
     @Pattern(regexp = "BAAP|BAOC|BAFA|BAST|PLP|SAV")
     String typeInter
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-//    LocalDateTime dateTime
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    LocalDateTime dateTime
 }
