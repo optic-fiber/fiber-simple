@@ -1,6 +1,5 @@
 package com.cheroliv.fiber.inter.repository
 
-
 import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.InterConstants
 import com.cheroliv.fiber.inter.domain.InterUtils
@@ -21,7 +20,10 @@ import org.springframework.transaction.annotation.Transactional
 
 import javax.validation.Validator
 import java.nio.charset.StandardCharsets
-import java.time.*
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.Month
 import java.time.format.DateTimeFormatter
 
 @Slf4j
@@ -190,6 +192,7 @@ class InterRepositoryIntegrationTest {
         }
         dateMaps
     }
+
     List<LocalDate> getAllDates() {
         List<LocalDate> dates = new ArrayList<LocalDate>()
         this.getJsonData().each { Map<String, String> it ->
@@ -549,7 +552,7 @@ class InterRepositoryIntegrationTest {
     @Transactional
     void testSave() {
         Long countBefore = interRepository.count()
-        interRepository.save new Inter(
+        def prePersistInstance = new Inter(
                 nd: "0101010101",
                 lastNameClient: "Doe",
                 firstNameClient: "John",
@@ -558,7 +561,12 @@ class InterRepositoryIntegrationTest {
                 dateTimeInter: LocalDateTime.of(
                         LocalDate.now(),
                         LocalTime.now()))
+        interRepository.save(prePersistInstance)
         Long countAfter = interRepository.count()
         assert countAfter == countBefore + 1
+        //preuve que EntityManager.persist() affecte l'id
+        // sur l'instance passé en argument
+        // pas besoin de recuperer le resultat en retour de fonction
+        assert prePersistInstance.id != null
     }
 }

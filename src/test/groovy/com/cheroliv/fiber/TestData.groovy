@@ -60,7 +60,14 @@ class TestData {
             contract: InterContractEnum.LM.name(),
             typeInter: InterTypeEnum.BAFA.name()
     )
-
+    static final InterDto expectedPersistedInterDto = new InterDto(
+            id: newInterDtoId,
+            nd: newInterDto.nd,
+//                dateTime: data.newInterDto.dateTime,
+            firstName: newInterDto.firstName,
+            lastName: newInterDto.lastName,
+            typeInter: newInterDto.typeInter,
+            contract: newInterDto.contract)
 
     static final List<InterDto> inters = [firstInterDto, prevInterDto, interDto, nextInterDto, lastInterDto]
 

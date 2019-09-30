@@ -60,7 +60,7 @@ class SpreadsheetRecapTest
 //        assert !resource.file.directory
 //        File wbFile = resource.file
 //        FileInputStream stream = new FileInputStream(wbFile)
-//        Workbook wb = WorkbookFactory.create stream
+//        Workbook wb = WorkbookFactory.save stream
 //        assert interService.countMois()== wb.numberOfSheets
 //        wb.sheetIterator().toList().eachWithIndex { Sheet sheet, int idx ->
 //            assert nomFeuilles.get(idx)==

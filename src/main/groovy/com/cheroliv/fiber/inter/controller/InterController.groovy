@@ -4,18 +4,21 @@ import com.cheroliv.fiber.inter.controller.exceptions.*
 import com.cheroliv.fiber.inter.model.InterDto
 import com.cheroliv.fiber.inter.service.InterService
 import groovy.transform.TypeChecked
-import org.springframework.http.HttpStatus
+import groovy.util.logging.Slf4j
+import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE
 
+@Slf4j
 @TypeChecked
 @RestController
 @RequestMapping(value = INTER_BASE_URL_REST_API,
         produces = [APPLICATION_JSON_UTF8_VALUE])
 class InterController {
-    public static final String INTER_BASE_URL_REST_API ='/api/inters'
+    public static final String INTER_BASE_URL_REST_API = '/api/inters'
+
     final InterService interService
 
     InterController(InterService interService) {
@@ -60,11 +63,17 @@ class InterController {
         else throw new NextInterNotFoundException()
     }
 
-
     @PostMapping(consumes = APPLICATION_JSON_UTF8_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    InterDto create(@RequestBody InterDto interDto) {
-        this.interService.create(interDto)
+    ResponseEntity<InterDto> save(@RequestBody InterDto interDto)
+            throws URISyntaxException {
+        if (interDto.getId() != null)
+            throw new InterAlreadyExistsException()
+        interService.save(interDto)
+        String uri = "$INTER_BASE_URL_REST_API/${interDto.id}"
+        ResponseEntity.created(new URI(uri))
+                .headers(new HttpHeaders())//TODO:METTRE DES HEADER DEDANS QUAND JE SAURAIS
+                .body(interDto)
+
     }
 
     @PutMapping(consumes = APPLICATION_JSON_UTF8_VALUE)
@@ -79,3 +88,4 @@ class InterController {
 
 
 }
+

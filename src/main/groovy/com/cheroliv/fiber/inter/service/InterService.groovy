@@ -7,7 +7,7 @@ interface InterService {
 
     InterDto getPrevious(Long id)
 
-    InterDto create(InterDto interDto)
+    InterDto save(InterDto interDto)
 
     InterDto update(InterDto interDto)
 
