@@ -25,7 +25,7 @@ class InterController {
         this.interService = interService
     }
 
-//TODO : chaining exception from service to controller
+    //TODO : chaining exception from service to controller
     @GetMapping(value = '/{id}')
     InterDto get(@PathVariable Long id) {
         InterDto result = this.interService.get(id)
@@ -63,15 +63,20 @@ class InterController {
         else throw new NextInterNotFoundException()
     }
 
+    //TODO:METTRE DES HEADER DEDANS QUAND JE SAURAIS
     @PostMapping(consumes = APPLICATION_JSON_UTF8_VALUE)
     ResponseEntity<InterDto> save(@RequestBody InterDto interDto)
             throws URISyntaxException {
         if (interDto.getId() != null)
+            throw new InterIdAlreadyExistsBeforeSaveException()
+        if (interService.isUniqueKey(
+                interDto.nd,
+                interDto.typeInter))
             throw new InterAlreadyExistsException()
         interService.save(interDto)
         String uri = "$INTER_BASE_URL_REST_API/${interDto.id}"
         ResponseEntity.created(new URI(uri))
-                .headers(new HttpHeaders())//TODO:METTRE DES HEADER DEDANS QUAND JE SAURAIS
+                .headers(new HttpHeaders())
                 .body(interDto)
 
     }
@@ -87,5 +92,38 @@ class InterController {
     }
 
 
+    @DeleteMapping("/{id}")
+    ResponseEntity<Void> delete(@PathVariable Long id) {
+        if(!interService.findById(id))
+            throw new InterIdNotExistsBeforeDeleteException()
+        interService.delete(id)
+        ResponseEntity.noContent()
+                .headers(new HttpHeaders())
+                .build()
+    }
+
 }
 
+/*
+
+@DeleteMapping("/questions/{id}")
+public ResponseEntity<Void> deleteQuestion(@PathVariable Long id) {
+    log.debug("REST request to delete Question : {}", id);
+    questionService.delete(id);
+    return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+}
+
+
+@PutMapping("/questions")
+public ResponseEntity<QuestionDTO> updateQuestion(@Valid @RequestBody QuestionDTO questionDTO) throws URISyntaxException {
+    log.debug("REST request to update Question : {}", questionDTO);
+    if (questionDTO.getId() == null) {
+        throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+    }
+    QuestionDTO result = questionService.save(questionDTO);
+    return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, questionDTO.getId().toString()))
+            .body(result);
+}
+
+ */

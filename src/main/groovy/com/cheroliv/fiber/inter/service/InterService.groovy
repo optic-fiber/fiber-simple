@@ -17,5 +17,9 @@ interface InterService {
 
     InterDto get(Long id)
 
-    InterDto isUniqueKey(String nd, String type)
+    Boolean isUniqueKey(String nd, String type)
+
+    void delete(Long id)
+
+    InterDto findById(Long id)
 }

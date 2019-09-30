@@ -60,9 +60,17 @@ class InterServiceImpl implements InterService {
     }
 
     @Override
-    InterDto isUniqueKey(String nd, String type) {
+    Boolean isUniqueKey(String nd, String type) {
         null
     }
 
+    @Override
+    void delete(Long id) {
 
+    }
+
+    @Override
+    InterDto findById(Long id) {
+        null
+    }
 }

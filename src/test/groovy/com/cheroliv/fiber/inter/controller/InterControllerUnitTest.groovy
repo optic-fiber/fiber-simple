@@ -18,6 +18,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 
 import static com.cheroliv.fiber.inter.controller.InterController.INTER_BASE_URL_REST_API
+import static org.mockito.ArgumentMatchers.anyString
 import static org.mockito.BDDMockito.given
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
@@ -225,43 +226,98 @@ class InterControllerUnitTest {
 
     @Test
     @Order(12)
-    @DisplayName("testPostSave_id_already_exists")
-    void testPostSave_id_already_exists()
-            throws InterAlreadyExistsException {
+    @DisplayName("testPostSave_id_already_exists_before_save")
+    void testPostSave_id_already_exists_before_save()
+            throws InterIdAlreadyExistsBeforeSaveException {
 
         given(interService.save(data.expectedPersistedInterDto))
-                .willThrow(InterAlreadyExistsException)
+                .willThrow(InterIdAlreadyExistsBeforeSaveException)
 
         mockMvc.perform(post(INTER_BASE_URL_REST_API)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(jsonFromBean(data.expectedPersistedInterDto)))
+                .andExpect(status().isUnprocessableEntity())
+                .andReturn()
+    }
+
+    @Test
+    @Order(13)
+    @DisplayName("testPostSave_nd_and_type_unique_index_constraint_violation")
+    void testPostSave_nd_and_type_unique_index_constraint_violation()
+            throws InterAlreadyExistsException {
+        given(interService.isUniqueKey(anyString(), anyString()))
+                .willThrow(InterAlreadyExistsException)
+        mockMvc.perform(post(INTER_BASE_URL_REST_API)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonFromBean(data.newInterDto)))
                 .andExpect(status().isConflict())
                 .andReturn()
     }
 
-
-//    @Test//unique key nd type conflict avec sa propre exception
-    //mais meme status de retour http
-//    @Order(12)
-//    @DisplayName("testPostSave_id_already_exists")
-//    void testPostSave_id_already_exists()
-//            throws InterAlreadyExistsException {
-//        given(interService.save(data.newInterDto))
-//                .willThrow(InterAlreadyExistsException)
-//        mockMvc.perform(post(
-//                "${INTER_BASE_URL_REST_API}/${data.interDto.id}/next")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .content(jsonFromBean(data.expectedPersistedInterDto)))
-//                .andExpect(status().isConflict())
+/////////////////////////////////////////////////////////////////////
+//    @Test
+//    @Order(11)
+//    @DisplayName("testDelete")
+//    void testDelete() {
+//
+//        when(interService.findById(data.firstInterDto.id))
+//                .thenReturn(data.firstInterDto)
+//
+//        doNothing().when(interService)
+//                .delete(data.firstInterDto.id)
+//        mockMvc.perform(
+//                delete("/users/{id}",
+//                        data.firstInterDto.id))
+//                .andExpect(status().isOk())
+//        verify(interService, times(1))
+//                .findById(data.firstInterDto.getId())
+//        verify(interService, times(1))
+//                .delete(data.firstInterDto.getId())
+//        verifyNoMoreInteractions(interService)
 //    }
+
+
+//https://memorynotfound.com/unit-test-spring-mvc-rest-service-junit-mockito/
+    @Test
+    @Order(12)
+    @DisplayName("testPostSave_id_already_exists_before_save")
+    void testDelete_id_not_exists_before_delete()
+            throws InterIdNotExistsBeforeDeleteException {
+//        @Test
+//        public void test_delete_user_success() throws Exception {
+//            User user = new User(1, "Arya Stark");
+//            when(userService.findById(user.getId())).thenReturn(user);
+//            doNothing().when(userService).delete(user.getId());
+//            mockMvc.perform(
+//                    delete("/users/{id}", user.getId()))
+//                    .andExpect(status().isOk());
+//            verify(userService, times(1)).findById(user.getId());
+//            verify(userService, times(1)).delete(user.getId());
+//            verifyNoMoreInteractions(userService);
+//        }
+    }
 
 
 //    @Test
 //    @Disabled
 //    @DisplayName("testUpdateInter")
 //    void testUpdate() {
+//    @Test
+//    public void test_update_user_success() throws Exception {
+//        User user = new User(1, "Arya Stark");
+//        when(userService.findById(user.getId())).thenReturn(user);
+//        doNothing().when(userService).update(user);
+//        mockMvc.perform(
+//                put("/users/{id}", user.getId())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(asJsonString(user)))
+//                .andExpect(status().isOk());
+//        verify(userService, times(1)).findById(user.getId());
+//        verify(userService, times(1)).update(user);
+//        verifyNoMoreInteractions(userService);
+//    }
 //    }
 
 
