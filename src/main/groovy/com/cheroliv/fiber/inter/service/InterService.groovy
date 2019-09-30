@@ -16,4 +16,6 @@ interface InterService {
     InterDto getLast()
 
     InterDto get(Long id)
+
+    InterDto isUniqueKey(String nd, String type)
 }

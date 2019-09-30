@@ -58,4 +58,11 @@ class InterServiceImpl implements InterService {
     InterDto getLast() {
         null
     }
+
+    @Override
+    InterDto isUniqueKey(String nd, String type) {
+        null
+    }
+
+
 }
