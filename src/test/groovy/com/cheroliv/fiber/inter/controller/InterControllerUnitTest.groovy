@@ -228,12 +228,34 @@ class InterControllerUnitTest {
     @DisplayName("testPostSave_id_already_exists")
     void testPostSave_id_already_exists()
             throws InterAlreadyExistsException {
-        given(interService.save(data.newInterDto))
+
+        given(interService.save(data.expectedPersistedInterDto))
                 .willThrow(InterAlreadyExistsException)
-        mockMvc.perform(get(
-                "${INTER_BASE_URL_REST_API}/${data.interDto.id}/next"))
-                .andExpect(status().isNotFound())
+
+        mockMvc.perform(post(INTER_BASE_URL_REST_API)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonFromBean(data.expectedPersistedInterDto)))
+                .andExpect(status().isConflict())
+                .andReturn()
     }
+
+
+//    @Test//unique key nd type conflict avec sa propre exception
+    //mais meme status de retour http
+//    @Order(12)
+//    @DisplayName("testPostSave_id_already_exists")
+//    void testPostSave_id_already_exists()
+//            throws InterAlreadyExistsException {
+//        given(interService.save(data.newInterDto))
+//                .willThrow(InterAlreadyExistsException)
+//        mockMvc.perform(post(
+//                "${INTER_BASE_URL_REST_API}/${data.interDto.id}/next")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .accept(MediaType.APPLICATION_JSON)
+//                .content(jsonFromBean(data.expectedPersistedInterDto)))
+//                .andExpect(status().isConflict())
+//    }
 
 
 //    @Test
