@@ -15,7 +15,7 @@ package com.cheroliv.fiber.controller
 //import org.springframework.http.ResponseEntity
 //
 //import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
-//
+
 //@Slf4j
 //@SpringBootTest(webEnvironment = RANDOM_PORT)
 //@TestMethodOrder(OrderAnnotation)
@@ -27,7 +27,6 @@ class WebIntegrationTest {
 //
 //    @Test
 //    @Order(1)
-//    @Disabled
 //    @DisplayName('testGetInter_with_id')
 //    void testGetInter_with_id_1() {
 //        //arrange
