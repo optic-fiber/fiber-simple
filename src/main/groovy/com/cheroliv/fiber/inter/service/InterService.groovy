@@ -9,8 +9,6 @@ interface InterService {
 
     InterDto save(InterDto interDto)
 
-    InterDto update(InterDto interDto)
-
     InterDto getNext(Long id)
 
     InterDto getLast()
@@ -22,4 +20,6 @@ interface InterService {
     void delete(Long id)
 
     InterDto findById(Long id)
+
+    Boolean isUniqueIndexConsistent(Long id, String nd, String type)
 }

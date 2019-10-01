@@ -153,11 +153,16 @@ dependencies {
 
     // TDD:JUNIT SPRING
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
+    testImplementation ('org.springframework.cloud:spring-cloud-starter-contract-stub-runner'){
+     exclude  group: 'org.mockito', module: 'mockito-core'
+    }
     testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-verifier'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 
+
+
     // TDD:JUNIT
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.0.0'
     testImplementation("org.junit.jupiter:junit-jupiter:$junit_jupiter_version") {
         exclude module: 'junit-jupiter-params'
         exclude module: 'junit-jupiter-api'

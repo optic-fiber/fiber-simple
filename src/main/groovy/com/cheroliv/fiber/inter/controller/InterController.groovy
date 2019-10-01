@@ -82,19 +82,24 @@ class InterController {
     }
 
     @PutMapping(consumes = APPLICATION_JSON_UTF8_VALUE)
-    InterDto update(@RequestBody InterDto interDto) {
-        this.interService.update(interDto)
-    }
-
-    @PatchMapping(consumes = [APPLICATION_JSON_UTF8_VALUE])
-    InterDto patch(InterDto interDto) {
-        this.interService.update(interDto)
+    ResponseEntity<InterDto> update(@RequestBody InterDto interDto) {
+        if (!interDto.getId())
+            throw new InterIdNullBeforeUpdateException()
+        if (!interService.isUniqueIndexConsistent(
+                interDto.getId(),
+                interDto.getNd(),
+                interDto.getTypeInter()))
+            throw new InterAlreadyExistsException()
+        InterDto result = this.interService.save(interDto)
+        ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .body(result)
     }
 
 
     @DeleteMapping("/{id}")
     ResponseEntity<Void> delete(@PathVariable Long id) {
-        if(!interService.findById(id))
+        if (!interService.findById(id))
             throw new InterIdNotExistsBeforeDeleteException()
         interService.delete(id)
         ResponseEntity.noContent()
@@ -102,28 +107,11 @@ class InterController {
                 .build()
     }
 
+//TODO:patch request
+//    @PatchMapping(consumes = [APPLICATION_JSON_UTF8_VALUE])
+//    InterDto patch(InterDto interDto) {
+//        this.interService.update(interDto)
+//    }
+
+
 }
-
-/*
-
-@DeleteMapping("/questions/{id}")
-public ResponseEntity<Void> deleteQuestion(@PathVariable Long id) {
-    log.debug("REST request to delete Question : {}", id);
-    questionService.delete(id);
-    return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
-}
-
-
-@PutMapping("/questions")
-public ResponseEntity<QuestionDTO> updateQuestion(@Valid @RequestBody QuestionDTO questionDTO) throws URISyntaxException {
-    log.debug("REST request to update Question : {}", questionDTO);
-    if (questionDTO.getId() == null) {
-        throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-    }
-    QuestionDTO result = questionService.save(questionDTO);
-    return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, questionDTO.getId().toString()))
-            .body(result);
-}
-
- */

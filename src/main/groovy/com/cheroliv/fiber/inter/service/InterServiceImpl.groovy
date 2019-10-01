@@ -43,11 +43,6 @@ class InterServiceImpl implements InterService {
         null
     }
 
-    @Override
-    @Transactional
-    InterDto update(InterDto interDto) {
-        null
-    }
 
     @Override
     InterDto getNext(Long id) {
@@ -72,5 +67,10 @@ class InterServiceImpl implements InterService {
     @Override
     InterDto findById(Long id) {
         null
+    }
+
+    @Override
+    Boolean isUniqueIndexConsistent(Long id, String nd, String type) {
+        return null
     }
 }
