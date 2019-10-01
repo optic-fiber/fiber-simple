@@ -2,6 +2,7 @@ package com.cheroliv.fiber.inter.repository
 
 import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
+import com.cheroliv.repository.ExtendedRepository
 import groovy.transform.TypeChecked
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 @TypeChecked
-interface InterRepository extends JpaRepository<Inter, Long> {
+interface InterRepository extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,Long> {
 
     @Query('from Inter i where i.nd=:nd and typeInter=:type')
     Optional<Inter> find(

@@ -55,7 +55,7 @@ class InterServiceImpl implements InterService {
     }
 
     @Override
-    Boolean isUniqueKey(String nd, String type) {
+    Boolean isUniqueIndexAvailable(String nd, String type) {
         null
     }
 
@@ -72,5 +72,10 @@ class InterServiceImpl implements InterService {
     @Override
     Boolean isUniqueIndexConsistent(Long id, String nd, String type) {
         return null
+    }
+
+    @Override
+    InterDto saveWithPatch(InterDto interDto) {
+         null
     }
 }

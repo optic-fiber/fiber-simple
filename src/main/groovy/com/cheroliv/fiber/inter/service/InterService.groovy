@@ -15,11 +15,13 @@ interface InterService {
 
     InterDto get(Long id)
 
-    Boolean isUniqueKey(String nd, String type)
+    Boolean isUniqueIndexAvailable(String nd, String type)
 
     void delete(Long id)
 
     InterDto findById(Long id)
 
     Boolean isUniqueIndexConsistent(Long id, String nd, String type)
+
+    InterDto saveWithPatch(InterDto interDto)
 }

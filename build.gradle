@@ -58,6 +58,7 @@ configurations {
         extendsFrom annotationProcessor
     }
     compile.exclude module: 'spring-boot-starter-tomcat'
+    compile.exclude module: 'tomcat-embed-el'
 }
 
 test {

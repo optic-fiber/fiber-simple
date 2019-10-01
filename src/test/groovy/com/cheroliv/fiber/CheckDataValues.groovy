@@ -5,14 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import groovy.json.JsonSlurper
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
-import org.junit.jupiter.api.Test
 
 import java.nio.charset.StandardCharsets
 
 @Slf4j
 @TypeChecked
 class CheckDataValues {
-    @Test
+//    @Test@Disabled
     void testJsonValues() {
         File file = new File(
                 new File(".").canonicalPath +

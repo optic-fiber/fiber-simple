@@ -25,7 +25,6 @@ class InterController {
         this.interService = interService
     }
 
-    //TODO : chaining exception from service to controller
     @GetMapping(value = '/{id}')
     InterDto get(@PathVariable Long id) {
         InterDto result = this.interService.get(id)
@@ -63,13 +62,12 @@ class InterController {
         else throw new NextInterNotFoundException()
     }
 
-    //TODO:METTRE DES HEADER DEDANS QUAND JE SAURAIS
     @PostMapping(consumes = APPLICATION_JSON_UTF8_VALUE)
     ResponseEntity<InterDto> save(@RequestBody InterDto interDto)
             throws URISyntaxException {
         if (interDto.getId() != null)
             throw new InterIdAlreadyExistsBeforeSaveException()
-        if (interService.isUniqueKey(
+        if (!interService.isUniqueIndexAvailable(
                 interDto.nd,
                 interDto.typeInter))
             throw new InterAlreadyExistsException()
@@ -83,12 +81,12 @@ class InterController {
 
     @PutMapping(consumes = APPLICATION_JSON_UTF8_VALUE)
     ResponseEntity<InterDto> update(@RequestBody InterDto interDto) {
-        if (!interDto.getId())
+        if (!interDto.id)
             throw new InterIdNullBeforeUpdateException()
         if (!interService.isUniqueIndexConsistent(
-                interDto.getId(),
-                interDto.getNd(),
-                interDto.getTypeInter()))
+                interDto.id,
+                interDto.nd,
+                interDto.typeInter))
             throw new InterAlreadyExistsException()
         InterDto result = this.interService.save(interDto)
         ResponseEntity.ok()
@@ -107,11 +105,21 @@ class InterController {
                 .build()
     }
 
-//TODO:patch request
-//    @PatchMapping(consumes = [APPLICATION_JSON_UTF8_VALUE])
-//    InterDto patch(InterDto interDto) {
-//        this.interService.update(interDto)
-//    }
+    @PatchMapping(consumes = [APPLICATION_JSON_UTF8_VALUE])
+    ResponseEntity<InterDto> patch(@RequestBody InterDto interDto) {
+        if (!interDto.id)
+            throw new InterIdNullBeforePatchException()
+        if (interDto.nd && interDto.typeInter)
+            if (!interService.isUniqueIndexConsistent(
+                    interDto.id,
+                    interDto.nd,
+                    interDto.typeInter))
+                throw new InterAlreadyExistsException()
+        InterDto result = this.interService.saveWithPatch(interDto)
+        ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .body(result)
+    }
 
 
 }
