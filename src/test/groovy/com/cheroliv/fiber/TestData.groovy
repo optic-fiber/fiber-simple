@@ -1,7 +1,7 @@
 package com.cheroliv.fiber
 
-import com.cheroliv.fiber.inter.domain.enumeration.InterContractEnum
-import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
+import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
+import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
 import com.cheroliv.fiber.inter.model.InterDto
 import groovy.transform.CompileStatic
 
@@ -73,8 +73,8 @@ class TestData {
             lastName: 'Doe',
             firstName: 'John',
             dateTime: LocalDateTime.now(),
-            contract: InterContractEnum.LM.name(),
-            typeInter: InterTypeEnum.BAFA.name()
+            contract: ContractEnum.LM.name(),
+            typeInter: TypeInterEnum.BAFA.name()
     )
     static final InterDto expectedPersistedInterDto = new InterDto(
             id: newInterDtoId,

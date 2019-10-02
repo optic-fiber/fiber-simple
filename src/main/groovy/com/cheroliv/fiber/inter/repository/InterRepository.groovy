@@ -1,7 +1,7 @@
 package com.cheroliv.fiber.inter.repository
 
 import com.cheroliv.fiber.inter.domain.Inter
-import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
+import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
 import com.cheroliv.repository.ExtendedRepository
 import groovy.transform.TypeChecked
 import org.springframework.data.jpa.repository.JpaRepository
@@ -16,7 +16,7 @@ interface InterRepository extends JpaRepository<Inter, Long>, ExtendedRepository
     @Query('from Inter i where i.nd=:nd and typeInter=:type')
     Optional<Inter> find(
             @Param('nd') String nd,
-            @Param('type') InterTypeEnum type)
+            @Param('type') TypeInterEnum type)
 
     @Query("""
         select distinct month(i.dateTimeInter),

@@ -3,8 +3,8 @@ package com.cheroliv.fiber.inter.repository
 import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.InterConstants
 import com.cheroliv.fiber.inter.domain.InterUtils
-import com.cheroliv.fiber.inter.domain.enumeration.InterContractEnum
-import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
+import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
+import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
 import groovy.json.JsonSlurper
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
@@ -82,10 +82,10 @@ class InterRepositoryIntegrationTest {
                 lastNameClient: strJsonData[InterConstants.LASTNAME_INTER_JSON_FIELD_NAME],
                 firstNameClient: strJsonData[InterConstants.FIRSTNAME_INTER_JSON_FIELD_NAME],
                 dateTimeInter: localDateTime,
-                contract: InterContractEnum.valueOfName(
+                contract: ContractEnum.valueOfName(
                         strJsonData[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME] == InterConstants.PASSAGE_DE_CABLE ?
-                                InterContractEnum.CABLE_ROUTING.name() : strJsonData[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME]),
-                typeInter: InterTypeEnum.valueOfName(strJsonData[InterConstants.TYPE_INTER_JSON_FIELD_NAME]))
+                                ContractEnum.CABLE_ROUTING.name() : strJsonData[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME]),
+                typeInter: TypeInterEnum.valueOfName(strJsonData[InterConstants.TYPE_INTER_JSON_FIELD_NAME]))
     }
 
     @Transactional
@@ -219,7 +219,7 @@ class InterRepositoryIntegrationTest {
             if (date.year == dateExpected.year &&
                     date.monthValue == dateExpected.monthValue &&
                     it[InterConstants.TYPE_INTER_JSON_FIELD_NAME] ==
-                    InterTypeEnum.PLP.name()) {
+                    TypeInterEnum.PLP.name()) {
                 expectedCount++
             }
         }
@@ -556,8 +556,8 @@ class InterRepositoryIntegrationTest {
                 nd: "0101010101",
                 lastNameClient: "Doe",
                 firstNameClient: "John",
-                typeInter: InterTypeEnum.valueOfName("BAFA"),
-                contract: InterContractEnum.valueOfName("LM"),
+                typeInter: TypeInterEnum.valueOfName("BAFA"),
+                contract: ContractEnum.valueOfName("LM"),
                 dateTimeInter: LocalDateTime.of(
                         LocalDate.now(),
                         LocalTime.now()))

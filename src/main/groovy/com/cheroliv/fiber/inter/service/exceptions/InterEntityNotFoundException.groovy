@@ -1,4 +1,4 @@
-package com.cheroliv.fiber.inter.service
+package com.cheroliv.fiber.inter.service.exceptions
 
 class InterEntityNotFoundException extends RuntimeException {
     InterEntityNotFoundException(String message) {

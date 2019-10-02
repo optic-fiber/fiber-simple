@@ -1,5 +1,6 @@
 package com.cheroliv.fiber.inter.service
 
+import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.model.InterDto
 import com.cheroliv.fiber.inter.repository.InterRepository
 import groovy.transform.TypeChecked
@@ -17,13 +18,23 @@ import javax.validation.Validator
 class InterServiceImpl implements InterService {
 
     @Autowired
-    InterRepository interRepository
+    InterRepository repo
     @Autowired
     Validator validator
 
     @Override
     InterDto get(Long id) {
-        null
+        if (!id) return null
+        Optional<Inter> optional = repo.findById(id)
+        if (!optional.present) return null
+        else new InterDto(
+                id: optional.get().id,
+                nd: optional.get().nd,
+                firstName: optional.get().firstNameClient,
+                lastName: optional.get().lastNameClient,
+                contract: optional.get().contract.name(),
+                typeInter: optional.get().typeInter.name(),
+                dateTime: optional.get().dateTimeInter)
     }
 
     @Override
@@ -76,6 +87,6 @@ class InterServiceImpl implements InterService {
 
     @Override
     InterDto saveWithPatch(InterDto interDto) {
-         null
+        null
     }
 }

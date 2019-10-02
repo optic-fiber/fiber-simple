@@ -1,7 +1,7 @@
 package com.cheroliv.fiber.inter.domain
 
-import com.cheroliv.fiber.inter.domain.enumeration.InterContractEnum
-import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
+import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
+import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
 import groovy.json.JsonSlurper
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
@@ -15,7 +15,7 @@ import javax.validation.Validator
 import javax.validation.ValidatorFactory
 import java.nio.charset.StandardCharsets
 
-//import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
+//import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
 //import org.junit.jupiter.api.MethodOrderer
 //import org.junit.jupiter.api.extension.ExtendWith
 //import org.springframework.test.context.ActiveProfiles
@@ -117,7 +117,7 @@ class InterUnitTest {
                 .messageTemplate ==
                 InterConstants.NOT_NULL_CSTRT_TEMPLATE_MSG
 
-        inter.typeInter = InterTypeEnum.valueOfName("BAAP")
+        inter.typeInter = TypeInterEnum.valueOfName("BAAP")
         constraintViolations =
                 validator.validateProperty inter, "typeInter"
         assert constraintViolations.size() == 0
@@ -136,7 +136,7 @@ class InterUnitTest {
                 .messageTemplate,
                 InterConstants.NOT_NULL_CSTRT_TEMPLATE_MSG
 
-        inter.contract = InterContractEnum.LM
+        inter.contract = ContractEnum.LM
         constraintViolations = validator.validateProperty inter, "contract"
         assert constraintViolations.size() == 0
     }
@@ -144,15 +144,15 @@ class InterUnitTest {
     @Test
     @Order(5)
     void testContratPatternConstraint() {
-        Inter inter = new Inter(contract: InterContractEnum.LM)
+        Inter inter = new Inter(contract: ContractEnum.LM)
         Set<ConstraintViolation<Inter>> constraintViolations =
                 validator.validateProperty inter, "contract"
         assert constraintViolations.size() == 0
-        inter.contract = InterContractEnum.IQ
+        inter.contract = ContractEnum.IQ
         constraintViolations =
                 validator.validateProperty inter, "contract"
         assert constraintViolations.size() == 0
-        inter.contract = InterContractEnum.CABLE_ROUTING
+        inter.contract = ContractEnum.CABLE_ROUTING
         constraintViolations =
                 validator.validateProperty inter, "contract"
         assert constraintViolations.size() == 0

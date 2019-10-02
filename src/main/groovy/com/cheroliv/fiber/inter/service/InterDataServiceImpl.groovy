@@ -3,9 +3,11 @@ package com.cheroliv.fiber.inter.service
 
 import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.InterUtils
-import com.cheroliv.fiber.inter.domain.enumeration.InterContractEnum
-import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
+import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
+import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
 import com.cheroliv.fiber.inter.repository.InterRepository
+import com.cheroliv.fiber.inter.service.exceptions.InterEntityNotFoundException
+import com.cheroliv.fiber.inter.service.exceptions.InterTypeEnumException
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 import groovy.transform.TypeChecked
@@ -19,8 +21,6 @@ import org.springframework.transaction.annotation.Transactional
 import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 import static com.cheroliv.fiber.config.ApplicationConstants.*
@@ -87,11 +87,11 @@ class InterDataServiceImpl implements InterDataService {
 
     @Override
     Inter find(String nd, String type) {
-        if (!InterTypeEnum.values().collect {
+        if (!TypeInterEnum.values().collect {
             it.name()
         }.contains(type)) throw new InterTypeEnumException(type)
         Optional<Inter> result = this.interRepository.find(
-                nd, InterTypeEnum.valueOfName(type))
+                nd, TypeInterEnum.valueOfName(type))
         if (result.present)
             result.get()
         else throw new InterEntityNotFoundException(nd, type)
@@ -127,19 +127,19 @@ class InterDataServiceImpl implements InterDataService {
                 InterUtils.parseStringHeureToLocalTime(strHour))
     }
 
-    private static InterContractEnum parseI18nInterContractEnum(String i18nContactValue) {
-        InterContractEnum.valueOfName(
+    private static ContractEnum parseI18nInterContractEnum(String i18nContactValue) {
+        ContractEnum.valueOfName(
                 i18nContactValue ==
                         //TODO:change with a message bean handling i18n
                         'Passage de cable' ?
-                        InterContractEnum.CABLE_ROUTING.name() :
+                        ContractEnum.CABLE_ROUTING.name() :
                         i18nContactValue)
     }
 
     private void importJson(Map<String, String> it) {
         interRepository.find(
                 it[ND_INTER_JSON_FIELD_NAME],
-                InterTypeEnum.valueOfName(
+                TypeInterEnum.valueOfName(
                         it[TYPE_INTER_JSON_FIELD_NAME])) ?:
                 interRepository.save(new Inter(
                         nd: it[ND_INTER_JSON_FIELD_NAME],
@@ -150,7 +150,7 @@ class InterDataServiceImpl implements InterDataService {
                                 it[HOUR_INTER_JSON_FIELD_NAME]),
                         contract: parseI18nInterContractEnum(
                                 it[CONTRACT_INTER_JSON_FIELD_NAME]),
-                        typeInter: InterTypeEnum.valueOfName(it[TYPE_INTER_JSON_FIELD_NAME])))
+                        typeInter: TypeInterEnum.valueOfName(it[TYPE_INTER_JSON_FIELD_NAME])))
 
     }
 

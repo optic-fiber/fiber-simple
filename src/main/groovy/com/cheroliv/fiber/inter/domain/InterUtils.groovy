@@ -1,7 +1,7 @@
 package com.cheroliv.fiber.inter.domain
 
-import com.cheroliv.fiber.inter.domain.enumeration.InterContractEnum
-import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
+import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
+import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
 import groovy.transform.CompileStatic
 
 import java.time.*
@@ -71,8 +71,8 @@ class InterUtils {
                 nd: map[InterConstants.ND_INTER_JSON_FIELD_NAME],
                 lastNameClient: map[InterConstants.LASTNAME_INTER_JSON_FIELD_NAME],
                 firstNameClient: map[InterConstants.FIRSTNAME_INTER_JSON_FIELD_NAME],
-                contract: InterContractEnum.valueOfName(map[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME]),
-                typeInter: InterTypeEnum.valueOfName(map[InterConstants.TYPE_INTER_JSON_FIELD_NAME]),
+                contract: ContractEnum.valueOfName(map[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME]),
+                typeInter: TypeInterEnum.valueOfName(map[InterConstants.TYPE_INTER_JSON_FIELD_NAME]),
                 dateTimeInter: LocalDateTime.of(
                         parseStringDateToLocalDate(map[InterConstants.DATE_INTER_JSON_FIELD_NAME]),
                         parseStringHeureToLocalTime(map[InterConstants.INTER_HEURE_COLUMN_NAME])))

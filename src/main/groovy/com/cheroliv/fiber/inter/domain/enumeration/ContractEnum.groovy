@@ -4,10 +4,10 @@ import groovy.transform.CompileStatic
 
 
 @CompileStatic
-enum InterContractEnum {
+enum ContractEnum {
     LM, IQ, CABLE_ROUTING
-    static InterContractEnum valueOfName(String name ) {
-        values().find { InterContractEnum it ->
+    static ContractEnum valueOfName(String name ) {
+        values().find { ContractEnum it ->
             it.name() == name
         }
     }

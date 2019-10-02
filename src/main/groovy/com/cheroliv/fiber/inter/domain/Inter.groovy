@@ -1,7 +1,7 @@
 package com.cheroliv.fiber.inter.domain
 
-import com.cheroliv.fiber.inter.domain.enumeration.InterContractEnum
-import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
+import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
+import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
 import groovy.transform.ToString
 import groovy.transform.TypeChecked
 
@@ -9,7 +9,6 @@ import javax.persistence.*
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 import java.time.LocalDateTime
-import java.time.ZonedDateTime
 
 @Entity
 @ToString
@@ -41,13 +40,13 @@ class Inter implements Serializable {
     @Column(name = "`type_inter`",
             nullable = false,
             length = 4)
-    InterTypeEnum typeInter
+    TypeInterEnum typeInter
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "`contract`",
             nullable = false,
             length = 16)
-    InterContractEnum contract
+    ContractEnum contract
     @NotNull
     @Column(name = "`date_time_inter`")
     LocalDateTime dateTimeInter

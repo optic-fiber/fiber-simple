@@ -3,9 +3,11 @@ package com.cheroliv.fiber.inter.service
 import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.InterConstants
 import com.cheroliv.fiber.inter.domain.InterUtils
-import com.cheroliv.fiber.inter.domain.enumeration.InterContractEnum
-import com.cheroliv.fiber.inter.domain.enumeration.InterTypeEnum
+import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
+import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
 import com.cheroliv.fiber.inter.repository.InterRepository
+import com.cheroliv.fiber.inter.service.exceptions.InterEntityNotFoundException
+import com.cheroliv.fiber.inter.service.exceptions.InterTypeEnumException
 import com.google.common.collect.Maps
 import groovy.json.JsonSlurper
 import groovy.transform.TypeChecked
@@ -97,10 +99,10 @@ class InterDataServiceImplIntegrationTest {
                 lastNameClient: strJsonData[InterConstants.LASTNAME_INTER_JSON_FIELD_NAME],
                 firstNameClient: strJsonData[InterConstants.FIRSTNAME_INTER_JSON_FIELD_NAME],
                 dateTimeInter: localDateTime,
-                contract: InterContractEnum.valueOfName(
+                contract: ContractEnum.valueOfName(
                         strJsonData[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME] == InterConstants.PASSAGE_DE_CABLE ?
-                                InterContractEnum.CABLE_ROUTING.name() : strJsonData[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME]),
-                typeInter: InterTypeEnum.valueOfName(strJsonData[InterConstants.TYPE_INTER_JSON_FIELD_NAME]))
+                                ContractEnum.CABLE_ROUTING.name() : strJsonData[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME]),
+                typeInter: TypeInterEnum.valueOfName(strJsonData[InterConstants.TYPE_INTER_JSON_FIELD_NAME]))
     }
 
 
@@ -209,7 +211,7 @@ class InterDataServiceImplIntegrationTest {
                 { ->
                     interDataService.find(
                             "0101010101",
-                            InterTypeEnum.BAOC.name())
+                            TypeInterEnum.BAOC.name())
                 })
     }
 

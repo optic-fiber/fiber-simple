@@ -223,7 +223,7 @@ class InterControllerUnitTest {
         given(interService.save(data.newInterDto))
                 .willReturn(data.expectedPersistedInterDto)
         given(this.interService.isUniqueIndexAvailable(
-                anyString(),anyString())).willReturn(true)
+                anyString(), anyString())).willReturn(true)
         mockMvc.perform(post(INTER_BASE_URL_REST_API)
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
@@ -308,12 +308,13 @@ class InterControllerUnitTest {
             throws InterIdNotExistsBeforeDeleteException {
         given(interService.findById(data.firstInterDto.id + 1))
                 .willReturn(null)
-                .willThrow(InterIdNotExistsBeforeDeleteException)
-        mockMvc.perform(delete(
+        def result = mockMvc.perform(delete(
                 "${INTER_BASE_URL_REST_API}/{id}",
                 data.firstInterDto.id + 1))
                 .andExpect(status().isUnprocessableEntity())
                 .andReturn()
+        assert result.resolvedException instanceof
+                InterIdNotExistsBeforeDeleteException
     }
 
 
