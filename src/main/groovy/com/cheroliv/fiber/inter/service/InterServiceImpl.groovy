@@ -1,8 +1,11 @@
 package com.cheroliv.fiber.inter.service
 
 import com.cheroliv.fiber.inter.domain.Inter
+import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
 import com.cheroliv.fiber.inter.model.InterDto
 import com.cheroliv.fiber.inter.repository.InterDao
+import com.cheroliv.fiber.inter.service.exceptions.InterEntityNotFoundException
+import com.cheroliv.fiber.inter.service.exceptions.InterTypeEnumException
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
@@ -101,18 +104,38 @@ class InterServiceImpl implements InterService {
 
     @Override
     InterDto findById(Long id) {
-        null
+        if (!id) return null
+        def optional = dao.findById(id)
+        if (optional.isEmpty()) return null
+        else new InterDto(optional.get())
     }
+
+
+    @Override
+    InterDto find(String nd, String type) {
+        if (!TypeInterEnum.values().collect {
+            it.name()
+        }.contains(type)) throw new InterTypeEnumException(type)
+        Optional<Inter> result = dao.find(
+                nd, TypeInterEnum.valueOfName(type))
+        if (result.present)
+            new InterDto(result.get())
+        else throw new InterEntityNotFoundException(nd, type)
+    }
+
+
+    @Override
+    Boolean isUniqueIndexConsistent(Long id, String nd, String type) {
+        if (!id || !nd || !type) return null
+
+    }
+
 
     @Override
     Boolean isUniqueIndexAvailable(String nd, String type) {
         null
     }
 
-    @Override
-    Boolean isUniqueIndexConsistent(Long id, String nd, String type) {
-        return null
-    }
 
     @Override
     @Transactional

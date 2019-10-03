@@ -164,12 +164,51 @@ class InterServiceImplUnitTest {
                 interService.getNext(data.interDto.id))
     }
 
+    @Test
+    @Order(13)
+    @DisplayName('test_findById_id_is_null')
+    void test_findById_id_is_null() {
+        assert !interService.findById(null)
+    }
 
-//    void testFindById() {
-//    }
-//
-//    void testIsUniqueIndexConsistent() {
-//    }
+
+    @Test
+    @Order(14)
+    @DisplayName('test_findById_id_is_max_than_count')
+    void test_findById_id_is_max_than_count() {
+        assert !interService.findById(150_000_000_000)
+    }
+
+
+    @Test
+    @Order(15)
+    @DisplayName('test_findById')
+    void test_findById() {
+        given(dao.findById(data.inter.id))
+                .willReturn(Optional.of(data.inter))
+        assert reflectionEquals(data.interDto,
+                interService.findById(data.inter.id))
+    }
+
+
+    @Test
+    @Order(16)
+    @DisplayName('testIsUniqueIndexConsistent')
+    void testIsUniqueIndexConsistent_with_param_null() {
+        assert !interService.isUniqueIndexConsistent(
+                null, null, null)
+    }
+
+
+    @Test
+    @Order(16)
+    @DisplayName('testIsUniqueIndexConsistent')
+    void testIsUniqueIndexConsistent_with_id_over_records() {
+        assert !interService.isUniqueIndexConsistent(
+                150_000_000_000_000L,
+                data.inter.nd,
+                data.inter.typeInter.name())
+    }
 //
 //    void testIsUniqueIndexAvailable() {
 //    }

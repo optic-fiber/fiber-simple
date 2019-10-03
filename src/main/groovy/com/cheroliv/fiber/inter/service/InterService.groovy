@@ -3,6 +3,8 @@ package com.cheroliv.fiber.inter.service
 import com.cheroliv.fiber.inter.model.InterDto
 
 interface InterService {
+    InterDto find(String nd, String type)
+
     InterDto getFirst()
 
     InterDto getPrevious(Long id)
