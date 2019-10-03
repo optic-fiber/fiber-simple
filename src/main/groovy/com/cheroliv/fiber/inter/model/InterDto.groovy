@@ -1,5 +1,6 @@
 package com.cheroliv.fiber.inter.model
 
+import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.InterConstants
 import com.fasterxml.jackson.annotation.JsonFormat
 import groovy.transform.ToString
@@ -30,4 +31,17 @@ class InterDto implements Serializable {
     String typeInter
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime dateTime
+
+
+    InterDto(Inter i) {
+        this.id = i.id
+        this.nd = i.nd
+        this.firstName = i.firstNameClient
+        this.lastName = i.lastNameClient
+        this.contract = i.contract.name()
+        this.typeInter = i.typeInter.name()
+        this.dateTime = i.dateTimeInter
+
+    }
+
 }

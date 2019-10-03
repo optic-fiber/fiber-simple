@@ -1,17 +1,14 @@
 package com.cheroliv.fiber.recap.cucumber.stepdefs
 
-//import com.cheroliv.fiber.AbstractInterTestCase
 //import com.cheroliv.fiber.inter.domain.Inter
-//import com.cheroliv.com.cheroliv.fiber.recap.service.RecapService
+//import com.cheroliv.fiber.recap.service.RecapService
 //import io.cucumber.java.en.And
 //import io.cucumber.java.en.Then
 //import io.cucumber.java.en.When
 //import org.springframework.beans.factory.annotation.Autowired
 //import org.springframework.data.domain.Sort
 //TODO
-class RecapServiceStepDefs
-//        extends AbstractInterTestCase
-{
+class RecapServiceStepDefs {
 
 //    @Autowired
 //    RecapService recapService

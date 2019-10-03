@@ -17,7 +17,9 @@ import java.time.LocalDateTime
         @Index(name = "`uniq_idx_inter_nd_type`", columnList = "`nd`,`type_inter`", unique = true),
         @Index(name = "`idx_inter_type`", columnList = "`type_inter`"),
         @Index(name = "`idx_inter_contract`", columnList = "`contract`"),
-        @Index(name = "`idx_inter_date_time_inter`", columnList = "`date_time_inter`"),
+        //TODO rendre cette index unique et corriger
+        // le jeux de données pour qu'il soit coherent avec l'index
+        @Index(name = "`idx_inter_date_time_inter`", columnList = "`date_time_inter`"/*, unique = true*/),
         @Index(name = "`idx_inter_first_name_client`", columnList = "`first_name_client`"),
         @Index(name = "`idx_inter_last_name_client`", columnList = "`last_name_client`")])
 class Inter implements Serializable {

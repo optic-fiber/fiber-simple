@@ -21,39 +21,47 @@ class InterServiceImpl implements InterService {
     InterRepository repo
     @Autowired
     Validator validator
+    static final def FIRST_ITERATION_OF_LIST = 0
 
     @Override
     InterDto get(Long id) {
         if (!id) return null
         Optional<Inter> optional = repo.findById(id)
         if (!optional.present) return null
-        else new InterDto(
-                id: optional.get().id,
-                nd: optional.get().nd,
-                firstName: optional.get().firstNameClient,
-                lastName: optional.get().lastNameClient,
-                contract: optional.get().contract.name(),
-                typeInter: optional.get().typeInter.name(),
-                dateTime: optional.get().dateTimeInter)
+        else new InterDto(optional.get())
     }
 
     @Override
     InterDto getFirst() {
-        null
+        Long id
+        InterDto result = null
+        List<Optional<Inter>> optionals = repo.findByDateTimeInterMin()
+        if (optionals.empty) return null
+        optionals.eachWithIndex { Optional<Inter> it, int idx ->
+            if (idx == FIRST_ITERATION_OF_LIST) {
+                id = it.get().id
+                result = new InterDto(it.get())
+            }
+            if (id < it.get().id) {
+                id = it.get().id
+                result = new InterDto(it.get())
+            }
+        }
+        result
     }
 
 
     @Override
     InterDto getPrevious(Long id) {
-        null
+        Optional optional = repo.findById(id)
+        if (optional.isEmpty()) return null
+        def result = optional.get()
+        def firstDto = getFirst()
+        if (id == firstDto.id) return firstDto
+        //le previous c'est la premiere date inferieur au current
+        // le max des min(current.date)
+        new InterDto(this.repo.previous(id).get())
     }
-
-    @Override
-    @Transactional
-    InterDto save(InterDto interDto) {
-        null
-    }
-
 
     @Override
     InterDto getNext(Long id) {
@@ -66,23 +74,29 @@ class InterServiceImpl implements InterService {
     }
 
     @Override
-    Boolean isUniqueIndexAvailable(String nd, String type) {
+    InterDto findById(Long id) {
         null
     }
 
     @Override
-    void delete(Long id) {
-
-    }
-
-    @Override
-    InterDto findById(Long id) {
+    Boolean isUniqueIndexAvailable(String nd, String type) {
         null
     }
 
     @Override
     Boolean isUniqueIndexConsistent(Long id, String nd, String type) {
         return null
+    }
+
+    @Override
+    @Transactional
+    InterDto save(InterDto interDto) {
+        null
+    }
+
+    @Override
+    void delete(Long id) {
+
     }
 
     @Override

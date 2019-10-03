@@ -34,8 +34,8 @@ class InterController {
 
     @GetMapping(value = '/first')
     InterDto getFirst() {
-        InterDto result = this.interService.getFirst()
-        if (result) result
+        InterDto optional = this.interService.getFirst()
+        if (optional) optional
         else throw new FirstInterNotFoundException()
     }
 

@@ -1,5 +1,6 @@
 package com.cheroliv.fiber
 
+import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
 import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
 import com.cheroliv.fiber.inter.model.InterDto
@@ -49,10 +50,10 @@ class TestData {
     static final InterDto interDto = new InterDto(
             id: 104, nd: "0144820811",
             lastName: "Gustin", firstName: "Jean-Pierre",
+            contract: "IQ", typeInter: "BAOC",
             dateTime: stringToLocalDateTimeSystemDefault(
                     "2019-01-02",
-                    "13:00:00"),
-            contract: "IQ", typeInter: "BAOC")
+                    "13:00:00"))
     static final InterDto prevInterDto = new InterDto(
             id: 103, nd: "0142069836",
             lastName: "Maugee", firstName: "Eric",
@@ -85,7 +86,33 @@ class TestData {
             typeInter: newInterDto.typeInter,
             contract: newInterDto.contract)
 
-    static final List<InterDto> inters = [firstInterDto, prevInterDto, interDto, nextInterDto, lastInterDto]
+    static final List<InterDto> interDtos = [firstInterDto, prevInterDto, interDto, nextInterDto, lastInterDto]
+
+    Inter firstInter = new Inter(
+            id: firstInterDto.id,
+            nd: firstInterDto.nd,
+            firstNameClient: firstInterDto.firstName,
+            lastNameClient: firstInterDto.lastName,
+            dateTimeInter: firstInterDto.dateTime,
+            contract: ContractEnum.valueOfName(firstInterDto.contract),
+            typeInter: TypeInterEnum.valueOfName(firstInterDto.typeInter))
+    static final Inter inter = new Inter(
+            id: 104, nd: "0144820811",
+            lastNameClient: "Gustin",
+            firstNameClient: "Jean-Pierre",
+            contract: ContractEnum.valueOfName("IQ"),
+            typeInter: TypeInterEnum.valueOfName("BAOC"),
+            dateTimeInter: stringToLocalDateTimeSystemDefault(
+                    "2019-01-02",
+                    "13:00:00"))
+    static final Inter prevInter = new Inter(
+            id: prevInterDto.id,
+            nd: prevInterDto.nd,
+            firstNameClient: prevInterDto.firstName,
+            lastNameClient: prevInterDto.lastName,
+            contract: ContractEnum.valueOfName(prevInterDto.contract),
+            typeInter: TypeInterEnum.valueOfName(prevInterDto.typeInter),
+            dateTimeInter: prevInterDto.dateTime)
 
     static LocalDateTime stringToLocalDateTimeSystemDefault(String date, String time) {
         LocalDateTime.of(

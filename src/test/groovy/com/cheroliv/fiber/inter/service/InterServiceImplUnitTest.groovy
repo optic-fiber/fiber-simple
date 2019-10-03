@@ -1,9 +1,6 @@
 package com.cheroliv.fiber.inter.service
 
 import com.cheroliv.fiber.TestData
-import com.cheroliv.fiber.inter.domain.Inter
-import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
-import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
 import com.cheroliv.fiber.inter.repository.InterRepository
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
@@ -22,15 +19,15 @@ import static org.mockito.BDDMockito.given
 @Slf4j
 @TypeChecked
 @TestMethodOrder(OrderAnnotation)
-@DisplayName('InterServiceImplTest')
+@DisplayName('InterServiceImplUnitTest')
 @ExtendWith(MockitoExtension)
 @WebMvcTest(InterService)
-class InterServiceImplTest {
+class InterServiceImplUnitTest {
     @BeforeAll
     static void init() {
         MockitoAnnotations.initMocks(this)
     }
-    TestData data = TestData.getInstance()
+    TestData data = TestData.instance
 
     @MockBean
     InterDataService dataService
@@ -61,48 +58,75 @@ class InterServiceImplTest {
     @Order(3)
     @DisplayName('testGet_inter_exists')
     void testGet_inter_exists() {
-        Long id = data.firstInterDto.id
-        Inter expectedRepoResult = new Inter(
-                id: data.firstInterDto.id,
-                nd: data.firstInterDto.nd,
-                firstNameClient: data.firstInterDto.firstName,
-                lastNameClient: data.firstInterDto.lastName,
-                dateTimeInter: data.firstInterDto.dateTime,
-                contract: ContractEnum.valueOfName(data.firstInterDto.contract),
-                typeInter: TypeInterEnum.valueOfName(data.firstInterDto.typeInter))
-
-        given(repo.findById(id))
+        given(repo.findById(data.firstInterDto.id))
                 .willReturn(Optional
-                        .ofNullable(expectedRepoResult))
-
-        assert reflectionEquals(interService.get(id),
+                        .ofNullable(data.firstInter))
+        assert reflectionEquals(
+                interService.get(data.firstInterDto.id),
                 data.firstInterDto)
-
-        assert interService.get(id).id == data.firstInterDto.id
-        assert interService.get(id).nd == data.firstInterDto.nd
-        assert interService.get(id).firstName == data.firstInterDto.firstName
-        assert interService.get(id).lastName == data.firstInterDto.lastName
-        assert interService.get(id).dateTime == data.firstInterDto.dateTime
-        assert interService.get(id).contract == data.firstInterDto.contract
-        assert interService.get(id).typeInter == data.firstInterDto.typeInter
-
-
     }
 
     @Test
     @Order(4)
-    @Disabled
+    @DisplayName('testGetFirst_return_null')
+    void testGetFirst_return_null() {
+        given(repo.findByDateTimeInterMin())
+                .willReturn([])
+        assert !interService.first
+    }
+
+
+    @Test
+    @Order(5)
     @DisplayName('testGetFirst')
     void testGetFirst() {
-        assert reflectionEquals(this.interService.getFirst(),
+        given(repo.findByDateTimeInterMin())
+                .willReturn([Optional.of(data.firstInter)])
+        assert reflectionEquals(interService.first,
                 data.firstInterDto)
     }
-//
-//    void testGetPrevious() {
-//    }
-//
-//    void testSave() {
-//    }
+
+    @Test
+    @Order(6)
+    @DisplayName('testGetPrevious_with_id_null')
+    void testGetPrevious_with_id_null() {
+        given(repo.findById(null))
+                .willReturn(Optional.empty())
+        assert !interService.getPrevious(null)
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName('testGetPrevious_with_id_first')
+    void testGetPrevious_with_id_first() {
+        given(repo.findById(data.firstInter.id))
+                .willReturn(Optional.of(data.firstInter))
+        given(repo.findByDateTimeInterMin())
+                .willReturn([Optional.of(data.firstInter)])
+        assert reflectionEquals(data.firstInterDto,
+                interService.getPrevious(data.firstInter.id))
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName('testGetPrevious')
+    void testGetPrevious() {
+        given(repo.findById(data.interDto.id))
+                .willReturn(Optional.of(data.inter))
+        given(repo.findByDateTimeInterMin())
+                .willReturn([Optional.of(data.prevInter)])
+        given(repo.previous(data.interDto.id))
+                .willReturn(Optional.of(data.prevInter))
+        assert reflectionEquals(
+                interService.getPrevious(data.inter.id),
+                data.prevInterDto)
+    }
+
+    @Test
+    @Order(8)
+    @DisplayName('testSave')
+    void testSave() {
+    }
 //
 //    void testGetNext() {
 //    }

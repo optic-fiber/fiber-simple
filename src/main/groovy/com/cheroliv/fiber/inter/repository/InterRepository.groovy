@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 @TypeChecked
-interface InterRepository extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,Long> {
+interface InterRepository extends JpaRepository<Inter, Long>, ExtendedRepository<Inter, Long> {
 
     @Query('from Inter i where i.nd=:nd and typeInter=:type')
     Optional<Inter> find(
@@ -158,4 +158,15 @@ interface InterRepository extends JpaRepository<Inter, Long>, ExtendedRepository
     Integer countPdcBaocBaapParMoisDansAnnee(
             @Param("mois") Integer mois,
             @Param("annee") Integer annee)
+
+    @Query("""
+        select j from Inter j where j.dateTimeInter=(
+        select min(i.dateTimeInter) from Inter i)""")
+    List<Optional<Inter>> findByDateTimeInterMin()
+
+    @Query("""
+        select j from Inter j where j.dateTimeInter=(
+        select distinct max(i.dateTimeInter) 
+        from Inter i where i.id <:id)""")
+    Optional<Inter> previous(Long id)
 }

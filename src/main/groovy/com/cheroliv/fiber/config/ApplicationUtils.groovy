@@ -1,11 +1,11 @@
 package com.cheroliv.fiber.config
 
-import groovy.transform.NotYetImplemented
+//import groovy.transform.NotYetImplemented
 
 class ApplicationUtils {
 
     //TODO
-    @NotYetImplemented
+//    @NotYetImplemented
     static void secureRequestedPath(String path) {
         //1)tokenize path
         //2)ensure every token from user.home to the endpoint
