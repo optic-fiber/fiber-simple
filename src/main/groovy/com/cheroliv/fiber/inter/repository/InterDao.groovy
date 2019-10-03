@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 @TypeChecked
-interface InterRepository extends JpaRepository<Inter, Long>, ExtendedRepository<Inter, Long> {
+interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter, Long> {
 
     @Query('from Inter i where i.nd=:nd and typeInter=:type')
     Optional<Inter> find(
@@ -159,14 +159,29 @@ interface InterRepository extends JpaRepository<Inter, Long>, ExtendedRepository
             @Param("mois") Integer mois,
             @Param("annee") Integer annee)
 
+
+    //TODO:make dateTimeInter unique
+    // and change datasets
+    //date is not unique so the result is some tuples
     @Query("""
         select j from Inter j where j.dateTimeInter=(
         select min(i.dateTimeInter) from Inter i)""")
-    List<Optional<Inter>> findByDateTimeInterMin()
+    List<Optional<Inter>> findByMinDateTimeInter()
+
+    @Query("""
+        select j from Inter j where j.dateTimeInter=(
+        select max(i.dateTimeInter) from Inter i)""")
+    List<Optional<Inter>> findByMaxDateTimeInter()
 
     @Query("""
         select j from Inter j where j.dateTimeInter=(
         select distinct max(i.dateTimeInter) 
         from Inter i where i.id <:id)""")
     Optional<Inter> previous(Long id)
+
+    @Query("""
+        select j from Inter j where j.dateTimeInter=(
+        select distinct min(i.dateTimeInter) 
+        from Inter i where i.id <:id)""")
+    Optional<Inter> next(Long id)
 }

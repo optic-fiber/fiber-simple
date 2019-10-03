@@ -31,11 +31,11 @@ import java.time.format.DateTimeFormatter
 @TestMethodOrder(OrderAnnotation)
 @DisplayName('InterRepositoryIntegrationTest')
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class InterRepositoryIntegrationTest {
+class InterDaoIntegrationTest {
     @Autowired
     ApplicationContext applicationContext
     @Autowired
-    InterRepository interRepository
+    InterDao interRepository
     @Autowired
     Validator validator
     @Value('${application.data.home-directory-name}')

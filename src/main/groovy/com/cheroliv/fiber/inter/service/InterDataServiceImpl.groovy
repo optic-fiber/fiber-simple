@@ -5,7 +5,7 @@ import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.InterUtils
 import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
 import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
-import com.cheroliv.fiber.inter.repository.InterRepository
+import com.cheroliv.fiber.inter.repository.InterDao
 import com.cheroliv.fiber.inter.service.exceptions.InterEntityNotFoundException
 import com.cheroliv.fiber.inter.service.exceptions.InterTypeEnumException
 import groovy.json.JsonBuilder
@@ -32,7 +32,7 @@ import static com.cheroliv.fiber.inter.domain.InterConstants.*
 @Transactional(readOnly = true)
 class InterDataServiceImpl implements InterDataService {
 
-    final InterRepository interRepository
+    final InterDao interRepository
     final String homeDirectoryName
     final String jsonBackupFileName
     InterDataServiceImpl(
@@ -40,7 +40,7 @@ class InterDataServiceImpl implements InterDataService {
                     String homeDirectoryName,
             @Value(KEY_DATA_JSON_BACKUP_FILE_NAME)
                     String jsonBackupFileName,
-            InterRepository interRepository) {
+            InterDao interRepository) {
         this.interRepository = interRepository
         this.homeDirectoryName = homeDirectoryName
         this.jsonBackupFileName = jsonBackupFileName

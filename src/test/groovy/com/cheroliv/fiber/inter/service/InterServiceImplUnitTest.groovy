@@ -1,7 +1,7 @@
 package com.cheroliv.fiber.inter.service
 
 import com.cheroliv.fiber.TestData
-import com.cheroliv.fiber.inter.repository.InterRepository
+import com.cheroliv.fiber.inter.repository.InterDao
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
 import org.junit.jupiter.api.*
@@ -32,7 +32,7 @@ class InterServiceImplUnitTest {
     @MockBean
     InterDataService dataService
     @MockBean
-    InterRepository repo
+    InterDao dao
     @InjectMocks
     InterService interService = new InterServiceImpl()
 
@@ -49,7 +49,7 @@ class InterServiceImplUnitTest {
     @DisplayName('testGet_id_not_null_inter_not_exists')
     void testGet_id_not_null_inter_not_exists() {
         Long id = 3L
-        given(repo.findById(id)).willReturn(Optional.empty())
+        given(dao.findById(id)).willReturn(Optional.empty())
         assert interService.get(id) == null
     }
 
@@ -58,7 +58,7 @@ class InterServiceImplUnitTest {
     @Order(3)
     @DisplayName('testGet_inter_exists')
     void testGet_inter_exists() {
-        given(repo.findById(data.firstInterDto.id))
+        given(dao.findById(data.firstInterDto.id))
                 .willReturn(Optional
                         .ofNullable(data.firstInter))
         assert reflectionEquals(
@@ -70,7 +70,7 @@ class InterServiceImplUnitTest {
     @Order(4)
     @DisplayName('testGetFirst_return_null')
     void testGetFirst_return_null() {
-        given(repo.findByDateTimeInterMin())
+        given(dao.findByMinDateTimeInter())
                 .willReturn([])
         assert !interService.first
     }
@@ -80,7 +80,7 @@ class InterServiceImplUnitTest {
     @Order(5)
     @DisplayName('testGetFirst')
     void testGetFirst() {
-        given(repo.findByDateTimeInterMin())
+        given(dao.findByMinDateTimeInter())
                 .willReturn([Optional.of(data.firstInter)])
         assert reflectionEquals(interService.first,
                 data.firstInterDto)
@@ -88,34 +88,53 @@ class InterServiceImplUnitTest {
 
     @Test
     @Order(6)
+    @DisplayName('testGetLast_return_null')
+    void testGetLast_return_null() {
+        given(dao.findByMaxDateTimeInter())
+                .willReturn([])
+        assert !interService.last
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName('testGetLast')
+    void testGetLast() {
+        given(dao.findByMaxDateTimeInter())
+                .willReturn([Optional.of(data.lastInter)])
+        assert reflectionEquals(interService.last,
+                data.lastInterDto)
+    }
+
+    @Test
+    @Order(8)
     @DisplayName('testGetPrevious_with_id_null')
     void testGetPrevious_with_id_null() {
-        given(repo.findById(null))
+        given(dao.findById(null))
                 .willReturn(Optional.empty())
         assert !interService.getPrevious(null)
     }
 
     @Test
-    @Order(6)
+    @Order(9)
     @DisplayName('testGetPrevious_with_id_first')
     void testGetPrevious_with_id_first() {
-        given(repo.findById(data.firstInter.id))
+        given(dao.findById(data.firstInter.id))
                 .willReturn(Optional.of(data.firstInter))
-        given(repo.findByDateTimeInterMin())
+        given(dao.findByMinDateTimeInter())
                 .willReturn([Optional.of(data.firstInter)])
         assert reflectionEquals(data.firstInterDto,
                 interService.getPrevious(data.firstInter.id))
     }
 
     @Test
-    @Order(7)
+    @Order(10)
     @DisplayName('testGetPrevious')
     void testGetPrevious() {
-        given(repo.findById(data.interDto.id))
+        given(dao.findById(data.interDto.id))
                 .willReturn(Optional.of(data.inter))
-        given(repo.findByDateTimeInterMin())
+        given(dao.findByMinDateTimeInter())
                 .willReturn([Optional.of(data.prevInter)])
-        given(repo.previous(data.interDto.id))
+        given(dao.previous(data.interDto.id))
                 .willReturn(Optional.of(data.prevInter))
         assert reflectionEquals(
                 interService.getPrevious(data.inter.id),
@@ -123,29 +142,41 @@ class InterServiceImplUnitTest {
     }
 
     @Test
-    @Order(8)
-    @DisplayName('testSave')
-    void testSave() {
+    @Order(11)
+    @DisplayName('testGetNext_with_id_null')
+    void testGetNext_with_id_null() {
+        given(dao.findById(null))
+                .willReturn(Optional.empty())
+        assert !interService.getNext(null)
     }
-//
-//    void testGetNext() {
-//    }
-//
-//    void testGetLast() {
-//    }
-//
-//    void testIsUniqueIndexAvailable() {
-//    }
-//
-//    void testDelete() {
-//    }
-//
+
+    @Test
+    @Order(12)
+    @DisplayName('testGetNext_with_id_last')
+    void testGetNext_with_id_last() {
+        given(dao.findById(data.inter.id))
+                .willReturn(Optional.of(data.inter))
+        given(dao.findByMaxDateTimeInter())
+                .willReturn([Optional.of(data.nextInter)])
+        given(dao.next(data.inter.id))
+                .willReturn(Optional.of(data.nextInter))
+        assert reflectionEquals(data.nextInterDto,
+                interService.getNext(data.interDto.id))
+    }
+
+
 //    void testFindById() {
 //    }
 //
 //    void testIsUniqueIndexConsistent() {
 //    }
 //
+//    void testIsUniqueIndexAvailable() {
+//    }
+//    void testSave() {
+//    }
+//    void testDelete() {
+//    }
 //    void testSaveWithPatch() {
 //    }
 }
