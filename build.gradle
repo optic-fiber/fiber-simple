@@ -38,6 +38,7 @@ repositories {
     jcenter()
     maven { url 'https://jitpack.io' }
     maven { url 'https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine' }
+
 }
 
 dependencyManagement {
@@ -57,8 +58,8 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-    compile.exclude module: 'spring-boot-starter-tomcat'
-    compile.exclude module: 'tomcat-embed-el'
+//    compile.exclude module: 'spring-boot-starter-tomcat'
+//    compile.exclude module: 'tomcat-embed-el'
 }
 
 test {
@@ -78,18 +79,22 @@ test {
 sourceSets {
     main {
 //        java { srcDirs = [] }
-        groovy { srcDirs = [
+        groovy {
+            srcDirs = [
 //                'src/main/java',
-                'src/main/groovy'
-        ] }
+'src/main/groovy'
+            ]
+        }
     }
     test {
 //        java { srcDirs = [] }
-        groovy { srcDirs = [
+        groovy {
+            srcDirs = [
 //                'src/test/java',
-                'src/test/groovy',
-                'src/features'
-        ] }
+'src/test/groovy',
+'src/features'
+            ]
+        }
     }
 }
 
@@ -103,6 +108,17 @@ bootRun {
 
 
 dependencies {
+    // JSF RESOURCES
+    implementation "org.apache.myfaces.core:myfaces-impl:2.3.4"
+    implementation "org.apache.myfaces.core:myfaces-api:2.3.4"
+//    implementation "org.apache.tomcat.embed:tomcat-embed-jasper:9.0.26"
+    implementation "org.ocpsoft.rewrite:rewrite-servlet:3.4.2.Final"
+    implementation "org.ocpsoft.rewrite:rewrite-integration-faces:3.4.2.Final"
+    implementation "org.ocpsoft.rewrite:rewrite-config-prettyfaces:3.4.2.Final"
+    implementation "org.primefaces:primefaces:7.0"
+//    compile 'org.primefaces.extensions:all-themes:1.0.8'
+    // END JSF RESOURCES
+
 
     implementation "commons-io:commons-io:$commons_io_version"
 
@@ -138,7 +154,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     // APP-SERVER
-    implementation 'org.springframework.boot:spring-boot-starter-undertow'
+//    implementation 'org.springframework.boot:spring-boot-starter-undertow'
+    implementation 'org.springframework.boot:spring-boot-starter-tomcat'
 
 
     // GRAPH_QL

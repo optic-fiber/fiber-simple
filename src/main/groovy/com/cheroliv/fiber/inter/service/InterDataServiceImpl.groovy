@@ -121,13 +121,13 @@ class InterDataServiceImpl implements InterDataService {
 
 
 
-    private static LocalDateTime buildDateTime(String strDate, String strHour) {
+    private LocalDateTime buildDateTime(String strDate, String strHour) {
         LocalDateTime.of(
                 InterUtils.parseStringDateToLocalDate(strDate),
                 InterUtils.parseStringHeureToLocalTime(strHour))
     }
 
-    private static ContractEnum parseI18nInterContractEnum(String i18nContactValue) {
+    private ContractEnum parseI18nInterContractEnum(String i18nContactValue) {
         ContractEnum.valueOfName(
                 i18nContactValue ==
                         //TODO:change with a message bean handling i18n
