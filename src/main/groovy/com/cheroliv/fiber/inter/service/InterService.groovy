@@ -1,6 +1,6 @@
 package com.cheroliv.fiber.inter.service
 
-import com.cheroliv.fiber.inter.model.InterDto
+import com.cheroliv.fiber.inter.dto.InterDto
 
 interface InterService {
     InterDto find(String nd, String type)

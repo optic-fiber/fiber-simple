@@ -1,4 +1,4 @@
-package com.cheroliv.fiber.inter.model
+package com.cheroliv.fiber.inter.dto
 
 import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.InterConstants

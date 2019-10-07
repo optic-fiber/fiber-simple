@@ -2,7 +2,7 @@ package com.cheroliv.fiber.inter.service
 
 import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
-import com.cheroliv.fiber.inter.model.InterDto
+import com.cheroliv.fiber.inter.dto.InterDto
 import com.cheroliv.fiber.inter.repository.InterDao
 import com.cheroliv.fiber.inter.service.exceptions.InterEntityNotFoundException
 import com.cheroliv.fiber.inter.service.exceptions.InterTypeEnumException

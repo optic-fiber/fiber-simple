@@ -2,7 +2,7 @@ package com.cheroliv.fiber.inter.controller
 
 import com.cheroliv.fiber.TestData
 import com.cheroliv.fiber.inter.controller.exceptions.*
-import com.cheroliv.fiber.inter.model.InterDto
+import com.cheroliv.fiber.inter.dto.InterDto
 import com.cheroliv.fiber.inter.service.InterService
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j

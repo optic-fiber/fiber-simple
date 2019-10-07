@@ -1,7 +1,7 @@
 package com.cheroliv.fiber
 
 import com.cheroliv.fiber.inter.domain.InterUtils
-import com.cheroliv.fiber.inter.model.InterDto
+import com.cheroliv.fiber.inter.dto.InterDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import groovy.json.JsonSlurper
 import groovy.transform.CompileStatic

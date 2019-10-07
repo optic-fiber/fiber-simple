@@ -3,7 +3,7 @@ package com.cheroliv.fiber
 import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
 import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
-import com.cheroliv.fiber.inter.model.InterDto
+import com.cheroliv.fiber.inter.dto.InterDto
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
