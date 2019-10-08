@@ -1,4 +1,4 @@
-package com.cheroliv.fiber.inter.repository
+package com.cheroliv.fiber.inter.dao
 
 import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
@@ -173,15 +173,27 @@ interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,
         select max(i.dateTimeInter) from Inter i)""")
     List<Optional<Inter>> findByMaxDateTimeInter()
 
-    @Query("""
-        select j from Inter j where j.dateTimeInter=(
-        select distinct max(i.dateTimeInter) 
-        from Inter i where i.id <:id)""")
-    Optional<Inter> previous(Long id)
+//    @Query("""
+//        select j from Inter j where j.dateTimeInter=(
+//        select distinct max(i.dateTimeInter)
+//        from Inter i where i.id <:id)""")
+//    Optional<Inter> previous(Long id)
+
+//    @Query("""
+//        select j from Inter j where j.dateTimeInter=(
+//        select distinct min(i.dateTimeInter)
+//        from Inter i where i.id <:id)""")
+//    Optional<Inter> next(Long id)
 
     @Query("""
         select j from Inter j where j.dateTimeInter=(
-        select distinct min(i.dateTimeInter) 
+        select max(i.dateTimeInter) 
         from Inter i where i.id <:id)""")
-    Optional<Inter> next(Long id)
+    Optional<Inter> previous(@Param('id') Long id)
+
+    @Query("""
+        select j from Inter j where j.dateTimeInter=(
+        select min(i.dateTimeInter) 
+        from Inter i where i.id <:id)""")
+    Optional<Inter> next(@Param('id') Long id)
 }

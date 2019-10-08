@@ -4,6 +4,7 @@ import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
 import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
 import groovy.transform.ToString
 import groovy.transform.TypeChecked
+import org.hibernate.annotations.DynamicUpdate
 
 import javax.persistence.*
 import javax.validation.constraints.NotNull
@@ -13,6 +14,7 @@ import java.time.LocalDateTime
 @Entity
 @ToString
 @TypeChecked
+@DynamicUpdate
 @Table(name = "`inter`", indexes = [
         @Index(name = "`uniq_idx_inter_nd_type`", columnList = "`nd`,`type_inter`", unique = true),
         @Index(name = "`idx_inter_type`", columnList = "`type_inter`"),

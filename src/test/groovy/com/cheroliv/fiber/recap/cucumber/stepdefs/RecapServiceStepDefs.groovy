@@ -24,7 +24,7 @@ class RecapServiceStepDefs {
 //    @And("I load the existed file {string} in database")
 //    void load_the_file_in_databse(String filename) throws Throwable {
 //        List<Map<String, String>> expected = jsonData
-//        List<Inter> result = interRepository.findAll(new Sort(Sort.Direction.ASC, "id"))
+//        List<Inter> result = dao.findAll(new Sort(Sort.Direction.ASC, "id"))
 //        expected.eachWithIndex { Map<String, String> it, int idx ->
 //            assert this.jsonDataToInter(it) == result.get(idx)
 //        }

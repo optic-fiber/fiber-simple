@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = ["com.cheroliv.fiber.inter.repository",
+        basePackages = ["com.cheroliv.fiber.inter.dao",
                 "com.cheroliv.repository"],
         repositoryBaseClass = ExtendedRepositoryImpl)
 class ExtendedRepositoryConfig {

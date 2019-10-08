@@ -97,39 +97,39 @@ class RecapServiceImplTest
 //
 //        Recap expectedRecap = new Recap(
 //                sheetName: nomFeuille,
-//                inters: interRepository
+//                inters: dao
 //                        .findAllDeMoisDansAnnee(
 //                                moisInt, anneeIntValue),
 //                annee: anneeIntValue,
 //                mois: moisInt,
-//                nbInterTotal: interRepository
+//                nbInterTotal: dao
 //                        .countInterParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbBaocBaap: interRepository
+//                nbBaocBaap: dao
 //                        .countRacParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbBafa: interRepository
+//                nbBafa: dao
 //                        .countBafaParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbBast: interRepository
+//                nbBast: dao
 //                        .countBastParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbPlp: interRepository
+//                nbPlp: dao
 //                        .countPlpParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbSav: interRepository
+//                nbSav: dao
 //                        .countSavParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbPdcTotal: interRepository
+//                nbPdcTotal: dao
 //                        .countPdcParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbPdcBafa: interRepository
+//                nbPdcBafa: dao
 //                        .countPdcBafaParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbPdcBast: interRepository
+//                nbPdcBast: dao
 //                        .countPdcBastParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbPdcBaocBaap: interRepository
+//                nbPdcBaocBaap: dao
 //                        .countPdcBaocBaapParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
 //                labelTitreRecap:
@@ -179,7 +179,7 @@ class RecapServiceImplTest
 //
 //
 //        List<List<Integer>> listIntMoisAnnee =
-//                interRepository.distinctMoisParAnnee()
+//                dao.distinctMoisParAnnee()
 //        expectedClasseur.recaps = new ArrayList<Recap>(expectedClasseur.nbFeuille)
 //        assert expectedClasseur.nbFeuille == expectedClasseur.moisParAnnee.size()
 //        assert expectedClasseur.nbFeuille == listIntMoisAnnee.size()
@@ -196,39 +196,39 @@ class RecapServiceImplTest
 //                    expectedClasseur.recaps.add idx,
 //                            new Recap(
 //                                    sheetName: expectedClasseur.nomFeuilles.get(idx),
-//                                    inters: interRepository
+//                                    inters: dao
 //                                            .findAllDeMoisDansAnnee(
 //                                                    moisInt, anneeIntValue),
 //                                    annee: anneeIntValue,
 //                                    mois: moisInt,
-//                                    nbInterTotal: interRepository
+//                                    nbInterTotal: dao
 //                                            .countInterParMoisDansAnnee(
 //                                                    moisInt, anneeIntValue),
-//                                    nbBaocBaap: interRepository
+//                                    nbBaocBaap: dao
 //                                            .countRacParMoisDansAnnee(
 //                                                    moisInt, anneeIntValue),
-//                                    nbBafa: interRepository
+//                                    nbBafa: dao
 //                                            .countBafaParMoisDansAnnee(
 //                                                    moisInt, anneeIntValue),
-//                                    nbBast: interRepository
+//                                    nbBast: dao
 //                                            .countBastParMoisDansAnnee(
 //                                                    moisInt, anneeIntValue),
-//                                    nbPlp: interRepository
+//                                    nbPlp: dao
 //                                            .countPlpParMoisDansAnnee(
 //                                                    moisInt, anneeIntValue),
-//                                    nbSav: interRepository
+//                                    nbSav: dao
 //                                            .countSavParMoisDansAnnee(
 //                                                    moisInt, anneeIntValue),
-//                                    nbPdcTotal: interRepository
+//                                    nbPdcTotal: dao
 //                                            .countPdcParMoisDansAnnee(
 //                                                    moisInt, anneeIntValue),
-//                                    nbPdcBafa: interRepository
+//                                    nbPdcBafa: dao
 //                                            .countPdcBafaParMoisDansAnnee(
 //                                                    moisInt, anneeIntValue),
-//                                    nbPdcBast: interRepository
+//                                    nbPdcBast: dao
 //                                            .countPdcBastParMoisDansAnnee(
 //                                                    moisInt, anneeIntValue),
-//                                    nbPdcBaocBaap: interRepository
+//                                    nbPdcBaocBaap: dao
 //                                            .countPdcBaocBaapParMoisDansAnnee(
 //                                                    moisInt, anneeIntValue),
 //                                    labelTitreRecap:

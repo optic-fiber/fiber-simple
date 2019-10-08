@@ -5,7 +5,7 @@ import com.cheroliv.fiber.inter.domain.InterConstants
 import com.cheroliv.fiber.inter.domain.InterUtils
 import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
 import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
-import com.cheroliv.fiber.inter.repository.InterDao
+import com.cheroliv.fiber.inter.dao.InterDao
 import com.cheroliv.fiber.inter.service.exceptions.InterEntityNotFoundException
 import com.cheroliv.fiber.inter.service.exceptions.InterTypeEnumException
 import com.google.common.collect.Maps

@@ -1,11 +1,12 @@
 package com.cheroliv.fiber.inter.service
 
-
+import com.cheroliv.fiber.inter.dao.InterDao
+import com.cheroliv.fiber.inter.dao.InterventionRepository
 import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.InterUtils
 import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
 import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
-import com.cheroliv.fiber.inter.repository.InterDao
+import com.cheroliv.fiber.inter.dto.InterDto
 import com.cheroliv.fiber.inter.service.exceptions.InterEntityNotFoundException
 import com.cheroliv.fiber.inter.service.exceptions.InterTypeEnumException
 import groovy.json.JsonBuilder
@@ -32,16 +33,17 @@ import static com.cheroliv.fiber.inter.domain.InterConstants.*
 @Transactional(readOnly = true)
 class InterDataServiceImpl implements InterDataService {
 
-    final InterDao interRepository
+    final InterDao dao
     final String homeDirectoryName
     final String jsonBackupFileName
+
     InterDataServiceImpl(
             @Value(KEY_DATA_HOME_DIRECTORY)
                     String homeDirectoryName,
             @Value(KEY_DATA_JSON_BACKUP_FILE_NAME)
                     String jsonBackupFileName,
-            InterDao interRepository) {
-        this.interRepository = interRepository
+            InterDao dao) {
+        this.dao = dao
         this.homeDirectoryName = homeDirectoryName
         this.jsonBackupFileName = jsonBackupFileName
     }
@@ -90,7 +92,7 @@ class InterDataServiceImpl implements InterDataService {
         if (!TypeInterEnum.values().collect {
             it.name()
         }.contains(type)) throw new InterTypeEnumException(type)
-        Optional<Inter> result = this.interRepository.find(
+        Optional<Inter> result = this.dao.find(
                 nd, TypeInterEnum.valueOfName(type))
         if (result.present)
             result.get()
@@ -100,12 +102,12 @@ class InterDataServiceImpl implements InterDataService {
 
     @Override
     Integer countMois() {
-        interRepository.distinctMoisParAnnee()?.size() ?: 0
+        dao.distinctMoisParAnnee()?.size() ?: 0
     }
 
     @Override
     List<Map<String, Integer>> findAllMoisFormatFrParAnnee() {
-        List<List<Integer>> result = interRepository
+        List<List<Integer>> result = dao
                 .distinctMoisParAnnee()
         List<Map<String, Integer>> finalResult =
                 new ArrayList<Map<String, Integer>>(result.size())
@@ -118,7 +120,6 @@ class InterDataServiceImpl implements InterDataService {
         }
         finalResult
     }
-
 
 
     private LocalDateTime buildDateTime(String strDate, String strHour) {
@@ -137,11 +138,11 @@ class InterDataServiceImpl implements InterDataService {
     }
 
     private void importJson(Map<String, String> it) {
-        interRepository.find(
+        dao.find(
                 it[ND_INTER_JSON_FIELD_NAME],
                 TypeInterEnum.valueOfName(
                         it[TYPE_INTER_JSON_FIELD_NAME])) ?:
-                interRepository.save(new Inter(
+                dao.save(new Inter(
                         nd: it[ND_INTER_JSON_FIELD_NAME],
                         lastNameClient: it[LASTNAME_INTER_JSON_FIELD_NAME],
                         firstNameClient: it[FIRSTNAME_INTER_JSON_FIELD_NAME],
@@ -198,7 +199,7 @@ class InterDataServiceImpl implements InterDataService {
         List<String> jsonList = new ArrayList<String>()
 
         //building json
-        interRepository.findAll().each { Inter inter ->
+        dao.findAll().each { Inter inter ->
             jsonList.add "${buildJsonInter(inter)}\n".toString()
         }
 

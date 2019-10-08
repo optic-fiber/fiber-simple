@@ -1,7 +1,7 @@
 package com.cheroliv.fiber.inter.service
 
 import com.cheroliv.fiber.TestData
-import com.cheroliv.fiber.inter.repository.InterDao
+import com.cheroliv.fiber.inter.dao.InterDao
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
 import org.junit.jupiter.api.*
@@ -204,14 +204,74 @@ class InterServiceImplUnitTest {
     @Order(16)
     @DisplayName('testIsUniqueIndexConsistent')
     void testIsUniqueIndexConsistent_with_id_over_records() {
+        Long id = 150_000_000_000_000L
+        given(dao.findById(id)).willReturn(Optional.empty())
         assert !interService.isUniqueIndexConsistent(
                 150_000_000_000_000L,
                 data.inter.nd,
                 data.inter.typeInter.name())
     }
-//
-//    void testIsUniqueIndexAvailable() {
-//    }
+
+    @Test
+    @Order(17)
+    @DisplayName('testIsUniqueNdIndexConsistent_with_existing_index')
+    void testIsUniqueNdIndexConsistent_with_existing_index() {
+        assert !interService.isUniqueIndexConsistent(
+                data.firstInter.id,
+                data.firstInter.nd,
+                data.firstInter.typeInter.name())
+    }
+
+
+    @Test
+    @Order(18)
+    @DisplayName('testIsUniqueIndexConsistent')
+    void testIsUniqueNdIndexConsistent_with_nd_type_not_already_exists() {
+        given(dao.findById(data.firstInter.id))
+                .willReturn(Optional.of(data.firstInter))
+        given(dao.find(data.firstInter.nd, data.firstInter.typeInter))
+                .willReturn(Optional.of(data.firstInter))
+        assert interService.isUniqueIndexConsistent(
+                data.firstInter.id,
+                '0123456789',
+                data.firstInter.typeInter.name())
+    }
+
+
+    @Test
+    @Order(19)
+    @DisplayName('testIsUniqueIndexAvailable_not_available')
+    void testIsUniqueIndexAvailable_not_available_args_null() {
+        assert !interService.isUniqueIndexAvailable(
+                null, null)
+    }
+
+    @Test
+    @Order(20)
+    @DisplayName('testIsUniqueIndexAvailable_not_available')
+    void testIsUniqueIndexAvailable_args_nd_type_not_available() {
+        given(dao.find(
+                data.firstInter.nd, data.firstInter.typeInter))
+                .willReturn(Optional.of(data.firstInter))
+        assert !interService.isUniqueIndexAvailable(
+                data.firstInterDto.nd,
+                data.firstInterDto.typeInter)
+    }
+
+
+    @Test
+    @Order(21)
+    @DisplayName('testIsUniqueIndexAvailable_args_nd_type_available')
+    void testIsUniqueIndexAvailable_args_nd_type_available() {
+        String nd = '0123456789'
+        given(dao.find(
+                nd, data.firstInter.typeInter))
+                .willReturn(Optional.empty())
+        assert interService.isUniqueIndexAvailable(
+                nd,
+                data.firstInterDto.typeInter)
+    }
+
 //    void testSave() {
 //    }
 //    void testDelete() {

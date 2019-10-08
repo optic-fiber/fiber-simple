@@ -23,7 +23,7 @@ class RecapServiceImpl
 //    final String fiberUserDataFolderName
 //    final String classeurDirectoryName
 //    final InterDataService interService
-//    final InterRepository interRepository
+//    final InterRepository dao
 //    SpreadsheetRecap classeur
 //    @NotNull
 //    @NotEmpty
@@ -42,8 +42,8 @@ class RecapServiceImpl
 //            @Value('${classeurDirectoryName}')
 //                    classeurDirectoryName,
 //            InterDataService interService,
-//            InterRepository interRepository) {
-//        this.interRepository = interRepository
+//            InterRepository dao) {
+//        this.dao = dao
 //        this.interService = interService
 //        this.classeurPathName = classeurPathName
 //        this.fiberUserDataFolderName = fiberUserDataFolderName
@@ -110,39 +110,39 @@ class RecapServiceImpl
 //    Recap processRecap(String nomFeuilles, Integer moisInt, Integer anneeIntValue) {
 //        new Recap(
 //                sheetName: nomFeuilles,
-//                inters: interRepository
+//                inters: dao
 //                        .findAllDeMoisDansAnnee(
 //                                moisInt, anneeIntValue),
 //                annee: anneeIntValue,
 //                mois: moisInt,
-//                nbInterTotal: interRepository
+//                nbInterTotal: dao
 //                        .countInterParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbBaocBaap: interRepository
+//                nbBaocBaap: dao
 //                        .countRacParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbBafa: interRepository
+//                nbBafa: dao
 //                        .countBafaParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbBast: interRepository
+//                nbBast: dao
 //                        .countBastParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbPlp: interRepository
+//                nbPlp: dao
 //                        .countPlpParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbSav: interRepository
+//                nbSav: dao
 //                        .countSavParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbPdcTotal: interRepository
+//                nbPdcTotal: dao
 //                        .countPdcParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbPdcBafa: interRepository
+//                nbPdcBafa: dao
 //                        .countPdcBafaParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbPdcBast: interRepository
+//                nbPdcBast: dao
 //                        .countPdcBastParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
-//                nbPdcBaocBaap: interRepository
+//                nbPdcBaocBaap: dao
 //                        .countPdcBaocBaapParMoisDansAnnee(
 //                                moisInt, anneeIntValue),
 //                labelTitreRecap:
@@ -158,7 +158,7 @@ class RecapServiceImpl
 //    SpreadsheetRecap processFeuilles() {
 //        init()
 //        List<List<Integer>> listIntMoisAnnee =
-//                interRepository.distinctMoisParAnnee()
+//                dao.distinctMoisParAnnee()
 //        classeur.recaps = new ArrayList<Recap>(classeur.nbFeuille)
 //        assert classeur.nbFeuille == classeur.moisParAnnee.size()
 //        assert classeur.nbFeuille == listIntMoisAnnee.size()

@@ -1,9 +1,10 @@
 package com.cheroliv.fiber.inter.service
 
+import com.cheroliv.fiber.inter.dao.InterDao
 import com.cheroliv.fiber.inter.domain.Inter
+import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
 import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
 import com.cheroliv.fiber.inter.dto.InterDto
-import com.cheroliv.fiber.inter.repository.InterDao
 import com.cheroliv.fiber.inter.service.exceptions.InterEntityNotFoundException
 import com.cheroliv.fiber.inter.service.exceptions.InterTypeEnumException
 import groovy.transform.TypeChecked
@@ -126,30 +127,59 @@ class InterServiceImpl implements InterService {
 
     @Override
     Boolean isUniqueIndexConsistent(Long id, String nd, String type) {
-        if (!id || !nd || !type) return null
-
+        if (!id || !nd || !type) return false
+        if (dao.findById(id).empty) return false
+        Optional<Inter> optional = dao.find(
+                nd, TypeInterEnum.valueOfName(type))
+        if (optional.empty) {
+            return true
+        }
+        Inter result = optional.get()
+        if (result.id == id) true
+        else false
     }
 
 
     @Override
     Boolean isUniqueIndexAvailable(String nd, String type) {
-        null
+        if (!nd || !type) return false
+        Optional optional = dao.find(
+                nd, TypeInterEnum.valueOfName(type))
+        if (optional.empty) true
+        else false
     }
 
 
     @Override
     @Transactional
     InterDto save(InterDto interDto) {
-        null
+        new InterDto(dao.save(new Inter(
+                nd: interDto.nd,
+                typeInter: TypeInterEnum
+                        .valueOfName(interDto.typeInter),
+                contract: ContractEnum.valueOfName(interDto.contract),
+                dateTimeInter: interDto.dateTime,
+                firstNameClient: interDto.firstName,
+                lastNameClient: interDto.lastName)))
     }
 
     @Override
+    @Transactional
     void delete(Long id) {
-
+        dao.deleteById(id)
     }
 
     @Override
+    @Transactional
     InterDto saveWithPatch(InterDto interDto) {
-        null
+        new InterDto(dao.saveAndFlush(new Inter(
+                id: interDto.id,
+                nd: interDto.nd,
+                typeInter: TypeInterEnum
+                        .valueOfName(interDto.typeInter),
+                contract: ContractEnum.valueOfName(interDto.contract),
+                dateTimeInter: interDto.dateTime,
+                firstNameClient: interDto.firstName,
+                lastNameClient: interDto.lastName)))
     }
 }
