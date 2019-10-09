@@ -1,8 +1,9 @@
 <!DOCTYPE html >
-<html lang="fr">
+<html lang="fr" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" media="screen" rel="stylesheet" />
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" media="screen" rel="stylesheet" />
@@ -12,6 +13,7 @@
     <link href="assets/css/style.css" media="screen" rel="stylesheet" />
     <title>Saisie des Interventions FTTH</title>
 </head>
+<span th:text="${message}"></span>
 <form action="">
     <div class="recap-container">
         <fieldset>
@@ -111,7 +113,29 @@
         </div>
     </div>
 </form>
+<html>
+<title>Student List</title>
+<meta charset="utf-8" />
+<body>
+<h3>Student Grade Table</h3>
+<table>
+    <tr>
+        <th>Student ID</th>
+        <th>Student Name</th>
+        <th>Grade</th>
+    </tr>
+    <#list list as student>
+    <tr>
+        <td>${student.id}</td>
+        <td>${student.studentName}</td>
+        <td>${student.grade}</td>
+    <tr>
+    </#list>
+</table>
+</body>
+</html>
 <div id="interTableContainer">
+    <#list list as inter>
     <table>
         <tr>
             <td>id</td>
@@ -123,14 +147,14 @@
             <td>date</td>
         </tr>
         <tr id="inters">
-            <td id="interId">Inter id</td>
-            <td id="interND">Inter nd</td>
-            <td id="interLastName">Inter nom</td>
-            <td id="interFisrtName">Inter prénom</td>
-            <td id="interContract">Inter contrat</td>
-            <td id="interType">Inter type</td>
-            <td id="interTime">Inter heure</td>
-            <td id="interDate">Inter date</td>
+            <td id="interId">${inter.id}</td>
+            <td id="interND">${inter.nd}</td>
+            <td id="interLastName">${inter.nom}</td>
+            <td id="interFisrtName">${inter.prénom}</td>
+            <td id="interContract">${inter.contrat}</td>
+            <td id="interType">${inter.type}</td>
+            <td id="interTime">${inter.heure}</td>
+            <td id="interDate">${inter.date}</td>
         </tr>
     </table>
 </div>

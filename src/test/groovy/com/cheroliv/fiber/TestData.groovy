@@ -112,16 +112,14 @@ class TestData {
                     firstInterDto.typeInter))
 
     static final Inter inter = new Inter(
-            id: 104, nd: "0144820811",
-            lastNameClient: "Gustin",
-            firstNameClient: "Jean-Pierre",
+            id: 104, nd: interDto.nd,
+            lastNameClient: interDto.lastName,
+            firstNameClient:  interDto.firstName,
             contract: ContractEnum
-                    .valueOfName("IQ"),
+                    .valueOfName( interDto.contract),
             typeInter: TypeInterEnum
-                    .valueOfName("BAOC"),
-            dateTimeInter: stringToLocalDateTimeSystemDefault(
-                    "2019-01-02",
-                    "13:00:00"))
+                    .valueOfName( interDto.typeInter),
+            dateTimeInter:  interDto.dateTime)
 
     static final Inter prevInter = new Inter(
             id: prevInterDto.id,

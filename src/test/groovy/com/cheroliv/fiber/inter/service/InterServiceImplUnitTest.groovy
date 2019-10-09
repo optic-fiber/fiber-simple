@@ -2,6 +2,7 @@ package com.cheroliv.fiber.inter.service
 
 import com.cheroliv.fiber.TestData
 import com.cheroliv.fiber.inter.dao.InterDao
+import com.cheroliv.fiber.inter.dto.InterDto
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
 import org.junit.jupiter.api.*
@@ -68,11 +69,12 @@ class InterServiceImplUnitTest {
 
     @Test
     @Order(4)
-    @DisplayName('testGetFirst_return_null')
+    @DisplayName('testGetFirst_return_blank_interDto')
     void testGetFirst_return_null() {
-        given(dao.findByMinDateTimeInter())
-                .willReturn([])
-        assert !interService.first
+        given(dao.findByIdMin())
+                .willReturn(Optional.empty())
+        assert reflectionEquals (new InterDto(),
+                interService.getFirst())
     }
 
 
@@ -80,27 +82,28 @@ class InterServiceImplUnitTest {
     @Order(5)
     @DisplayName('testGetFirst')
     void testGetFirst() {
-        given(dao.findByMinDateTimeInter())
-                .willReturn([Optional.of(data.firstInter)])
+        given(dao.findByIdMin())
+                .willReturn(Optional.of(data.firstInter))
         assert reflectionEquals(interService.first,
                 data.firstInterDto)
     }
 
     @Test
     @Order(6)
-    @DisplayName('testGetLast_return_null')
-    void testGetLast_return_null() {
-        given(dao.findByMaxDateTimeInter())
-                .willReturn([])
-        assert !interService.last
+    @DisplayName('testGetLast_return_empty_dto')
+    void testGetLast_return_empty_dto() {
+        given(dao.findByIdMax())
+                .willReturn(Optional.empty())
+        assert reflectionEquals(new InterDto(),
+                interService.getLast())
     }
 
     @Test
     @Order(7)
     @DisplayName('testGetLast')
     void testGetLast() {
-        given(dao.findByMaxDateTimeInter())
-                .willReturn([Optional.of(data.lastInter)])
+        given(dao.findByIdMax())
+                .willReturn(Optional.of(data.lastInter))
         assert reflectionEquals(interService.last,
                 data.lastInterDto)
     }
@@ -120,8 +123,8 @@ class InterServiceImplUnitTest {
     void testGetPrevious_with_id_first() {
         given(dao.findById(data.firstInter.id))
                 .willReturn(Optional.of(data.firstInter))
-        given(dao.findByMinDateTimeInter())
-                .willReturn([Optional.of(data.firstInter)])
+        given(dao.findByIdMin())
+                .willReturn(Optional.of(data.firstInter))
         assert reflectionEquals(data.firstInterDto,
                 interService.getPrevious(data.firstInter.id))
     }
@@ -132,9 +135,7 @@ class InterServiceImplUnitTest {
     void testGetPrevious() {
         given(dao.findById(data.interDto.id))
                 .willReturn(Optional.of(data.inter))
-        given(dao.findByMinDateTimeInter())
-                .willReturn([Optional.of(data.prevInter)])
-        given(dao.previous(data.interDto.id))
+        given(dao.findById(data.inter.id-1))
                 .willReturn(Optional.of(data.prevInter))
         assert reflectionEquals(
                 interService.getPrevious(data.inter.id),
@@ -156,9 +157,7 @@ class InterServiceImplUnitTest {
     void testGetNext_with_id_last() {
         given(dao.findById(data.inter.id))
                 .willReturn(Optional.of(data.inter))
-        given(dao.findByMaxDateTimeInter())
-                .willReturn([Optional.of(data.nextInter)])
-        given(dao.next(data.inter.id))
+        given(dao.findById(data.inter.id+1))
                 .willReturn(Optional.of(data.nextInter))
         assert reflectionEquals(data.nextInterDto,
                 interService.getNext(data.interDto.id))

@@ -159,41 +159,13 @@ interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,
             @Param("mois") Integer mois,
             @Param("annee") Integer annee)
 
-
-    //TODO:make dateTimeInter unique
-    // and change datasets
-    //date is not unique so the result is some tuples
     @Query("""
-        select j from Inter j where j.dateTimeInter=(
-        select min(i.dateTimeInter) from Inter i)""")
-    List<Optional<Inter>> findByMinDateTimeInter()
+        select i from Inter i 
+        where i.id=(select min(j.id) from Inter j)""")
+    Optional<Inter> findByIdMin()
 
     @Query("""
-        select j from Inter j where j.dateTimeInter=(
-        select max(i.dateTimeInter) from Inter i)""")
-    List<Optional<Inter>> findByMaxDateTimeInter()
-
-//    @Query("""
-//        select j from Inter j where j.dateTimeInter=(
-//        select distinct max(i.dateTimeInter)
-//        from Inter i where i.id <:id)""")
-//    Optional<Inter> previous(Long id)
-
-//    @Query("""
-//        select j from Inter j where j.dateTimeInter=(
-//        select distinct min(i.dateTimeInter)
-//        from Inter i where i.id <:id)""")
-//    Optional<Inter> next(Long id)
-
-    @Query("""
-        select j from Inter j where j.dateTimeInter=(
-        select max(i.dateTimeInter) 
-        from Inter i where i.id <:id)""")
-    Optional<Inter> previous(@Param('id') Long id)
-
-    @Query("""
-        select j from Inter j where j.dateTimeInter=(
-        select min(i.dateTimeInter) 
-        from Inter i where i.id <:id)""")
-    Optional<Inter> next(@Param('id') Long id)
+        select i from Inter i 
+        where i=(select max(j.id) from Inter j)""")
+    Optional<Inter> findByIdMax()
 }

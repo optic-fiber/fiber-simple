@@ -37,69 +37,56 @@ class InterServiceImpl implements InterService {
 
     @Override
     InterDto getFirst() {
-        Long id
-        InterDto result = null
-        List<Optional<Inter>> optionals =
-                dao.findByMinDateTimeInter()
-        if (optionals.empty) return null
-        optionals.eachWithIndex {
-            Optional<Inter> it, int idx ->
-                if (idx == FIRST_ITERATION_OF_LIST) {
-                    id = it.get().id
-                    result = new InterDto(it.get())
-                }
-                if (id < it.get().id) {
-                    id = it.get().id
-                    result = new InterDto(it.get())
-                }
-        }
+        InterDto result = new InterDto()
+        Optional<Inter> optionalInter = dao.findByIdMin()
+        if (optionalInter.present)
+            result = new InterDto(optionalInter.get())
         result
     }
 
     @Override
     InterDto getLast() {
-        Long id
-        InterDto result = null
-        List<Optional<Inter>> optionals =
-                dao.findByMaxDateTimeInter()
-        if (optionals.empty) return null
-        optionals.eachWithIndex {
-            Optional<Inter> it, int idx ->
-                if (idx == FIRST_ITERATION_OF_LIST) {
-                    id = it.get().id
-                    result = new InterDto(it.get())
-                }
-                if (id > it.get().id) {
-                    id = it.get().id
-                    result = new InterDto(it.get())
-                }
-        }
+        InterDto result = new InterDto()
+        Optional<Inter> optionalInter = dao.findByIdMax()
+        if (optionalInter.present)
+            result = new InterDto(optionalInter.get())
         result
     }
 
-    /**
-     * le previous c'est la premiere date
-     * inferieur au current
-     * le max des min(current.date)
-     * @param id
-     * @return
-     */
     @Override
     InterDto getPrevious(Long id) {
-        Optional optional = dao.findById(id)
+        Optional<Inter> optional = dao.findById(id)
         if (optional.isEmpty()) return null
         InterDto firstDto = getFirst()
         if (id == firstDto.id) return firstDto
-        new InterDto(dao.previous(id).get())
+        Optional<Inter> optionalResult
+        while ((optionalResult = dao.findById(--id)).empty) {
+            if (firstDto.id == optionalResult.get().id ||
+                    id < firstDto.id)
+                return firstDto
+        }
+        optionalResult.present ?
+                new InterDto(optionalResult.get()) :
+                new InterDto(optional.get())
     }
 
     @Override
     InterDto getNext(Long id) {
-        Optional optional = dao.findById(id)
+        Optional<Inter> optional = dao.findById(id)
         if (optional.isEmpty()) return null
         InterDto lastDto = getLast()
+        log.info("id : $id")
         if (id == lastDto.id) return lastDto
-        new InterDto(dao.next(id).get())
+        Optional<Inter> optionalResult
+        InterDto interMaxId = getLast()
+        while ((optionalResult = dao.findById(++id)).empty) {
+            if (interMaxId.id == optionalResult.get().id ||
+                    id > interMaxId.id)
+                return interMaxId
+        }
+        optionalResult.present ?
+                new InterDto(optionalResult.get()) :
+                new InterDto(optional.get())
     }
 
 
@@ -181,5 +168,10 @@ class InterServiceImpl implements InterService {
                 dateTimeInter: interDto.dateTime,
                 firstNameClient: interDto.firstName,
                 lastNameClient: interDto.lastName)))
+    }
+
+    @Override
+    List<InterDto> getAll() {
+        dao.findAll().collect { new InterDto(it) }
     }
 }

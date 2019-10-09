@@ -26,4 +26,6 @@ interface InterService {
     Boolean isUniqueIndexConsistent(Long id, String nd, String type)
 
     InterDto saveWithPatch(InterDto interDto)
+
+    List<InterDto> getAll()
 }

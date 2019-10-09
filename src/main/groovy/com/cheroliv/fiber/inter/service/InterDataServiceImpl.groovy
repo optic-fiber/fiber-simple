@@ -1,12 +1,10 @@
 package com.cheroliv.fiber.inter.service
 
 import com.cheroliv.fiber.inter.dao.InterDao
-import com.cheroliv.fiber.inter.dao.InterventionRepository
 import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.InterUtils
 import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
 import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
-import com.cheroliv.fiber.inter.dto.InterDto
 import com.cheroliv.fiber.inter.service.exceptions.InterEntityNotFoundException
 import com.cheroliv.fiber.inter.service.exceptions.InterTypeEnumException
 import groovy.json.JsonBuilder
@@ -107,8 +105,8 @@ class InterDataServiceImpl implements InterDataService {
 
     @Override
     List<Map<String, Integer>> findAllMoisFormatFrParAnnee() {
-        List<List<Integer>> result = dao
-                .distinctMoisParAnnee()
+        List<List<Integer>> result =
+                dao.distinctMoisParAnnee()
         List<Map<String, Integer>> finalResult =
                 new ArrayList<Map<String, Integer>>(result.size())
         result.eachWithIndex { List<Integer> item, int idx ->
