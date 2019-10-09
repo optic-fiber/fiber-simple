@@ -15,14 +15,15 @@ buildscript {
 
 
 plugins {
-//    id 'java'
-//    id 'idea'
+    id 'java'
+    id 'idea'
     id 'groovy'
+    id 'java-library'
     id 'org.springframework.boot' version '2.1.8.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'maven'
-    id "io.swagger.core.v3.swagger-gradle-plugin" version '2.0.6'
-    id "io.swagger.swaggerhub" version "1.0.1"
+//    id "io.swagger.core.v3.swagger-gradle-plugin" version '2.0.6'
+//    id "io.swagger.swaggerhub" version "1.0.1"
 //    id 'org.asciidoctor.convert' version '1.5.8'
 }
 
@@ -61,7 +62,7 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-//    compile.exclude module: 'spring-boot-starter-tomcat'
+    compile.exclude module: 'spring-boot-starter-tomcat'
 //    compile.exclude module: 'tomcat-embed-el'
 }
 
@@ -84,8 +85,8 @@ sourceSets {
 //        java { srcDirs = [] }
         groovy {
             srcDirs = [
-//                'src/main/java',
-'src/main/groovy'
+                    'src/main/java',
+                    'src/main/groovy'
             ]
         }
         resources {
@@ -96,9 +97,9 @@ sourceSets {
 //        java { srcDirs = [] }
         groovy {
             srcDirs = [
-//                'src/test/java',
-'src/test/groovy',
-'src/features'
+                    'src/test/java',
+                    'src/test/groovy',
+                    'src/features'
             ]
         }
     }
@@ -112,12 +113,12 @@ bootRun {
     sourceResources sourceSets.main
 }
 
-swaggerhubDownload {
-    api 'FiberAPI'
-    owner "\$ruler"
-    version '1.0.0'
-    outputFile 'build/test/petStoreAPI.json'
-}
+//swaggerhubDownload {
+//    api 'FiberAPI'
+//    owner "\$ruler"
+//    version '1.0.0'
+//    outputFile 'build/test/petStoreAPI.json'
+//}
 
 dependencies {
     implementation "commons-io:commons-io:$commons_io_version"
@@ -126,9 +127,9 @@ dependencies {
     testImplementation "com.xlson.groovycsv:groovycsv:$groovy_csv_version"
 
     // GROOVY DSL OVER POI
-//    implementation "com.jameskleeh:excel-builder:$excel_builder_version"
-//    implementation "org.apache.poi:poi:$poi_version"
-//    implementation "org.apache.poi:poi-ooxml:$poi_version"
+    implementation "com.jameskleeh:excel-builder:$excel_builder_version"
+    implementation "org.apache.poi:poi:$poi_version"
+    implementation "org.apache.poi:poi-ooxml:$poi_version"
 
     // XML/JSON PARSER
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
@@ -152,10 +153,10 @@ dependencies {
     // SPRING STARTING POINT RESOURCES
 //    implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     // APP-SERVER
-//    implementation 'org.springframework.boot:spring-boot-starter-undertow'
-    implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+    implementation 'org.springframework.boot:spring-boot-starter-undertow'
+//    implementation 'org.springframework.boot:spring-boot-starter-tomcat'
 
 
     // GRAPH_QL
