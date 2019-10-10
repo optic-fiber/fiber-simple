@@ -1,6 +1,12 @@
 package com.cheroliv.fiber.recap.service
 
-
+//import com.cheroliv.fiber.inter.dao.InterDao
+//import com.cheroliv.fiber.inter.domain.InterUtils
+//import com.cheroliv.fiber.inter.domain.InterventionEntity
+//import com.cheroliv.fiber.inter.dto.InterventionDto
+//import com.cheroliv.fiber.inter.service.InterDataService
+//import com.cheroliv.fiber.recap.model.Recap
+//import com.cheroliv.fiber.recap.spreadsheet.SpreadsheetRecap
 //import groovy.transform.CompileStatic
 //import groovy.util.logging.Slf4j
 //import org.springframework.beans.factory.annotation.Value
@@ -11,19 +17,16 @@ package com.cheroliv.fiber.recap.service
 //import javax.validation.constraints.NotNull
 //import java.nio.file.Paths
 //
-//
 //@Slf4j
 //@Service
 //@CompileStatic
-class RecapServiceImpl
-//        implements RecapService
-{
+class RecapServiceImpl implements RecapService {
 
 //    final String classeurPathName
 //    final String fiberUserDataFolderName
 //    final String classeurDirectoryName
-//    final InterDataService interService
-//    final InterRepository dao
+//    final InterDataService service
+//    final InterDao dao
 //    SpreadsheetRecap classeur
 //    @NotNull
 //    @NotEmpty
@@ -34,26 +37,31 @@ class RecapServiceImpl
 //        this.path = path
 //    }
 //
+//
+//    /*
+//    @Value('${application.data.home-directory-name}')
+//    String homeDirectoryName
+//     */
 //    RecapServiceImpl(
-//            @Value('${classeurPathName}')
-//                    String classeurPathName,
-//            @Value('${fiberUserDataFolderName}')
-//                    fiberUserDataFolderName,
-//            @Value('${classeurDirectoryName}')
-//                    classeurDirectoryName,
-//            InterDataService interService,
-//            InterRepository dao) {
+//            @Value('${application.data.spreadsheet-file-name}')
+//                    String recapitulatifSpreadsheetFileName,
+//            @Value('${application.data.home-directory-name}')
+//                    String homeDirectoryName,
+//            @Value('${application.data.home-spreadsheet-directory-name}')
+//                    String recapitulatifSpreadsheetDirectoryName,
+//            InterDataService service,
+//            InterDao dao) {
 //        this.dao = dao
-//        this.interService = interService
-//        this.classeurPathName = classeurPathName
-//        this.fiberUserDataFolderName = fiberUserDataFolderName
-//        this.classeurDirectoryName = classeurDirectoryName
+//        this.service = service
+//        this.classeurPathName = recapitulatifSpreadsheetFileName
+//        this.fiberUserDataFolderName = homeDirectoryName
+//        this.classeurDirectoryName = recapitulatifSpreadsheetDirectoryName
 //    }
 //
 //    @Override
 //    @Transactional(readOnly = true)
 //    List<String> nomFeuilles() {
-//        List<Map<String, Integer>> list = interService.findAllMoisFormatFrParAnnee()
+//        List<Map<String, Integer>> list = service.findAllMoisFormatFrParAnnee()
 //        List<String> finalList = new ArrayList()
 //        list.eachWithIndex { item, idx ->
 //            String key = (item as Map<String, Integer>).keySet().first()
@@ -94,9 +102,9 @@ class RecapServiceImpl
 //
 //        this.classeur = new SpreadsheetRecap(
 //                classeurPathName: strRecapPath,
-//                nbFeuille: interService.countMois(),
+//                nbFeuille: service.countMois(),
 //                nomFeuilles: this.nomFeuilles(),
-//                moisParAnnee: interService.findAllMoisFormatFrParAnnee())
+//                moisParAnnee: service.findAllMoisFormatFrParAnnee())
 //        this.classeur
 //    }
 //
@@ -110,9 +118,11 @@ class RecapServiceImpl
 //    Recap processRecap(String nomFeuilles, Integer moisInt, Integer anneeIntValue) {
 //        new Recap(
 //                sheetName: nomFeuilles,
-//                inters: dao
-//                        .findAllDeMoisDansAnnee(
-//                                moisInt, anneeIntValue),
+//                inters: dao.findAllDeMoisDansAnnee(
+//                        moisInt, anneeIntValue).collect {
+//                    InterventionEntity it ->
+//                        new InterventionDto(it)
+//                },
 //                annee: anneeIntValue,
 //                mois: moisInt,
 //                nbInterTotal: dao

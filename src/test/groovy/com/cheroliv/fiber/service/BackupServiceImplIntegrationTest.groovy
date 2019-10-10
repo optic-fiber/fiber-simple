@@ -1,6 +1,5 @@
 package com.cheroliv.fiber.service
 
-
 import groovy.util.logging.Slf4j
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
@@ -10,8 +9,8 @@ import org.junit.jupiter.api.TestMethodOrder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.core.io.Resource
 import org.springframework.jdbc.core.JdbcTemplate
+
 //import org.springframework.test.jdbc.JdbcTestUtils
 
 @Slf4j
@@ -38,6 +37,12 @@ class BackupServiceImplIntegrationTest {
                 this.jsonBackupFileName
     }
 
+    private String getDataHomeDirectoryFilePath() {
+        System.getProperty('user.home') +
+                System.getProperty("file.separator") +
+                this.homeDirectoryName
+    }
+
     private void deleteJsonfile() {
         File file = new File(this.getJsonBackupFilePath())
         if (file.exists() && file.isFile()) file.delete()
@@ -54,6 +59,7 @@ class BackupServiceImplIntegrationTest {
     }
 
     private void createJsonFile() {
+        createDataHomeDirectory()
         File file = new File(this.getJsonBackupFilePath())
         if (!file.exists()) file.createNewFile()
         else if (file.isDirectory()) {
@@ -62,8 +68,18 @@ class BackupServiceImplIntegrationTest {
         }
     }
 
+    private void createDataHomeDirectory() {
+        File file = new File(getDataHomeDirectoryFilePath())
+        if (!file.exists()) file.mkdir()
+        else if (file.isFile()) {
+            file.delete()
+            file.mkdir()
+        }
+    }
+
     private void createJsonDirectory() {
-        File file = new File(this.getJsonBackupFilePath())
+        createDataHomeDirectory()
+        File file = new File(getJsonBackupFilePath())
         if (!file.exists()) file.mkdir()
         else if (file.isFile()) {
             file.delete()
@@ -75,27 +91,22 @@ class BackupServiceImplIntegrationTest {
     @Order(1)
     @DisplayName("testIsDataBackupFileExists_not_exists")
     void testIsDataBackupFileExists_not_exists() {
-        File file = new File(this.getJsonBackupFilePath())
-        if (file.exists()) this.deleteJsonDirectoryAndFile()
+        File file = new File(getJsonBackupFilePath())
+        if (file.exists()) deleteJsonDirectoryAndFile()
         assert !file.exists()
-        assert !this.backupService.isDataBackupFileExists()
+        assert !backupService.isDataBackupFileExists()
     }
 
     @Test
     @Order(2)
     @DisplayName("testIsDataBackupFileExists_directory_exists")
     void testIsDataBackupFileExists_directory_exists() {
-        File file = new File(this.getJsonBackupFilePath())
-        if (file.exists()) {
-            if (file.isFile()) {
-                this.deleteJsonfile()
-                this.createJsonDirectory()
-            } else assert file.isDirectory()
-        } else this.createJsonDirectory()
+        createJsonDirectory()
+        File file = new File(getJsonBackupFilePath())
         assert file.exists()
         assert file.isDirectory()
         assert !file.isFile()
-        assert !this.backupService.isDataBackupFileExists()
+        assert !backupService.isDataBackupFileExists()
     }
 
     @Test
@@ -137,7 +148,7 @@ class BackupServiceImplIntegrationTest {
         this.createJsonDirectory()
         File file = new File(this.getJsonBackupFilePath())
         assert file.exists() && file.isDirectory() && !file.isFile()
-        this.backupService.createDataBackupFile()
+        backupService.createDataBackupFile()
         assert file.exists()
         assert file.isFile()
         assert !file.isDirectory()

@@ -1,10 +1,10 @@
 package com.cheroliv.fiber.inter.service
 
 import com.cheroliv.fiber.inter.dao.InterDao
-import com.cheroliv.fiber.inter.domain.Inter
+import com.cheroliv.fiber.inter.domain.InterventionEntity
 import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
 import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
-import com.cheroliv.fiber.inter.dto.InterDto
+import com.cheroliv.fiber.inter.dto.InterventionDto
 import com.cheroliv.fiber.inter.service.exceptions.InterEntityNotFoundException
 import com.cheroliv.fiber.inter.service.exceptions.InterTypeEnumException
 import groovy.transform.TypeChecked
@@ -28,86 +28,86 @@ class InterServiceImpl implements InterService {
     static final def FIRST_ITERATION_OF_LIST = 0
 
     @Override
-    InterDto get(Long id) {
+    InterventionDto get(Long id) {
         if (!id) return null
-        Optional<Inter> optional = dao.findById(id)
+        Optional<InterventionEntity> optional = dao.findById(id)
         if (!optional.present) return null
-        else new InterDto(optional.get())
+        else new InterventionDto(optional.get())
     }
 
     @Override
-    InterDto getFirst() {
-        InterDto result = new InterDto()
-        Optional<Inter> optionalInter = dao.findByIdMin()
+    InterventionDto getFirst() {
+        InterventionDto result = new InterventionDto()
+        Optional<InterventionEntity> optionalInter = dao.findByIdMin()
         if (optionalInter.present)
-            result = new InterDto(optionalInter.get())
+            result = new InterventionDto(optionalInter.get())
         result
     }
 
     @Override
-    InterDto getLast() {
-        InterDto result = new InterDto()
-        Optional<Inter> optionalInter = dao.findByIdMax()
+    InterventionDto getLast() {
+        InterventionDto result = new InterventionDto()
+        Optional<InterventionEntity> optionalInter = dao.findByIdMax()
         if (optionalInter.present)
-            result = new InterDto(optionalInter.get())
+            result = new InterventionDto(optionalInter.get())
         result
     }
 
     @Override
-    InterDto getPrevious(Long id) {
-        Optional<Inter> optional = dao.findById(id)
+    InterventionDto getPrevious(Long id) {
+        Optional<InterventionEntity> optional = dao.findById(id)
         if (optional.isEmpty()) return null
-        InterDto firstDto = getFirst()
+        InterventionDto firstDto = getFirst()
         if (id == firstDto.id) return firstDto
-        Optional<Inter> optionalResult
+        Optional<InterventionEntity> optionalResult
         while ((optionalResult = dao.findById(--id)).empty) {
             if (firstDto.id == optionalResult.get().id ||
                     id < firstDto.id)
                 return firstDto
         }
         optionalResult.present ?
-                new InterDto(optionalResult.get()) :
-                new InterDto(optional.get())
+                new InterventionDto(optionalResult.get()) :
+                new InterventionDto(optional.get())
     }
 
     @Override
-    InterDto getNext(Long id) {
-        Optional<Inter> optional = dao.findById(id)
+    InterventionDto getNext(Long id) {
+        Optional<InterventionEntity> optional = dao.findById(id)
         if (optional.isEmpty()) return null
-        InterDto lastDto = getLast()
+        InterventionDto lastDto = getLast()
         log.info("id : $id")
         if (id == lastDto.id) return lastDto
-        Optional<Inter> optionalResult
-        InterDto interMaxId = getLast()
+        Optional<InterventionEntity> optionalResult
+        InterventionDto interMaxId = getLast()
         while ((optionalResult = dao.findById(++id)).empty) {
             if (interMaxId.id == optionalResult.get().id ||
                     id > interMaxId.id)
                 return interMaxId
         }
         optionalResult.present ?
-                new InterDto(optionalResult.get()) :
-                new InterDto(optional.get())
+                new InterventionDto(optionalResult.get()) :
+                new InterventionDto(optional.get())
     }
 
 
     @Override
-    InterDto findById(Long id) {
+    InterventionDto findById(Long id) {
         if (!id) return null
         def optional = dao.findById(id)
         if (optional.isEmpty()) return null
-        else new InterDto(optional.get())
+        else new InterventionDto(optional.get())
     }
 
 
     @Override
-    InterDto find(String nd, String type) {
+    InterventionDto find(String nd, String type) {
         if (!TypeInterEnum.values().collect {
             it.name()
         }.contains(type)) throw new InterTypeEnumException(type)
-        Optional<Inter> result = dao.find(
+        Optional<InterventionEntity> result = dao.find(
                 nd, TypeInterEnum.valueOfName(type))
         if (result.present)
-            new InterDto(result.get())
+            new InterventionDto(result.get())
         else throw new InterEntityNotFoundException(nd, type)
     }
 
@@ -116,12 +116,12 @@ class InterServiceImpl implements InterService {
     Boolean isUniqueIndexConsistent(Long id, String nd, String type) {
         if (!id || !nd || !type) return false
         if (dao.findById(id).empty) return false
-        Optional<Inter> optional = dao.find(
+        Optional<InterventionEntity> optional = dao.find(
                 nd, TypeInterEnum.valueOfName(type))
         if (optional.empty) {
             return true
         }
-        Inter result = optional.get()
+        InterventionEntity result = optional.get()
         if (result.id == id) true
         else false
     }
@@ -139,8 +139,8 @@ class InterServiceImpl implements InterService {
 
     @Override
     @Transactional
-    InterDto save(InterDto interDto) {
-        new InterDto(dao.save(new Inter(
+    InterventionDto save(InterventionDto interDto) {
+        new InterventionDto(dao.save(new InterventionEntity(
                 nd: interDto.nd,
                 typeInter: TypeInterEnum
                         .valueOfName(interDto.typeInter),
@@ -158,8 +158,8 @@ class InterServiceImpl implements InterService {
 
     @Override
     @Transactional
-    InterDto saveWithPatch(InterDto interDto) {
-        new InterDto(dao.saveAndFlush(new Inter(
+    InterventionDto saveWithPatch(InterventionDto interDto) {
+        new InterventionDto(dao.saveAndFlush(new InterventionEntity(
                 id: interDto.id,
                 nd: interDto.nd,
                 typeInter: TypeInterEnum
@@ -171,7 +171,7 @@ class InterServiceImpl implements InterService {
     }
 
     @Override
-    List<InterDto> getAll() {
-        dao.findAll().collect { new InterDto(it) }
+    List<InterventionDto> getAll() {
+        dao.findAll().collect { new InterventionDto(it) }
     }
 }

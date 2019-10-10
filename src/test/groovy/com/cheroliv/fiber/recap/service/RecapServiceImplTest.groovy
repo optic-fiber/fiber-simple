@@ -1,50 +1,107 @@
 package com.cheroliv.fiber.recap.service
 
-//import com.cheroliv.com.cheroliv.fiber.recap.spreadsheet.SpreadsheetRecap
-//import com.cheroliv.com.cheroliv.fiber.recap.model.Recap
-//import com.cheroliv.fiber.AbstractInterTestCase
-//import com.cheroliv.fiber.inter.domain.Inter
+//import com.cheroliv.fiber.inter.dao.InterDao
+//import com.cheroliv.fiber.inter.domain.InterConstants
 //import com.cheroliv.fiber.inter.domain.InterUtils
+//import com.cheroliv.fiber.inter.domain.InterventionEntity
+//import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
+//import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
+//import com.cheroliv.fiber.inter.dto.InterventionDto
+//import com.cheroliv.fiber.inter.service.InterDataService
+//import com.cheroliv.fiber.recap.model.Recap
+//import com.cheroliv.fiber.recap.spreadsheet.SpreadsheetRecap
 //import com.google.common.collect.Maps
+//import groovy.json.JsonSlurper
 //import groovy.transform.CompileStatic
 //import groovy.util.logging.Slf4j
 //import org.junit.jupiter.api.*
-//import org.junit.jupiter.api.extension.ExtendWith
+//import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
 //import org.springframework.beans.factory.annotation.Autowired
+//import org.springframework.beans.factory.annotation.Value
 //import org.springframework.boot.test.context.SpringBootTest
+//import org.springframework.context.ApplicationContext
+//import org.springframework.context.ApplicationContextAware
 //import org.springframework.core.io.Resource
 //import org.springframework.test.context.ActiveProfiles
-//import org.springframework.test.context.junit.jupiter.SpringExtension
+//import org.springframework.transaction.annotation.Transactional
 //
+//import javax.validation.Validator
+//import java.nio.charset.StandardCharsets
+//import java.time.LocalDateTime
 //import java.time.Month
 //import java.time.format.TextStyle
-//
+
 //@Slf4j
 //@CompileStatic
 //@SpringBootTest
 //@ActiveProfiles("test")
-//@ExtendWith(SpringExtension.class)
-//@TestMethodOrder(MethodOrderer.OrderAnnotation)
-//TODO
-class RecapServiceImplTest
-//        extends AbstractInterTestCase
-{
+//@TestMethodOrder(OrderAnnotation)
+class RecapServiceImplTest {
 //    @Autowired
 //    RecapService recapService
 //    @Autowired
-//    InterDataService interService
-//
+//    InterDataService interDataService
+//    @Autowired
+//    InterDao dao
+//    @Autowired
+//    ApplicationContext applicationContext
+//    @Autowired
+//    Validator validator
+//    @Value('classpath:inters.json')
+//    Resource jsonFileResource
+//    @Value('${application.data.home-directory-name}')
+//    String homeDirectoryName
+//    String classeurPathName = 'recap_date-time1_date-time2.xlsx'
+//    @Value('classpath:recap_date-time1_date-time2.xlsx')
+//    Resource classeurResource
 //
 //    @BeforeEach
 //    void setUp() {
-//        super.setUp()
+//        populateDB()
+//    }
+//
+//    @Transactional
+//    void populateDB() {
+//        if (dao.count() == 0)
+//            jsonData.each {
+//                InterventionEntity inter = jsonDataToInter(it)
+//                if (!validator.validate(inter).empty)
+//                    validator.validate(inter).each {
+//                        log.info it.message
+//                        log.info inter.toString()
+//                    }
+//                else dao.save inter
+//            }
+//    }
+//
+//    static InterventionEntity jsonDataToInter(Map<String, String> strJsonData) {
+//        LocalDateTime localDateTime = LocalDateTime.of(
+//                InterUtils.parseStringDateToLocalDate(strJsonData[InterConstants.DATE_INTER_JSON_FIELD_NAME]),
+//                InterUtils.parseStringHeureToLocalTime(strJsonData[InterConstants.HOUR_INTER_JSON_FIELD_NAME]))
+//
+//        new InterventionEntity(
+//                id: Long.parseLong(strJsonData[InterConstants.ID_INTER_JSON_FIELD_NAME]),
+//                nd: strJsonData[InterConstants.ND_INTER_JSON_FIELD_NAME],
+//                lastNameClient: strJsonData[InterConstants.LASTNAME_INTER_JSON_FIELD_NAME],
+//                firstNameClient: strJsonData[InterConstants.FIRSTNAME_INTER_JSON_FIELD_NAME],
+//                dateTimeInter: localDateTime,
+//                contract: ContractEnum.valueOfName(
+//                        strJsonData[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME] == InterConstants.PASSAGE_DE_CABLE ?
+//                                ContractEnum.CABLE_ROUTING.name() : strJsonData[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME]),
+//                typeInter: TypeInterEnum.valueOfName(strJsonData[InterConstants.TYPE_INTER_JSON_FIELD_NAME]))
+//    }
+//
+//    List<Map<String, String>> getJsonData() {
+//        new JsonSlurper()?.parseText(jsonFileResource
+//                .file.getText(StandardCharsets.UTF_8.name())
+//        ) as List<Map<String, String>>
 //    }
 //
 //    @Test
 //    @Order(1)
 //    void testNomFeuilles() {
-//        Integer countMois = interService.countMois()
-//        List<Map<String, Integer>> list = interService.findAllMoisFormatFrParAnnee()
+//        Integer countMois = interDataService.countMois()
+//        List<Map<String, Integer>> list = interDataService.findAllMoisFormatFrParAnnee()
 //        List<String> finalList = new ArrayList(countMois)
 //        list.eachWithIndex { item, idx ->
 //            String key = (item as Map<String, Integer>).keySet().first()
@@ -61,14 +118,14 @@ class RecapServiceImplTest
 //    @Test
 //    @Order(2)
 //    void testInit() {
-//        recapService.path = rootPathData
-//        Integer nbMois = interService.countMois()
+//        recapService.path = homeDirectoryName
+//        Integer nbMois = interDataService.countMois()
 //        String fullClasseurPath = classeurResource.URI.path
 //        SpreadsheetRecap expectedClasseur = new SpreadsheetRecap(
 //                classeurPathName: fullClasseurPath,
 //                nbFeuille: nbMois,
 //                nomFeuilles: recapService.nomFeuilles(),
-//                moisParAnnee: interService.findAllMoisFormatFrParAnnee())
+//                moisParAnnee: interDataService.findAllMoisFormatFrParAnnee())
 //        SpreadsheetRecap resultRecap = recapService.init()
 //        assert expectedClasseur.classeurPathName ==
 //                resultRecap.classeurPathName
@@ -97,9 +154,11 @@ class RecapServiceImplTest
 //
 //        Recap expectedRecap = new Recap(
 //                sheetName: nomFeuille,
-//                inters: dao
-//                        .findAllDeMoisDansAnnee(
-//                                moisInt, anneeIntValue),
+//                inters: dao.findAllDeMoisDansAnnee(
+//                        moisInt, anneeIntValue).collect {
+//                    InterventionEntity it ->
+//                        new InterventionDto(it)
+//                },
 //                annee: anneeIntValue,
 //                mois: moisInt,
 //                nbInterTotal: dao
@@ -140,13 +199,13 @@ class RecapServiceImplTest
 //                        InterUtils.convertNombreEnMois(moisInt))
 //
 //        Integer monthIdx = 2
-//        recapService.path = rootPathData
+//        recapService.path = homeDirectoryName
 //        SpreadsheetRecap classeurResult = recapService.init()
 //        Recap resultRecap = recapService.processRecap(
 //                classeurResult.nomFeuilles.get(monthIdx),
 //                moisInt, anneeIntValue)
 //        assert expectedRecap.sheetName == resultRecap.sheetName
-//        expectedRecap.inters.eachWithIndex { Inter entry, int i ->
+//        expectedRecap.inters.eachWithIndex { InterventionDto entry, int i ->
 //            assert entry == resultRecap.inters.get(i)
 //        }
 //        assert expectedRecap.annee == resultRecap.annee
@@ -170,12 +229,12 @@ class RecapServiceImplTest
 //    @Test
 //    @Order(4)
 //    void testProcessFeuille() {
-//        Integer nbMois = interService.countMois()
+//        Integer nbMois = interDataService.countMois()
 //        SpreadsheetRecap expectedClasseur = new SpreadsheetRecap(
 //                classeurPathName: classeurResource.URI.path,
 //                nbFeuille: nbMois,
 //                nomFeuilles: recapService.nomFeuilles(),
-//                moisParAnnee: interService.findAllMoisFormatFrParAnnee())
+//                moisParAnnee: interDataService.findAllMoisFormatFrParAnnee())
 //
 //
 //        List<List<Integer>> listIntMoisAnnee =
@@ -196,9 +255,12 @@ class RecapServiceImplTest
 //                    expectedClasseur.recaps.add idx,
 //                            new Recap(
 //                                    sheetName: expectedClasseur.nomFeuilles.get(idx),
-//                                    inters: dao
-//                                            .findAllDeMoisDansAnnee(
-//                                                    moisInt, anneeIntValue),
+//                                    inters: dao.findAllDeMoisDansAnnee(
+//                                            moisInt, anneeIntValue)
+//                                            .collect {
+//                                                InterventionEntity it ->
+//                                                    new InterventionDto(it)
+//                                            },
 //                                    annee: anneeIntValue,
 //                                    mois: moisInt,
 //                                    nbInterTotal: dao
@@ -240,7 +302,7 @@ class RecapServiceImplTest
 //            }
 //        }
 //
-//        recapService.path = rootPathData
+//        recapService.path = homeDirectoryName
 //        SpreadsheetRecap resultClasseur = recapService.processFeuilles()
 //
 //        expectedClasseur.nomFeuilles.eachWithIndex { String entry, int i ->
@@ -260,13 +322,14 @@ class RecapServiceImplTest
 //    @Test
 //    @Order(5)
 //    void testProcessClasseurFeuilles() {
+//        String separator = System.getProperty('file.separator')
 //        File pwd = new File(applicationContext
 //                .getResource("/").URI)//pwd
 //        String baseFolderPath = pwd.path
 //
 //        String pathFiberUserDataFolderName = baseFolderPath +
 //                separator +
-//                fiberUserDataFolderName
+//                homeDirectoryName
 //
 //
 //        File pathFiberUserDataFolderNameDir =
@@ -279,9 +342,9 @@ class RecapServiceImplTest
 //
 //        String pathOutput = baseFolderPath +
 //                separator +
-//                fiberUserDataFolderName +
+//                homeDirectoryName +
 //                separator +
-//                classeurDirectoryName
+//                classeurResource.getFile().name
 //
 //
 //        File outputDir = new File(pathOutput)
@@ -290,14 +353,17 @@ class RecapServiceImplTest
 //                outputDir.mkdir()//output
 //
 //        Resource resource = applicationContext
-//                .getResource("file:$pathOutput$separator$classeurPathName")
+//                .getResource("file:" +
+//                        "$pathOutput$separator" +
+//                        "$classeurPathName")
 //        !resource.exists() ?: resource.file.delete()
 //
 //        assert !resource.exists()
 //
 //        recapService.processClasseurFeuilles(baseFolderPath)
 //        assert applicationContext
-//                .getResource("file:$pathOutput$separator$classeurPathName")
+//                .getResource("file:$pathOutput$separator" +
+//                        "$classeurPathName")
 //                .file
 //                .exists()
 //    }

@@ -1,9 +1,10 @@
 package com.cheroliv.fiber.inter.service
 
-import com.cheroliv.fiber.inter.domain.Inter
+
+import com.cheroliv.fiber.inter.domain.InterventionEntity
 
 interface InterDataService {
-    Inter find(String nd, String type)
+    InterventionEntity find(String nd, String type)
 
     Integer countMois()
 
@@ -13,7 +14,7 @@ interface InterDataService {
 
     void importJsonFromFile()
 
-    String buildJsonInter(Inter inter)
+    String buildJsonInter(InterventionEntity inter)
 
     void saveToJsonFile()
 }

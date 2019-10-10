@@ -1,7 +1,7 @@
 package com.cheroliv.fiber.inter.dao
 
-import com.cheroliv.fiber.inter.dto.InterDto
+import com.cheroliv.fiber.inter.dto.InterventionDto
 
 interface InterventionRepository {
-    InterDto save(InterDto dto)
+    InterventionDto save(InterventionDto dto)
 }

@@ -1,6 +1,6 @@
 package com.cheroliv.fiber.controller
 
-//import com.cheroliv.fiber.inter.domain.Inter
+//import com.cheroliv.fiber.inter.domain.InterventionEntity
 //import groovy.util.logging.Slf4j
 //import org.junit.jupiter.api.Disabled
 //import org.junit.jupiter.api.DisplayName
@@ -32,8 +32,8 @@ class WebIntegrationTest {
 //        //arrange
 //
 //        //act
-//        ResponseEntity<Inter> response =
-//                this.restTemplate.getForEntity("/inters/1", Inter)
+//        ResponseEntity<InterventionEntity> response =
+//                this.restTemplate.getForEntity("/inters/1", InterventionEntity)
 //        //assert
 //        assert response.getStatusCode() == HttpStatus.OK
 //        assert response.getBody().id == 1

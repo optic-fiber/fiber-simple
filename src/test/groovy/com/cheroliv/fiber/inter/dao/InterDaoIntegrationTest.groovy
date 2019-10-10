@@ -1,8 +1,9 @@
 package com.cheroliv.fiber.inter.dao
 
-import com.cheroliv.fiber.inter.domain.Inter
+
 import com.cheroliv.fiber.inter.domain.InterConstants
 import com.cheroliv.fiber.inter.domain.InterUtils
+import com.cheroliv.fiber.inter.domain.InterventionEntity
 import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
 import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
 import groovy.json.JsonSlurper
@@ -54,7 +55,7 @@ class InterDaoIntegrationTest {
     void populateDB() {
         if (interRepository?.count() == 0)
             jsonData.each {
-                Inter inter = jsonDataToInter(it)
+                InterventionEntity inter = jsonDataToInter(it)
                 if (!validator.validate(inter).empty)
                     validator.validate(inter).each {
                         log.info it.message
@@ -70,13 +71,13 @@ class InterDaoIntegrationTest {
         ) as List<Map<String, String>>
     }
 
-    static Inter jsonDataToInter(Map<String, String> strJsonData) {
+    static InterventionEntity jsonDataToInter(Map<String, String> strJsonData) {
         LocalDateTime localDateTime = LocalDateTime.of( /*LocalDate.parse(strJsonData[InterConstants.DATE_INTER_JSON_FIELD_NAME],
                         DateTimeFormatter.ofPattern("yyyy-MM-dd")*/
                 InterUtils.parseStringDateToLocalDate(strJsonData[InterConstants.DATE_INTER_JSON_FIELD_NAME]),
                 InterUtils.parseStringHeureToLocalTime(strJsonData[InterConstants.HOUR_INTER_JSON_FIELD_NAME]))
 
-        new Inter(
+        new InterventionEntity(
                 id: Long.parseLong(strJsonData[InterConstants.ID_INTER_JSON_FIELD_NAME]),
                 nd: strJsonData[InterConstants.ND_INTER_JSON_FIELD_NAME],
                 lastNameClient: strJsonData[InterConstants.LASTNAME_INTER_JSON_FIELD_NAME],
@@ -98,21 +99,21 @@ class InterDaoIntegrationTest {
     @DisplayName('testFind_withNdAndType')
     void testFind_withNdAndType() {
         Map<String, String> expectedMap = this.getJsonData().first()
-        Inter expectedInter = jsonDataToInter(expectedMap)
+        InterventionEntity expectedInter = jsonDataToInter(expectedMap)
         println "\n\n\n\n$expectedMap"
         println expectedInter
         //because jsonData.first() then id must be 1 and
         // not expectedInter.id cant trust the id in json file
         // only can what the DB will generate
-        Optional<Inter> optionalResultInter = interRepository
+        Optional<InterventionEntity> optionalResultInter = interRepository
                 .findById 1L//not expectedInter.id
         println optionalResultInter.get()
         if (optionalResultInter.present) {
-            Inter resultInter = optionalResultInter.get()
-            Optional<Inter> optionalInterResult = interRepository.find(
+            InterventionEntity resultInter = optionalResultInter.get()
+            Optional<InterventionEntity> optionalInterResult = interRepository.find(
                     resultInter.nd, resultInter.typeInter)
             if (optionalInterResult.present) {
-                Inter result = optionalInterResult.get()
+                InterventionEntity result = optionalInterResult.get()
                 assert expectedInter.equals(result)
             } else throw new NoSuchElementException(
                     "No value present for find(${resultInter.nd}," +
@@ -128,7 +129,7 @@ class InterDaoIntegrationTest {
     void testFindAllDeMoisDansAnnee_withMoisAndAnnee() {
         Integer intAnnee = 2018
         Integer intMois = Month.OCTOBER.value
-        List<Inter> expectedResult = new ArrayList<>()
+        List<InterventionEntity> expectedResult = new ArrayList<>()
         jsonData.each {
             LocalDate date = LocalDate.parse(
                     it[InterConstants.DATE_INTER_JSON_FIELD_NAME],
@@ -137,11 +138,11 @@ class InterDaoIntegrationTest {
                     date.monthValue == intMois)
                 expectedResult.add(jsonDataToInter(it))
         }
-        List<Inter> result = interRepository
+        List<InterventionEntity> result = interRepository
                 .findAllDeMoisDansAnnee intMois, intAnnee
         assert expectedResult.size() == result.size()
         expectedResult.eachWithIndex {
-            Inter entry, int i ->
+            InterventionEntity entry, int i ->
                 assert entry.equals(result.get(i))
         }
     }
@@ -552,7 +553,7 @@ class InterDaoIntegrationTest {
     @Transactional
     void testSave() {
         Long countBefore = interRepository.count()
-        def prePersistInstance = new Inter(
+        def prePersistInstance = new InterventionEntity(
                 nd: "0101010101",
                 lastNameClient: "Doe",
                 firstNameClient: "John",

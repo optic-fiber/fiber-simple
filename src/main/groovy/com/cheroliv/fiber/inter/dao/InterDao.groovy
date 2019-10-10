@@ -1,6 +1,7 @@
 package com.cheroliv.fiber.inter.dao
 
-import com.cheroliv.fiber.inter.domain.Inter
+
+import com.cheroliv.fiber.inter.domain.InterventionEntity
 import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
 import com.cheroliv.repository.ExtendedRepository
 import groovy.transform.TypeChecked
@@ -11,30 +12,30 @@ import org.springframework.stereotype.Repository
 
 @Repository
 @TypeChecked
-interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter, Long> {
+interface InterDao extends JpaRepository<InterventionEntity, Long>, ExtendedRepository<InterventionEntity, Long> {
 
-    @Query('from Inter i where i.nd=:nd and typeInter=:type')
-    Optional<Inter> find(
+    @Query('from InterventionEntity i where i.nd=:nd and typeInter=:type')
+    Optional<InterventionEntity> find(
             @Param('nd') String nd,
             @Param('type') TypeInterEnum type)
 
     @Query("""
         select distinct month(i.dateTimeInter),
-        year(i.dateTimeInter) from Inter i
+        year(i.dateTimeInter) from InterventionEntity i
         order by year(i.dateTimeInter) asc,
         month(i.dateTimeInter) asc""")
     List<List<Integer>> distinctMoisParAnnee()
 
     @Query("""
-        select i from Inter i 
+        select i from InterventionEntity i 
         where month(i.dateTimeInter)=:mois and 
         year(i.dateTimeInter)=:annee""")
-    List<Inter> findAllDeMoisDansAnnee(
+    List<InterventionEntity> findAllDeMoisDansAnnee(
             @Param("mois") Integer mois,
             @Param("annee") Integer annee)
 
     @Query("""
-        select count(i) from Inter i 
+        select count(i) from InterventionEntity i 
         where month(i.dateTimeInter)=:mois and 
         year(i.dateTimeInter)=:annee and typeInter='PLP'""")
     Integer countPlpParMoisDansAnnee(
@@ -42,7 +43,7 @@ interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,
             @Param("annee") Integer annee)
 
     @Query("""
-        select count(i) from Inter i 
+        select count(i) from InterventionEntity i 
         where month(i.dateTimeInter)=:mois and 
         year(i.dateTimeInter)=:annee and 
         (i.typeInter='BAAP' or i.typeInter='BAOC' or 
@@ -53,7 +54,7 @@ interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,
             @Param("annee") Integer annee)
 
     @Query("""
-        select count(i) from Inter i 
+        select count(i) from InterventionEntity i 
         where month(i.dateTimeInter)=:mois and 
         year(i.dateTimeInter)=:annee""")
     Integer countInterParMoisDansAnnee(
@@ -61,7 +62,7 @@ interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,
             @Param("annee") Integer annee)
 
     @Query("""
-        select count(i) from Inter i 
+        select count(i) from InterventionEntity i 
         where month(i.dateTimeInter)=:mois and 
         year(i.dateTimeInter)=:annee and 
         typeInter='BAFA' and contract!='Passage de cable'""")
@@ -70,7 +71,7 @@ interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,
             @Param("annee") Integer annee)
 
     @Query("""
-        select count(i) from Inter i 
+        select count(i) from InterventionEntity i 
         where month(i.dateTimeInter)=:mois and 
         year(i.dateTimeInter)=:annee and 
         typeInter='BAST' and contract!='Passage de cable'""")
@@ -79,7 +80,7 @@ interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,
             @Param("annee") Integer annee)
 
     @Query("""
-        select count(i) from Inter i 
+        select count(i) from InterventionEntity i 
         where month(i.dateTimeInter)=:mois and 
         year(i.dateTimeInter)=:annee and typeInter='SAV'""")
     Integer countSavParMoisDansAnnee(
@@ -87,7 +88,7 @@ interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,
             @Param("annee") Integer annee)
 
     @Query("""
-        select count(i) from Inter i 
+        select count(i) from InterventionEntity i 
         where month(i.dateTimeInter)=:mois and 
         year(i.dateTimeInter)=:annee and 
         contract='Passage de cable'""")
@@ -96,7 +97,7 @@ interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,
             @Param("annee") Integer annee)
 
     @Query("""
-        select count(i) from Inter i 
+        select count(i) from InterventionEntity i 
         where month(i.dateTimeInter)=:mois and 
         year(i.dateTimeInter)=:annee and 
         contract='Passage de cable' and typeInter='BAAP'""")
@@ -105,7 +106,7 @@ interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,
             @Param("annee") Integer annee)
 
     @Query("""
-        select count(i) from Inter i 
+        select count(i) from InterventionEntity i 
         where month(i.dateTimeInter)=:mois and 
         year(i.dateTimeInter)=:annee and 
         contract='Passage de cable' and typeInter='BAOC'""")
@@ -114,7 +115,7 @@ interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,
             @Param("annee") Integer annee)
 
     @Query("""
-        select count(i) from Inter i 
+        select count(i) from InterventionEntity i 
         where month(i.dateTimeInter)=:mois and 
         year(i.dateTimeInter)=:annee and 
         contract='Passage de cable' and typeInter='BAFA'""")
@@ -123,7 +124,7 @@ interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,
             @Param("annee") Integer annee)
 
     @Query("""
-        select count(i) from Inter i 
+        select count(i) from InterventionEntity i 
         where month(i.dateTimeInter)=:mois and 
         year(i.dateTimeInter)=:annee and 
         contract='Passage de cable' and typeInter='BAST'""")
@@ -132,7 +133,7 @@ interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,
             @Param("annee") Integer annee)
 
     @Query("""
-        select count(i) from Inter i 
+        select count(i) from InterventionEntity i 
         where month(i.dateTimeInter)=:mois and 
         year(i.dateTimeInter)=:annee and typeInter='BAOC' 
         and contract!='Passage de cable'""")
@@ -141,7 +142,7 @@ interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,
             @Param("annee") Integer annee)
 
     @Query("""
-        select count(i) from Inter i 
+        select count(i) from InterventionEntity i 
         where month(i.dateTimeInter)=:mois and 
         year(i.dateTimeInter)=:annee and typeInter='BAAP' 
         and contract!='Passage de cable'""")
@@ -150,7 +151,7 @@ interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,
             @Param("annee") Integer annee)
 
     @Query("""
-        select count(i) from Inter i 
+        select count(i) from InterventionEntity i 
         where month(i.dateTimeInter)=:mois and 
         year(i.dateTimeInter)=:annee and 
         (typeInter='BAAP' or typeInter='BAOC') and 
@@ -160,12 +161,12 @@ interface InterDao extends JpaRepository<Inter, Long>, ExtendedRepository<Inter,
             @Param("annee") Integer annee)
 
     @Query("""
-        select i from Inter i 
-        where i.id=(select min(j.id) from Inter j)""")
-    Optional<Inter> findByIdMin()
+        select i from InterventionEntity i 
+        where i.id=(select min(j.id) from InterventionEntity j)""")
+    Optional<InterventionEntity> findByIdMin()
 
     @Query("""
-        select i from Inter i 
-        where i=(select max(j.id) from Inter j)""")
-    Optional<Inter> findByIdMax()
+        select i from InterventionEntity i 
+        where i=(select max(j.id) from InterventionEntity j)""")
+    Optional<InterventionEntity> findByIdMax()
 }

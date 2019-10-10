@@ -1,31 +1,31 @@
 package com.cheroliv.fiber.inter.service
 
-import com.cheroliv.fiber.inter.dto.InterDto
+import com.cheroliv.fiber.inter.dto.InterventionDto
 
 interface InterService {
-    InterDto find(String nd, String type)
+    InterventionDto find(String nd, String type)
 
-    InterDto getFirst()
+    InterventionDto getFirst()
 
-    InterDto getPrevious(Long id)
+    InterventionDto getPrevious(Long id)
 
-    InterDto save(InterDto interDto)
+    InterventionDto save(InterventionDto interDto)
 
-    InterDto getNext(Long id)
+    InterventionDto getNext(Long id)
 
-    InterDto getLast()
+    InterventionDto getLast()
 
-    InterDto get(Long id)
+    InterventionDto get(Long id)
 
     Boolean isUniqueIndexAvailable(String nd, String type)
 
     void delete(Long id)
 
-    InterDto findById(Long id)
+    InterventionDto findById(Long id)
 
     Boolean isUniqueIndexConsistent(Long id, String nd, String type)
 
-    InterDto saveWithPatch(InterDto interDto)
+    InterventionDto saveWithPatch(InterventionDto interDto)
 
-    List<InterDto> getAll()
+    List<InterventionDto> getAll()
 }

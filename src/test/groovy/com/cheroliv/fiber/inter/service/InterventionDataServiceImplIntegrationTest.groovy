@@ -1,6 +1,6 @@
 package com.cheroliv.fiber.inter.service
 
-import com.cheroliv.fiber.inter.domain.Inter
+import com.cheroliv.fiber.inter.domain.InterventionEntity
 import com.cheroliv.fiber.inter.domain.InterConstants
 import com.cheroliv.fiber.inter.domain.InterUtils
 import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
@@ -35,7 +35,7 @@ import java.time.format.DateTimeFormatter
 @TypeChecked
 @TestMethodOrder(OrderAnnotation)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class InterDataServiceImplIntegrationTest {
+class InterventionDataServiceImplIntegrationTest {
     @Autowired
     InterDataService interDataService
     @Value('${application.data.home-directory-name}')
@@ -48,7 +48,6 @@ class InterDataServiceImplIntegrationTest {
     Resource jsonFileResource
     @Autowired
     Validator validator
-
 
     @BeforeEach
     void setUp() {
@@ -71,7 +70,7 @@ class InterDataServiceImplIntegrationTest {
     void populateDB() {
         if (interRepository.count() == 0)
             jsonData.each {
-                Inter inter = jsonDataToInter(it)
+                InterventionEntity inter = jsonDataToInter(it)
                 if (!validator.validate(inter).empty)
                     validator.validate(inter).each {
                         log.info it.message
@@ -87,13 +86,12 @@ class InterDataServiceImplIntegrationTest {
         ) as List<Map<String, String>>
     }
 
-
-    static Inter jsonDataToInter(Map<String, String> strJsonData) {
+    static InterventionEntity jsonDataToInter(Map<String, String> strJsonData) {
         LocalDateTime localDateTime = LocalDateTime.of(
                 InterUtils.parseStringDateToLocalDate(strJsonData[InterConstants.DATE_INTER_JSON_FIELD_NAME]),
                 InterUtils.parseStringHeureToLocalTime(strJsonData[InterConstants.HOUR_INTER_JSON_FIELD_NAME]))
 
-        new Inter(
+        new InterventionEntity(
                 id: Long.parseLong(strJsonData[InterConstants.ID_INTER_JSON_FIELD_NAME]),
                 nd: strJsonData[InterConstants.ND_INTER_JSON_FIELD_NAME],
                 lastNameClient: strJsonData[InterConstants.LASTNAME_INTER_JSON_FIELD_NAME],
@@ -104,7 +102,6 @@ class InterDataServiceImplIntegrationTest {
                                 ContractEnum.CABLE_ROUTING.name() : strJsonData[InterConstants.CONTRACT_INTER_JSON_FIELD_NAME]),
                 typeInter: TypeInterEnum.valueOfName(strJsonData[InterConstants.TYPE_INTER_JSON_FIELD_NAME]))
     }
-
 
     File getJsonFile() {
         new File(System.getProperty('user.home') +
@@ -136,7 +133,6 @@ class InterDataServiceImplIntegrationTest {
         } else file.mkdir()
     }
 
-
     void deleteJsonFile() {
         deleteHomeDataDirectory()
     }
@@ -165,85 +161,10 @@ class InterDataServiceImplIntegrationTest {
                 this.jsonBackupFileName).mkdir()
     }
 
-
     void jsonBackupFileAssertions() {
         assert this.getJsonFile().exists()
         assert this.getJsonFile().isFile()
         assert !this.getJsonFile().isDirectory()
-    }
-
-    @Test
-    @Order(1)
-    void testGetJsonBackupFilePath_json_file_does_not_exists() {
-        deleteHomeDataDirectory()
-        assert !this.getJsonFile().exists()
-        interDataService.getJsonBackupFilePath()
-        jsonBackupFileAssertions()
-    }
-
-
-    @Test
-    @Order(2)
-    void testGetJsonBackupFilePath_json_file_exists_as_directory() {
-        deleteJsonFile()
-        createJsonFileAsDirectory()
-        assert this.getJsonFile().isDirectory()
-        interDataService.getJsonBackupFilePath()
-        jsonBackupFileAssertions()
-    }
-
-
-    @Test
-    @Order(3)
-    void testGetJsonBackupFilePath_json_file_exists() {
-        createJsonFile()
-        jsonBackupFileAssertions()
-        interDataService.getJsonBackupFilePath()
-        jsonBackupFileAssertions()
-    }
-
-
-    @Test
-    @Order(4)
-    void testFind_withNdAndType_not_found_inter() {
-        Assertions.assertThrows(
-                InterEntityNotFoundException as Class<Throwable>,
-                { ->
-                    interDataService.find(
-                            "0101010101",
-                            TypeInterEnum.BAOC.name())
-                })
-    }
-
-
-    @Test
-    @Order(5)
-    void testFind_withNdAndType_invalid_type() {
-        Assertions.assertThrows(
-                InterTypeEnumException as Class<Throwable>,
-                { ->
-                    assert interDataService.find(
-                            "0144639035",
-                            "bar")
-                })
-    }
-
-
-    @Test
-    @Order(6)
-    void testFind_withNdAndType_valid_values() {
-        def premier = interRepository.findById(1L)
-        assert premier.get() == this.interDataService.find(
-                premier.get().nd,
-                premier.get().typeInter.name())
-    }
-
-    @Test
-    @Order(7)
-    @DisplayName('testCountMois')
-    void testCountMois() {
-        assert this.getAnneesMoisDistinct()
-                .size() == interDataService.countMois()
     }
 
     List<List<Integer>> getAnneesMoisDistinct() {
@@ -288,6 +209,107 @@ class InterDataServiceImplIntegrationTest {
         dates
     }
 
+    List<Map<String, Integer>> getMoisFormatFrParAnnee() {
+        List<List<Integer>> anneesMoisData = getAnneesMoisDistinct()
+        List<Map<String, Integer>> finalResult =
+                new ArrayList<Map<String, Integer>>(anneesMoisData.size())
+        anneesMoisData.eachWithIndex { item, idx ->
+            Integer intMois = item.get 0
+            Integer annee = item.get 1
+            Map<String, Integer> map = new HashMap<String, Integer>(1)
+            map[InterUtils.convertNombreEnMois(intMois)] = annee
+            finalResult.add idx, map
+        }
+        finalResult
+    }
+
+    String getJsonBackupFilePath() {
+        System.getProperty('user.home') +
+                System.getProperty('file.separator') +
+                this.homeDirectoryName +
+                System.getProperty('file.separator') +
+                this.jsonBackupFileName
+    }
+
+    private File getJsonBackupFiletoArchived() {
+        String ajout = new SimpleDateFormat("yyyyMMddHHmmss")
+                .format(new Date())
+        def jsonFilePath = this.getJsonBackupFilePath()
+        def filePathWitoutExtension = FilenameUtils
+                .removeExtension(jsonFilePath)
+        String jsonBackUpFilename =
+                "${filePathWitoutExtension}${ajout}.json"
+        new File(jsonBackUpFilename)
+    }
+
+    @Test
+    @Order(1)
+    void testGetJsonBackupFilePath_json_file_does_not_exists() {
+        deleteHomeDataDirectory()
+        assert !this.getJsonFile().exists()
+        interDataService.getJsonBackupFilePath()
+        jsonBackupFileAssertions()
+    }
+
+    @Test
+    @Order(2)
+    void testGetJsonBackupFilePath_json_file_exists_as_directory() {
+        deleteJsonFile()
+        createJsonFileAsDirectory()
+        assert this.getJsonFile().isDirectory()
+        interDataService.getJsonBackupFilePath()
+        jsonBackupFileAssertions()
+    }
+
+    @Test
+    @Order(3)
+    void testGetJsonBackupFilePath_json_file_exists() {
+        createJsonFile()
+        jsonBackupFileAssertions()
+        interDataService.getJsonBackupFilePath()
+        jsonBackupFileAssertions()
+    }
+
+    @Test
+    @Order(4)
+    void testFind_withNdAndType_not_found_inter() {
+        Assertions.assertThrows(
+                InterEntityNotFoundException as Class<Throwable>,
+                { ->
+                    interDataService.find(
+                            "0101010101",
+                            TypeInterEnum.BAOC.name())
+                })
+    }
+
+    @Test
+    @Order(5)
+    void testFind_withNdAndType_invalid_type() {
+        Assertions.assertThrows(
+                InterTypeEnumException as Class<Throwable>,
+                { ->
+                    assert interDataService.find(
+                            "0144639035",
+                            "bar")
+                })
+    }
+
+    @Test
+    @Order(6)
+    void testFind_withNdAndType_valid_values() {
+        def premier = interRepository.findById(1L)
+        assert premier.get() == this.interDataService.find(
+                premier.get().nd,
+                premier.get().typeInter.name())
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName('testCountMois')
+    void testCountMois() {
+        assert this.getAnneesMoisDistinct()
+                .size() == interDataService.countMois()
+    }
 
     @Test
     @Order(8)
@@ -312,21 +334,6 @@ class InterDataServiceImplIntegrationTest {
 
     }
 
-    List<Map<String, Integer>> getMoisFormatFrParAnnee() {
-        List<List<Integer>> anneesMoisData = getAnneesMoisDistinct()
-        List<Map<String, Integer>> finalResult =
-                new ArrayList<Map<String, Integer>>(anneesMoisData.size())
-        anneesMoisData.eachWithIndex { item, idx ->
-            Integer intMois = item.get 0
-            Integer annee = item.get 1
-            Map<String, Integer> map = new HashMap<String, Integer>(1)
-            map[InterUtils.convertNombreEnMois(intMois)] = annee
-            finalResult.add idx, map
-        }
-        finalResult
-    }
-
-
     @Test
     @Order(9)
     @DisplayName('testGetFiberJsonFilePath_path')
@@ -340,7 +347,6 @@ class InterDataServiceImplIntegrationTest {
         assert expectedPath ==
                 interDataService.getJsonBackupFilePath()
     }
-
 
     @Test
     @Order(10)
@@ -386,14 +392,6 @@ class InterDataServiceImplIntegrationTest {
                 true)
     }
 
-    String getJsonBackupFilePath() {
-        System.getProperty('user.home') +
-                System.getProperty('file.separator') +
-                this.homeDirectoryName +
-                System.getProperty('file.separator') +
-                this.jsonBackupFileName
-    }
-
     @Test
     @Order(12)
     @DisplayName('testSaveToJsonFile')
@@ -411,14 +409,4 @@ class InterDataServiceImplIntegrationTest {
                 FilenameUtils.removeExtension(jsonBackupFile.name))
     }
 
-    private File getJsonBackupFiletoArchived() {
-        String ajout = new SimpleDateFormat("yyyyMMddHHmmss")
-                .format(new Date())
-        def jsonFilePath = this.getJsonBackupFilePath()
-        def filePathWitoutExtension = FilenameUtils
-                .removeExtension(jsonFilePath)
-        String jsonBackUpFilename =
-                "${filePathWitoutExtension}${ajout}.json"
-        new File(jsonBackUpFilename)
-    }
 }

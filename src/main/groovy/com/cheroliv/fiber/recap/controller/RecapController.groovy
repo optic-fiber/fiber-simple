@@ -1,15 +1,12 @@
 package com.cheroliv.fiber.recap.controller
 
-import org.apache.poi.ss.usermodel.Workbook
-import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.servlet.view.document.AbstractXlsxView
 
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import org.springframework.web.bind.annotation.RestController
+
 import java.time.LocalDateTime
 
 @RestController
-class RecapController extends AbstractXlsxView {
+class RecapController {
     def getRecap() {
     }
 
@@ -17,11 +14,10 @@ class RecapController extends AbstractXlsxView {
 
     }
 
-    @Override
-    void buildExcelDocument(
-            Map<String, Object> model,
-            Workbook workbook,
-            HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-    }
+
+//    @RequestMapping(value = "/download", method = GET)
+//    String download(Model model) {
+//        model.addAttribute("users", userService.findAllUsers())
+//        return ""
+//    }
 }

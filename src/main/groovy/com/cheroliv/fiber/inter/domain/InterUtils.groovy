@@ -65,8 +65,8 @@ class InterUtils {
     }
 
 
-    static Inter mapToInter(Map<String, String> map) {
-        new Inter(
+    static InterventionEntity mapToInter(Map<String, String> map) {
+        new InterventionEntity(
                 id: Long.parseLong(map[InterConstants.ID_INTER_JSON_FIELD_NAME]),
                 nd: map[InterConstants.ND_INTER_JSON_FIELD_NAME],
                 lastNameClient: map[InterConstants.LASTNAME_INTER_JSON_FIELD_NAME],
@@ -164,8 +164,8 @@ class InterUtils {
                 zoneId)
     }
 
-//    static Inter mapToInter(Map<String,String> map){
-//        new Inter(
+//    static InterventionEntity mapToInter(Map<String,String> map){
+//        new InterventionEntity(
 //                id: Long.parseLong(map["id"]),
 //                nd: map["nd"],
 //                firstNameClient: map["nom"],
@@ -180,7 +180,7 @@ class InterUtils {
 
 
 
-//    static String[] toArrayString(Inter inter) {
+//    static String[] toArrayString(InterventionEntity inter) {
 //        String[]obj=
 //        [inter.nd, inter.type, inter.contrat,
 //         inter.heure.hour < 10 ? "0${inter.heure.hour}" : inter.heure.hour,

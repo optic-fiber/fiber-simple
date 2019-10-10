@@ -64,8 +64,8 @@ class InterUnitTest {
     @Order(1)
     @DisplayName('testNdNotNullConstraint')
     void testNdNotNullConstraint() {
-        Inter inter = new Inter()
-        Set<ConstraintViolation<Inter>> constraintViolations =
+        InterventionEntity inter = new InterventionEntity()
+        Set<ConstraintViolation<InterventionEntity>> constraintViolations =
                 validator.validateProperty(
                         inter,
                         "nd")
@@ -87,9 +87,9 @@ class InterUnitTest {
     @Order(2)
     @DisplayName('testNdSizeConstraint')
     void testNdSizeConstraint() {
-        Inter inter = new Inter(nd: "101010101")
+        InterventionEntity inter = new InterventionEntity(nd: "101010101")
         assert inter.nd.size() != 10
-        Set<ConstraintViolation<Inter>> constraintViolations =
+        Set<ConstraintViolation<InterventionEntity>> constraintViolations =
                 validator.validateProperty inter, "nd"
         assert constraintViolations
                 .iterator()
@@ -108,8 +108,8 @@ class InterUnitTest {
     @Test
     @Order(3)
     void testTypeNotNullConstraint() {
-        Inter inter = new Inter()
-        Set<ConstraintViolation<Inter>> constraintViolations =
+        InterventionEntity inter = new InterventionEntity()
+        Set<ConstraintViolation<InterventionEntity>> constraintViolations =
                 validator.validateProperty inter, "typeInter"
         assert constraintViolations
                 .iterator()
@@ -127,8 +127,8 @@ class InterUnitTest {
     @Test
     @Order(4)
     void testContratNotNullConstraint() {
-        Inter inter = new Inter()
-        Set<ConstraintViolation<Inter>> constraintViolations =
+        InterventionEntity inter = new InterventionEntity()
+        Set<ConstraintViolation<InterventionEntity>> constraintViolations =
                 validator.validateProperty inter, "contract"
         assert constraintViolations
                 .iterator()
@@ -144,8 +144,8 @@ class InterUnitTest {
     @Test
     @Order(5)
     void testContratPatternConstraint() {
-        Inter inter = new Inter(contract: ContractEnum.LM)
-        Set<ConstraintViolation<Inter>> constraintViolations =
+        InterventionEntity inter = new InterventionEntity(contract: ContractEnum.LM)
+        Set<ConstraintViolation<InterventionEntity>> constraintViolations =
                 validator.validateProperty inter, "contract"
         assert constraintViolations.size() == 0
         inter.contract = ContractEnum.IQ
@@ -166,8 +166,8 @@ class InterUnitTest {
             prenom = prenom + i.toString()
         }
         assert !(prenom.size() <= InterConstants.PRENOM_SIZE_VALUE)
-        Inter inter = new Inter(firstNameClient: prenom)
-        Set<ConstraintViolation<Inter>> constraintViolations =
+        InterventionEntity inter = new InterventionEntity(firstNameClient: prenom)
+        Set<ConstraintViolation<InterventionEntity>> constraintViolations =
                 validator.validateProperty inter, "firstNameClient"
         assert constraintViolations
                 .iterator()
@@ -191,8 +191,8 @@ class InterUnitTest {
         }
         assert !(firstNameClient.size() <=
                 InterConstants.NOM_SIZE_VALUE)
-        Inter inter = new Inter(firstNameClient: firstNameClient)
-        Set<ConstraintViolation<Inter>> constraintViolations =
+        InterventionEntity inter = new InterventionEntity(firstNameClient: firstNameClient)
+        Set<ConstraintViolation<InterventionEntity>> constraintViolations =
                 validator.validateProperty inter,
                         "firstNameClient"
         assert constraintViolations

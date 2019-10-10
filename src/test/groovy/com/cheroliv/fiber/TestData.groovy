@@ -1,9 +1,10 @@
 package com.cheroliv.fiber
 
-import com.cheroliv.fiber.inter.domain.Inter
+
+import com.cheroliv.fiber.inter.domain.InterventionEntity
 import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
 import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
-import com.cheroliv.fiber.inter.dto.InterDto
+import com.cheroliv.fiber.inter.dto.InterventionDto
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
@@ -17,7 +18,7 @@ import java.time.format.DateTimeFormatter
 @CompileStatic
 class TestData {
 
-    static final InterDto firstInterDto = new InterDto(
+    static final InterventionDto firstInterDto = new InterventionDto(
             id: 1, nd: "0144639035",
             lastName: "Lalande", firstName: "Julien",
             dateTime: stringToLocalDateTimeSystemDefault(
@@ -25,7 +26,7 @@ class TestData {
                     "10:00:00"),
             contract: "IQ", typeInter: "BAOC")
 
-    static final InterDto lastInterDto = new InterDto(
+    static final InterventionDto lastInterDto = new InterventionDto(
             id: 109, nd: "0143485957",
             lastName: "Bouvier", firstName: "Steven",
             dateTime: stringToLocalDateTimeSystemDefault(
@@ -33,7 +34,7 @@ class TestData {
                     "12:00:00"),
             contract: "IQ", typeInter: "BAAP")
 
-    static final InterDto interDto = new InterDto(
+    static final InterventionDto interDto = new InterventionDto(
             id: 104, nd: "0144820811",
             lastName: "Gustin", firstName: "Jean-Pierre",
             contract: "IQ", typeInter: "BAOC",
@@ -41,7 +42,7 @@ class TestData {
                     "2019-01-02",
                     "13:00:00"))
 
-    static final InterDto prevInterDto = new InterDto(
+    static final InterventionDto prevInterDto = new InterventionDto(
             id: 103, nd: "0142069836",
             lastName: "Maugee", firstName: "Eric",
             dateTime: stringToLocalDateTimeSystemDefault(
@@ -49,7 +50,7 @@ class TestData {
                     "12:00:00"),
             contract: "IQ", typeInter: "BAAP")
 
-    static final InterDto nextInterDto = new InterDto(
+    static final InterventionDto nextInterDto = new InterventionDto(
             id: 105, nd: "0143486423",
             lastName: "QUANTUM",
             dateTime: stringToLocalDateTimeSystemDefault(
@@ -59,8 +60,8 @@ class TestData {
 
     static final Integer newInterDtoId = 106
 
-    static final InterDto newInterDto =
-            new InterDto(
+    static final InterventionDto newInterDto =
+            new InterventionDto(
                     nd: "0102030405",
                     lastName: 'Doe',
                     firstName: 'John',
@@ -68,8 +69,8 @@ class TestData {
                     contract: ContractEnum.LM.name(),
                     typeInter: TypeInterEnum.BAFA.name())
 
-    static final InterDto expectedPersistedInterDto =
-            new InterDto(
+    static final InterventionDto expectedPersistedInterDto =
+            new InterventionDto(
                     id: newInterDtoId,
                     nd: newInterDto.nd,
                     dateTime: newInterDto.dateTime,
@@ -78,7 +79,7 @@ class TestData {
                     typeInter: newInterDto.typeInter,
                     contract: newInterDto.contract)
 
-    static final List<InterDto> interDtos = [
+    static final List<InterventionDto> interDtos = [
             firstInterDto, prevInterDto, interDto,
             nextInterDto, lastInterDto]
 
@@ -100,7 +101,7 @@ class TestData {
                     '"typeInter":"BAOC","dateTime":' +
                     '"2018-10-29 10:00:00"}'
 
-    static final Inter firstInter = new Inter(
+    static final InterventionEntity firstInter = new InterventionEntity(
             id: firstInterDto.id,
             nd: firstInterDto.nd,
             firstNameClient: firstInterDto.firstName,
@@ -111,7 +112,7 @@ class TestData {
             typeInter: TypeInterEnum.valueOfName(
                     firstInterDto.typeInter))
 
-    static final Inter inter = new Inter(
+    static final InterventionEntity inter = new InterventionEntity(
             id: 104, nd: interDto.nd,
             lastNameClient: interDto.lastName,
             firstNameClient:  interDto.firstName,
@@ -121,7 +122,7 @@ class TestData {
                     .valueOfName( interDto.typeInter),
             dateTimeInter:  interDto.dateTime)
 
-    static final Inter prevInter = new Inter(
+    static final InterventionEntity prevInter = new InterventionEntity(
             id: prevInterDto.id,
             nd: prevInterDto.nd,
             firstNameClient: prevInterDto.firstName,
@@ -132,7 +133,7 @@ class TestData {
                     prevInterDto.typeInter),
             dateTimeInter: prevInterDto.dateTime)
 
-    static final Inter lastInter = new Inter(
+    static final InterventionEntity lastInter = new InterventionEntity(
             id: lastInterDto.id,
             nd: lastInterDto.nd,
             firstNameClient: lastInterDto.firstName,
@@ -143,7 +144,7 @@ class TestData {
                     lastInterDto.typeInter),
             dateTimeInter: lastInterDto.dateTime)
 
-    static final Inter nextInter = new Inter(
+    static final InterventionEntity nextInter = new InterventionEntity(
             id: nextInterDto.id,
             nd: nextInterDto.nd,
             firstNameClient: nextInterDto.firstName,

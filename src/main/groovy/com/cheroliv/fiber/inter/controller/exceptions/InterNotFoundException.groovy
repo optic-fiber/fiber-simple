@@ -5,6 +5,6 @@ import org.springframework.web.bind.annotation.ResponseStatus
 
 import static org.springframework.http.HttpStatus.NOT_FOUND
 
-@ResponseStatus(code=NOT_FOUND, reason = "Inter Not Found")
+@ResponseStatus(code=NOT_FOUND, reason = "InterventionEntity Not Found")
 class InterNotFoundException extends RuntimeException {
 }

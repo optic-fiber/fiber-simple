@@ -9,13 +9,15 @@ import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 import org.springframework.core.io.Resource
 
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.NONE
+
 @Slf4j
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(webEnvironment = NONE)
 @DisplayName('ApplicationPropertiesIntegrationTest')
 class ApplicationPropertiesIntegrationTest implements ApplicationContextAware {
 
     ApplicationContext applicationContext
-    @Value('${application.data.spreadsheet-file-name}')
+    @Value('${application.data.recapitulatif-spreadsheet-file-name}')
     String spreadsheetFileName
     @Value('${application.data.home-directory-name}')
     String homeDirectoryName
@@ -49,7 +51,7 @@ class ApplicationPropertiesIntegrationTest implements ApplicationContextAware {
         assert verifyProperty(
                 propertiesFromFile,
                 this.spreadsheetFileName,
-                'application.data.spreadsheet-file-name')
+                'application.data.recapitulatif-spreadsheet-file-name')
         assert verifyProperty(
                 propertiesFromFile,
                 this.homeDirectoryName,

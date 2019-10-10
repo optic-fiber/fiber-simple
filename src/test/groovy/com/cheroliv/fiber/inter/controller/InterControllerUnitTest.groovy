@@ -2,7 +2,7 @@ package com.cheroliv.fiber.inter.controller
 
 import com.cheroliv.fiber.TestData
 import com.cheroliv.fiber.inter.controller.exceptions.*
-import com.cheroliv.fiber.inter.dto.InterDto
+import com.cheroliv.fiber.inter.dto.InterventionDto
 import com.cheroliv.fiber.inter.service.InterService
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
@@ -396,11 +396,11 @@ class InterControllerUnitTest {
                 ":1,\"firstName\":" +
                 "\"${newFirstName}\"," +
                 "\"lastName\":\"${newLastName}\"}"
-        def interDtoToPatch = new InterDto(
+        def interDtoToPatch = new InterventionDto(
                 id: 1,
                 firstName: newFirstName,
                 lastName: newLastName)
-        def expectedResultInterDtoToPatch = new InterDto(
+        def expectedResultInterDtoToPatch = new InterventionDto(
                 id: 1,
                 firstName: newFirstName,
                 lastName: newLastName,

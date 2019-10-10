@@ -34,7 +34,7 @@ class SpreadsheetRecapTest
 //    @Autowired
 //    RecapService recapService
 //    @Autowired
-//    InterDataService interService
+//    InterDataService interDataService
 //
 //   @BeforeEach
 //    void setUp() {
@@ -61,7 +61,7 @@ class SpreadsheetRecapTest
 //        File wbFile = resource.file
 //        FileInputStream stream = new FileInputStream(wbFile)
 //        Workbook wb = WorkbookFactory.save stream
-//        assert interService.countMois()== wb.numberOfSheets
+//        assert service.countMois()== wb.numberOfSheets
 //        wb.sheetIterator().toList().eachWithIndex { Sheet sheet, int idx ->
 //            assert nomFeuilles.get(idx)==
 //                    sheet.sheetName

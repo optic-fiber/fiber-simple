@@ -1,12 +1,9 @@
 package com.cheroliv.fiber
 
 import com.cheroliv.fiber.inter.domain.InterUtils
-import com.cheroliv.fiber.inter.dto.InterDto
-import com.fasterxml.jackson.databind.ObjectMapper
 import groovy.json.JsonSlurper
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
@@ -62,36 +59,6 @@ class CheckDataValues {
                     it.value.keySet()
             }
 
-    @Test
-    @Disabled
-    void testJsonValues() {
-        File file = new File(
-                new File(".").canonicalPath +
-                        System.getProperty("file.separator") +
-                        "src" +
-                        System.getProperty("file.separator") +
-                        "main" +
-                        System.getProperty("file.separator") +
-                        "resources" +
-                        System.getProperty("file.separator") +
-                        "inters.json")
-        assert file.exists() && file.isFile() && !file.isDirectory()
-        String jsonInters = file.getText(StandardCharsets.UTF_8.name())
-        Object datas = new JsonSlurper().parseText(jsonInters)
-        (datas as List<Map<String, String>>).each {
-//            println it["contrat"]
-        }
-
-//        log.info toJson(TestData.instance.newInterDto)
-
-
-    }
-
-    String toJson(InterDto interDto) {
-        new ObjectMapper().writeValueAsString(interDto)
-    }
-
-    List<Map<LocalDateTime, Map<String, Object>>> sameDates = new ArrayList<>()
 
     String getFileTextOnproject(String relativePath) {
         File file = new File(
@@ -107,15 +74,6 @@ class CheckDataValues {
         LocalDateTime.of(
                 InterUtils.parseStringDateToLocalDate(strDate),
                 InterUtils.parseStringHeureToLocalTime(strHour))
-    }
-
-    @Test
-    @Disabled
-    @DisplayName("createNonDistinctDatesCollection")
-    void createNonDistinctDatesCollection() {
-        duplicateDatesMap.each { Map.Entry<LocalDateTime, Map<Integer, LocalDateTime>> that ->
-            println that
-        }
     }
 
     Boolean isTimeExistsInDataset(LocalDateTime dateTime) {
@@ -138,35 +96,9 @@ class CheckDataValues {
 
     }
 
-    void makeDateUnique(int index) {
-        //TODO finish it up
-//        println index
-//        println isMinusMoreThen8ExistsInDataset(dates.get(index))
-//        println isPlusLessThan19ExistsInDataset(dates.get(index))
-
-        Boolean result = false
-        while (isTimeExistsInDataset(dates.get(index)) &&
-                dates.get(index).getHour() > 8) {
-            LocalDateTime uniqueDateTime
-            if (isTimeExistsInDataset(dates.get(index))) {
-                if (dates.get(index).getHour() == 8) {
-
-                }
-                dates.set(index, uniqueDateTime)
-                result = true
-                break
-            }
-        }
-
-        if (!result) throw new RuntimeException(index.toString())
-//        println result
-    }
     @Test
-    @DisplayName('addOneHourToLocalDateTime')
-    void addOneHourToLocalDateTime() {
+    @DisplayName('test_dates_are_unique_in_dataset')
+    void test_dates_are_unique_in_dataset() {
         assert duplicateDatesGroupedByIndex.empty
-        duplicateDatesGroupedByIndex.each {
-            println it.toString()
-        }
     }
 }

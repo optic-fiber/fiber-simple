@@ -22,7 +22,7 @@ import java.time.LocalDateTime
         @Index(name = "`idx_inter_date_time_inter`", columnList = "`date_time_inter`", unique = true),
         @Index(name = "`idx_inter_first_name_client`", columnList = "`first_name_client`"),
         @Index(name = "`idx_inter_last_name_client`", columnList = "`last_name_client`")])
-class Inter implements Serializable {
+class InterventionEntity implements Serializable {
 
     static final long serialVersionUID = 1L
     @Id
@@ -76,7 +76,7 @@ class Inter implements Serializable {
         if (this.is(o)) return true
         if (this.class != o.class) return false
 
-        Inter inter = o as Inter
+        InterventionEntity inter = o as InterventionEntity
 
         if (contract != inter.contract) return false
         if (dateTimeInter != inter.dateTimeInter) return false

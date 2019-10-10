@@ -1,9 +1,10 @@
 package com.cheroliv.fiber.inter.dao
 
-import com.cheroliv.fiber.inter.domain.Inter
+
+import com.cheroliv.fiber.inter.domain.InterventionEntity
 import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
 import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
-import com.cheroliv.fiber.inter.dto.InterDto
+import com.cheroliv.fiber.inter.dto.InterventionDto
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -16,8 +17,8 @@ class InterventionRepositoryImpl {
         this.dao = dao
     }
 
-    InterDto save(InterDto dto){
-        new InterDto(dao.save(new Inter(
+    InterventionDto save(InterventionDto dto){
+        new InterventionDto(dao.save(new InterventionEntity(
                 nd:dto.nd,
                 typeInter: TypeInterEnum.valueOfName(dto.typeInter),
                 contract: ContractEnum.valueOfName(dto.contract),

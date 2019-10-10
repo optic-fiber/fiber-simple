@@ -2,7 +2,7 @@ package com.cheroliv.fiber.inter.service
 
 import com.cheroliv.fiber.TestData
 import com.cheroliv.fiber.inter.dao.InterDao
-import com.cheroliv.fiber.inter.dto.InterDto
+import com.cheroliv.fiber.inter.dto.InterventionDto
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
 import org.junit.jupiter.api.*
@@ -73,7 +73,7 @@ class InterServiceImplUnitTest {
     void testGetFirst_return_null() {
         given(dao.findByIdMin())
                 .willReturn(Optional.empty())
-        assert reflectionEquals (new InterDto(),
+        assert reflectionEquals (new InterventionDto(),
                 interService.getFirst())
     }
 
@@ -94,7 +94,7 @@ class InterServiceImplUnitTest {
     void testGetLast_return_empty_dto() {
         given(dao.findByIdMax())
                 .willReturn(Optional.empty())
-        assert reflectionEquals(new InterDto(),
+        assert reflectionEquals(new InterventionDto(),
                 interService.getLast())
     }
 

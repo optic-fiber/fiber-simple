@@ -1,8 +1,8 @@
 package com.cheroliv.fiber.inter.service
 
 import com.cheroliv.fiber.inter.dao.InterDao
-import com.cheroliv.fiber.inter.domain.Inter
 import com.cheroliv.fiber.inter.domain.InterUtils
+import com.cheroliv.fiber.inter.domain.InterventionEntity
 import com.cheroliv.fiber.inter.domain.enumeration.ContractEnum
 import com.cheroliv.fiber.inter.domain.enumeration.TypeInterEnum
 import com.cheroliv.fiber.inter.service.exceptions.InterEntityNotFoundException
@@ -86,11 +86,11 @@ class InterDataServiceImpl implements InterDataService {
 
 
     @Override
-    Inter find(String nd, String type) {
+    InterventionEntity find(String nd, String type) {
         if (!TypeInterEnum.values().collect {
             it.name()
         }.contains(type)) throw new InterTypeEnumException(type)
-        Optional<Inter> result = this.dao.find(
+        Optional<InterventionEntity> result = this.dao.find(
                 nd, TypeInterEnum.valueOfName(type))
         if (result.present)
             result.get()
@@ -140,7 +140,7 @@ class InterDataServiceImpl implements InterDataService {
                 it[ND_INTER_JSON_FIELD_NAME],
                 TypeInterEnum.valueOfName(
                         it[TYPE_INTER_JSON_FIELD_NAME])) ?:
-                dao.save(new Inter(
+                dao.save(new InterventionEntity(
                         nd: it[ND_INTER_JSON_FIELD_NAME],
                         lastNameClient: it[LASTNAME_INTER_JSON_FIELD_NAME],
                         firstNameClient: it[FIRSTNAME_INTER_JSON_FIELD_NAME],
@@ -173,7 +173,7 @@ class InterDataServiceImpl implements InterDataService {
 
     @Override
     @TypeChecked(TypeCheckingMode.SKIP)
-    String buildJsonInter(Inter inter) {
+    String buildJsonInter(InterventionEntity inter) {
         JsonBuilder builder = new JsonBuilder()
         String result =
                 builder {
@@ -197,7 +197,7 @@ class InterDataServiceImpl implements InterDataService {
         List<String> jsonList = new ArrayList<String>()
 
         //building json
-        dao.findAll().each { Inter inter ->
+        dao.findAll().each { InterventionEntity inter ->
             jsonList.add "${buildJsonInter(inter)}\n".toString()
         }
 

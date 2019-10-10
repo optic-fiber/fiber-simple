@@ -19,9 +19,13 @@ class ApplicationProperties {
         String jsonBackupFileName = ApplicationDefaults
                 .Data
                 .jsonBackupFileName
-        String spreadsheetFileName = ApplicationDefaults
+        String recapitulatifSpreadsheetDirectoryName = ApplicationDefaults
                 .Data
-                .spreadsheetFileName
+                .recapitulatifSpreadsheetDirectoryName
+        String recapitulatifSpreadsheetFileName = ApplicationDefaults
+                .Data
+                .recapitulatifSpreadsheetFileName
+
     }
 }
 

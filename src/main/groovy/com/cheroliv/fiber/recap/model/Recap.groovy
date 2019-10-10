@@ -1,13 +1,15 @@
 package com.cheroliv.fiber.recap.model
 
-import com.cheroliv.fiber.inter.dto.InterDto
+import com.cheroliv.fiber.inter.dto.InterventionDto
 import groovy.transform.ToString
+
+import java.time.LocalDateTime
 
 
 @ToString
 class Recap implements Serializable {
     String sheetName
-    List<InterDto> inters
+    List<InterventionDto> inters
     Integer annee
     Integer mois
     Integer nbInterTotal
@@ -20,11 +22,14 @@ class Recap implements Serializable {
     Integer nbPdcBafa
     Integer nbPdcBast
     Integer nbPdcBaocBaap
-
-    static String PRE_LABEL_TITRE_RECAP = "Récapitulatif du mois : "
-    String labelTitreRecap
-    String labelDefPdc = "PDC = passage de cable"
+    LocalDateTime startDate
+    LocalDateTime endDate
     String labelCurrentMonthYearFormattedFr
+    String labelTitreRecap
+
+
+    static final String PRE_LABEL_TITRE_RECAP = "Récapitulatif du mois : "
+    static final String labelDefPdc = "PDC = passage de cable"
     static final String labelNbInterTotal = "Nombre d'inter total"
     static final String labelNbBaocBaap = "Nombre de BAOC & BAAP"
     static final String labelNbBafa = "Nombre de BAFA"

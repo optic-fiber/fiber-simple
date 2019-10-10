@@ -1,7 +1,7 @@
 package com.cheroliv.fiber.inter.controller
 
 import com.cheroliv.fiber.inter.controller.exceptions.*
-import com.cheroliv.fiber.inter.dto.InterDto
+import com.cheroliv.fiber.inter.dto.InterventionDto
 import com.cheroliv.fiber.inter.service.InterService
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
@@ -27,44 +27,44 @@ class InterController {
     }
 
     @GetMapping(value = '/{id}')
-    InterDto get(@PathVariable Long id) {
-        InterDto result = this.interService.get(id)
+    InterventionDto get(@PathVariable Long id) {
+        InterventionDto result = this.interService.get(id)
         if (result) result
         else throw new InterNotFoundException()
     }
 
     @GetMapping(value = '/first')
-    InterDto getFirst() {
-        InterDto optional = this.interService.getFirst()
+    InterventionDto getFirst() {
+        InterventionDto optional = this.interService.getFirst()
         if (optional) optional
         else throw new FirstInterNotFoundException()
     }
 
 
     @GetMapping(value = '/last')
-    InterDto getLast() {
-        InterDto result = this.interService.getLast()
+    InterventionDto getLast() {
+        InterventionDto result = this.interService.getLast()
         if (result) result
         else throw new LastInterNotFoundException()
     }
 
     @GetMapping(value = '/{id}/prev')
-    InterDto getPrevious(@PathVariable Long id) {
-        InterDto result = this.interService.getPrevious(id)
+    InterventionDto getPrevious(@PathVariable Long id) {
+        InterventionDto result = this.interService.getPrevious(id)
         if (result) result
         else throw new PreviousInterNotFoundException()
     }
 
 
     @GetMapping(value = '/{id}/next')
-    InterDto getNext(@PathVariable Long id) {
-        InterDto result = this.interService.getNext(id)
+    InterventionDto getNext(@PathVariable Long id) {
+        InterventionDto result = this.interService.getNext(id)
         if (result) result
         else throw new NextInterNotFoundException()
     }
 
     @PostMapping(consumes = APPLICATION_JSON_UTF8_VALUE)
-    ResponseEntity<InterDto> save(@RequestBody InterDto interDto)
+    ResponseEntity<InterventionDto> save(@RequestBody InterventionDto interDto)
             throws URISyntaxException {
         if (interDto.getId() != null)
             throw new InterIdAlreadyExistsBeforeSaveException()
@@ -81,7 +81,7 @@ class InterController {
     }
 
     @PutMapping(consumes = APPLICATION_JSON_UTF8_VALUE)
-    ResponseEntity<InterDto> update(@RequestBody InterDto interDto) {
+    ResponseEntity<InterventionDto> update(@RequestBody InterventionDto interDto) {
         if (!interDto.id)
             throw new InterIdNullBeforeUpdateException()
         if (!interService.isUniqueIndexConsistent(
@@ -89,7 +89,7 @@ class InterController {
                 interDto.nd,
                 interDto.typeInter))
             throw new InterAlreadyExistsException()
-        InterDto result = this.interService.save(interDto)
+        InterventionDto result = this.interService.save(interDto)
         ResponseEntity.ok()
                 .headers(new HttpHeaders())
                 .body(result)
@@ -107,7 +107,7 @@ class InterController {
     }
 
     @PatchMapping(consumes = [APPLICATION_JSON_UTF8_VALUE])
-    ResponseEntity<InterDto> patch(@RequestBody InterDto interDto) {
+    ResponseEntity<InterventionDto> patch(@RequestBody InterventionDto interDto) {
         if (!interDto.id)
             throw new InterIdNullBeforePatchException()
         if (interDto.nd && interDto.typeInter)
@@ -116,7 +116,7 @@ class InterController {
                     interDto.nd,
                     interDto.typeInter))
                 throw new InterAlreadyExistsException()
-        InterDto result = this.interService.saveWithPatch(interDto)
+        InterventionDto result = this.interService.saveWithPatch(interDto)
         ResponseEntity.ok()
                 .headers(new HttpHeaders())
                 .body(result)
